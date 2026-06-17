@@ -1,18 +1,13 @@
 # End-of-day scorecard (sample, sanitized)
 
-Date: <weekday, date>
-Grade: Strong
+**That night · the scorecard**
 
-| Area | Plan | Actual | |
-|---|---|---|---|
-| MIT | Ship <company> memo | Shipped 11:40am | met |
-| Top 3 | 3 cross-domain | 3 of 3 | met |
-| Reminders due | 11 (work 6, health 2, life 2, work 1) | 9 completed, 2 pushed | strong |
-| Calendar | 9am focus, 11am call, 2pm depart | all attended | met |
-| Health goals | lift + protein target | lift done, protein ~90% | on track |
+- 🌙 **MIT met.** Top 3 ≈ 2.5 of 3. 23 things done. **Strong day.**
+- **Wins:** shipped both coaching deadlines, cleared a work blocker, handled a doctor callback.
+- **Slipped to tomorrow:** two items — now tomorrow's first move.
+- **Health:** protein 66 g vs 180 g target; the lift went unconfirmed.
+- **Tomorrow:** guard 9–11 am before the meeting wall, and front-load protein at breakfast.
 
-Diff vs plan: beat the MIT deadline; the two pushed items were both low-tier and correctly deferred, not dropped.
+It reads everything, hides the junk, gives me one thing plus the two under it, then at night grades the day and tells me what I neglected. **The protein nag is the most judgmental part, and somehow the most useful.**
 
-Coaching: Strong, focused day. The win to anchor on is shipping the memo before the deadline on a travel day. Tomorrow's first lever is the <specialty> booking, since it unblocks the most downstream. Protein was close; one more shake closes it. You are building real momentum toward the bigger goal.
-
-Tomorrow's first lever: make the booking call at 9am before anything else.
+_Grade scale: exceeded / strong / solid / partial / reset day — a reset day is named kindly, as data, never as failure._

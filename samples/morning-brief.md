@@ -1,26 +1,19 @@
 # Morning brief (sample, sanitized)
 
-Date: <weekday, date>
+> **TL;DR** — You're not disorganized; you're just listening to the loudest thing in the room. This is the quieter thing: it reads everything, forgets nothing, and every morning it surfaces the one thing worth doing. The noise is still there; you just don't answer to it anymore.
 
-BLUF: A travel day. One hard deadline before the afternoon flight; protect the morning for it.
+**Morning · 7:42**
 
-MIT: Ship the <company> diligence memo before noon.
+- 💬 **iMessage:** 3 external unread, 1 needs you. 4 system digests skipped.
+- 👉 A friend needs a wedding RSVP + your +1, by end of June. You said you'd revert — reply or call.
+- 💳 Card alert: balance over your set level. FYI, no reply needed.
+- ⚠️ Do not tap: a phishing link spoofing a carrier — flagged.
+- 📱 **WhatsApp:** 38 chats with new messages (3 DMs, 35 groups). 1 time-sensitive today, 2 optional, rest FYI.
+- 👉 Parents: finalize the July trip today. They want one set of dates, you pitched another — pick a time and call today.
+- 👉 A mentee wants your brain on interview prep and hasn't pinged. Optional nudge.
+- 🎾 Sports today: noon tennis in Central Park, morning pickleball downtown, an evening game needs one more.
+- ⏳ You sent last, waiting on them: five people.
+- 🗓 **MIT:** 1 pm parents call — lock the July dates, and move the 1:1 that collides with it.
+- 🗂 128 to-dos tiered: 6 today, 29 this week, 68 later, 4 to prune.
 
-Top 3 (cross-domain):
-1. Work — ship the <company> diligence memo (hard deadline noon). Why: only time-boxed item today.
-2. Health — confirm the <specialty> booking. Why: gateway that unblocks two downstream referrals.
-3. Relationship / anchor — pack and leave by 2pm for the trip. Why: today's dominant anchor.
-
-Cross-tool themes:
-- Two unread contact threads waiting on you; both can wait until you land.
-- A calendar conflict at 11am (two overlapping holds); the lower-tier one yields.
-
-Sacred protections today: the standing evening ritual; do not schedule over it.
-
-Today at a glance: 9am focus block (application), 11am call (after conflict resolved), 2pm depart.
-
-Waiting on: a reference confirmation (you, on them); a schema file (them, on you).
-
-Known gaps and risks: overdue count 0; one calendar block has no reminder home (flagged).
-
-Most time-sensitive: the noon application deadline.
+_Names and counts are generalized; the shape is exactly what the live system sends. The reply path is as cheap as the alert: "done 1", "push 2 to Thu"._
