@@ -1,0 +1,6 @@
+{"agent": "pipeline-triage", "field": "priority", "item": "J04"}
+{"agent": "todo-triage", "field": "priority", "item": "M09"}
+{"agent": "morning-sweep", "field": "due_date", "item": "M51"}
+{"agent": "evening-sweep", "field": "due_date", "item": "L29"}
+{"agent": "reply-processor", "field": "lifecycle", "item": "J02"}
+{"agent": "intake-scan", "field": "create_item", "item": "JS1"}

@@ -1,0 +1,24 @@
+Per-channel digest text, house style (sample, sanitized).
+
+House rules: lead with the source tag in brackets; line 1 is a one-line summary with counts and "N need you"; action items first with a tappable handle; FYIs compressed; spam on one line at the end; no markdown, bare links and numbers only.
+
+------------------------------------------------------------
+[gmail] 7 unread that matter, 2 need you.
+
+E1 <contact>, <firm>: wants times for a screen. "Could you share availability this week?" Reply with 2 slots.
+E2 <company> talent: application received, next step is a take-home. Decide if in.
+
+FYI:
+- <newsletter> weekly issue
+- receipt from <vendor>
+- calendar invite already on your calendar
+
+12 promotional/social messages filtered out.
+------------------------------------------------------------
+[intake-scan] 3 new opportunities, 1 tier-1, 1 needs you.
+
+JS1 <company> partner lead, <location>. Strong fit. <link>
+FYI:
+- <company> market signal (watch, company stability)
+- <company> partner lead (confirm which entity)
+------------------------------------------------------------

@@ -1,0 +1,97 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harness engineering · Ganesh OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070a14;--surface:#111829;--line:rgba(255,255,255,.09);--ink:#f4f7fc;--body:#c4cde0;--mut:#8995ad;--brand:#8b7bff;--brand2:#22d3ee;--neon:#5dff9b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 85% -10%,rgba(59,45,143,.35),transparent 60%),radial-gradient(800px 460px at 0% 20%,rgba(14,94,110,.3),transparent 60%),var(--bg);color:var(--body);font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;font-size:16.5px;line-height:1.7;-webkit-font-smoothing:antialiased}
+nav{position:sticky;top:0;z-index:10;background:rgba(8,11,20,.8);backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--line)}
+nav .in{max-width:880px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+nav a.home{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:800;font-size:15px;text-decoration:none}
+nav a.home .g{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 0 18px rgba(139,123,255,.5)}
+nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;text-decoration:none;font-weight:500}nav .links a:hover{color:var(--ink)}
+.crumb{max-width:880px;margin:0 auto;padding:24px 24px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--mut)}
+.crumb a{color:var(--brand2);text-decoration:none}.crumb a:hover{text-decoration:underline}
+.crumb .badge{background:rgba(139,123,255,.12);border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink);font-weight:600;font-size:12px}
+.doc{max-width:880px;margin:0 auto;padding:18px 24px 30px}
+.doc h1{font-size:clamp(28px,4vw,40px);line-height:1.1;letter-spacing:-.02em;margin:0 0 22px;background:linear-gradient(180deg,#fff,#aeb8d4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.doc h2{font-size:25px;margin:42px 0 14px;color:var(--ink);padding-top:14px;border-top:1px solid var(--line)}
+.doc h3{font-size:19px;margin:30px 0 10px;color:var(--ink)}
+.doc h4{font-size:15px;margin:24px 0 8px;color:var(--brand2);font-family:'JetBrains Mono';text-transform:uppercase;letter-spacing:.04em}
+.doc p,.doc li{color:var(--body)}.doc a{color:var(--brand2);text-decoration:none;border-bottom:1px solid rgba(34,211,238,.3)}.doc a:hover{border-color:var(--brand2)}
+.doc strong{color:var(--ink)}.doc code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#e7ecf6}
+.doc pre{background:#060a12;border:1px solid var(--line);border-radius:13px;padding:16px 18px;overflow-x:auto}.doc pre code{background:none;border:none;padding:0;color:var(--neon);font-size:13px;line-height:1.65}
+.doc blockquote{margin:18px 0;padding:12px 18px;border-left:3px solid var(--brand);background:rgba(139,123,255,.06);border-radius:0 10px 10px 0}
+.doc table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px;display:block;overflow-x:auto}
+.doc th,.doc td{border:1px solid var(--line);padding:10px 13px;text-align:left;vertical-align:top}
+.doc th{background:rgba(255,255,255,.04);color:var(--ink);font-family:'JetBrains Mono';font-size:12px;text-transform:uppercase}
+.doc tr:nth-child(even) td{background:rgba(255,255,255,.015)}.doc hr{border:none;border-top:1px solid var(--line);margin:34px 0}
+.prevnext{max-width:880px;margin:0 auto;padding:6px 24px 18px;display:flex;justify-content:space-between;gap:14px}
+.prevnext a{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px 16px;text-decoration:none;transition:transform .15s,border-color .15s;min-width:0}
+.prevnext a:hover{border-color:var(--brand);transform:translateY(-2px)}.prevnext a.next{text-align:right}
+.prevnext .lab{font:600 11px/1 'JetBrains Mono';color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.prevnext .ttl{color:var(--ink);font-weight:700;font-size:14px;margin-top:6px;display:block}
+.prevnext a.disabled{visibility:hidden}
+.backbar{max-width:880px;margin:0 auto;padding:0 24px 70px}
+.backbar a{display:inline-flex;align-items:center;gap:8px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:11px 18px;text-decoration:none;font-weight:600;font-size:14px}
+.backbar a:hover{border-color:var(--brand)}
+</style></head><body>
+<nav><div class="in"><a class="home" href="../index.html"><span class="g"></span> Ganesh OS</a>
+<div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">27 Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
+<div class="crumb"><span class="badge">Systems &amp; AI depth</span> <a href="../index.html">Ganesh OS</a> › <a href="../index.html#system">back to this on the site</a> › <span style="color:var(--ink)">Harness engineering</span></div>
+<article class="doc"><h1>Harness engineering</h1>
+<p>A model is the engine. The harness is the rest of the car. An LLM call is one component; everything that makes twenty-seven of them run unattended, safely, every day is harness engineering. This is the layer most "agent" demos skip, and the layer that decides whether a system is a toy or something you trust with a life.</p>
+<h2>What the harness is</h2>
+<p>The harness is the runtime plus the conventions layered on top of it that turn a prompt into a reliable, governed agent. Six components, each load-bearing:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Responsibility</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Scheduler</strong></td>
+<td>Fires each agent as a cron'd prompt in local time, only while the host is awake, serialized one at a time.</td>
+<td>A concurrency guard + run-ledger makes a missed or doubled fire a no-op, never a duplicate. Time is the orchestrator.</td>
+</tr>
+<tr>
+<td><strong>Context assembly</strong></td>
+<td>Rebuilds each run's world from disk: a read-first routing index, then only the canvases, manifest, and memory the run needs.</td>
+<td>Every run is stateless; the harness is what re-hydrates it. This forces external state and clean reloads.</td>
+</tr>
+<tr>
+<td><strong>Tools &amp; connectors</strong></td>
+<td>File tools, a sandboxed shell, and connectors (Reminders, Calendar ×6, Slack, Gmail, WhatsApp, iMessage).</td>
+<td>A surface check degrades gracefully when a connector is down and queues write-intents for the next full run.</td>
+</tr>
+<tr>
+<td><strong>Format contract</strong></td>
+<td>The shared house style: handle namespaces, the decision vocabulary, and the single field each agent may write.</td>
+<td>This is where the single-writer fence is actually enforced. Uniform behavior across all agents.</td>
+</tr>
+<tr>
+<td><strong>Change log</strong></td>
+<td>Every write from any agent appends one source-tagged line to a single append-only file.</td>
+<td>The audit spine, the input to the evals, and the thing that makes 27 autonomous writers reconstructable.</td>
+</tr>
+<tr>
+<td><strong>Evals</strong></td>
+<td>Frozen + behavioral checks read the change log and block a run that breaks an invariant.</td>
+<td>The harness can refuse its own agents. This is the property that makes unattended operation safe.</td>
+</tr>
+</tbody>
+</table>
+<h2>How agents, skills, and memory relate to the harness</h2>
+<ul>
+<li><strong>Agents run inside the harness.</strong> An agent is a scheduled prompt that owns exactly one field. It cannot fire itself, assemble its own context, or skip the contract — the harness does all of that around it. Take the harness away and an agent is just a paragraph of text.</li>
+<li><strong>Skills are capabilities the harness exposes.</strong> Each <code>SKILL.md</code> is a reusable capability the runtime can load — a triage skill, a sweep skill, a brief skill. The harness decides which skill runs when, with what context, and under which contract. Skills are the verbs; the harness is the grammar.</li>
+<li><strong>Memory is the state the harness re-hydrates.</strong> MemPalace (validity windows), the Karpathy LLM-wiki substrate (<code>raw / wiki / index / log</code>), and gbrain (the shared second brain) are files the harness reads on every run and writes through the change log. Memory is what survives between stateless runs; the harness is the read/write discipline that keeps it from rotting. See <a href="ai-depth.html"><code>ai-depth.md</code></a>.</li>
+</ul>
+<h2>The design consequence</h2>
+<p>Because the harness — not the model — owns scheduling, context, tools, the contract, the log, and the evals, the system has a single place to enforce safety and a single place to audit it. That is why single-writer fences, the append-only audit trail, and evals-as-CI-gate are not aspirations bolted on at the end: they are properties of the harness, and every agent inherits them by construction. See <a href="../ARCHITECTURE.html"><code>../ARCHITECTURE.md</code></a> and <a href="governance.html"><code>governance.md</code></a>.</p></article>
+<div class="prevnext"><a class="prev" href="governance.html"><span class="lab">← Previous</span><span class="ttl">The governance model</span></a><a class="next" href="../ARCHITECTURE.html"><span class="lab">Next →</span><span class="ttl">Architecture</span></a></div>
+<div class="backbar"><a href="../index.html">← Back to Ganesh OS</a></div>
+</body></html>

@@ -1,0 +1,82 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case studies · Ganesh OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070a14;--surface:#111829;--line:rgba(255,255,255,.09);--ink:#f4f7fc;--body:#c4cde0;--mut:#8995ad;--brand:#8b7bff;--brand2:#22d3ee;--neon:#5dff9b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 85% -10%,rgba(59,45,143,.35),transparent 60%),radial-gradient(800px 460px at 0% 20%,rgba(14,94,110,.3),transparent 60%),var(--bg);color:var(--body);font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;font-size:16.5px;line-height:1.7;-webkit-font-smoothing:antialiased}
+nav{position:sticky;top:0;z-index:10;background:rgba(8,11,20,.8);backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--line)}
+nav .in{max-width:880px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+nav a.home{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:800;font-size:15px;text-decoration:none}
+nav a.home .g{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 0 18px rgba(139,123,255,.5)}
+nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;text-decoration:none;font-weight:500}nav .links a:hover{color:var(--ink)}
+.crumb{max-width:880px;margin:0 auto;padding:24px 24px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--mut)}
+.crumb a{color:var(--brand2);text-decoration:none}.crumb a:hover{text-decoration:underline}
+.crumb .badge{background:rgba(139,123,255,.12);border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink);font-weight:600;font-size:12px}
+.doc{max-width:880px;margin:0 auto;padding:18px 24px 30px}
+.doc h1{font-size:clamp(28px,4vw,40px);line-height:1.1;letter-spacing:-.02em;margin:0 0 22px;background:linear-gradient(180deg,#fff,#aeb8d4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.doc h2{font-size:25px;margin:42px 0 14px;color:var(--ink);padding-top:14px;border-top:1px solid var(--line)}
+.doc h3{font-size:19px;margin:30px 0 10px;color:var(--ink)}
+.doc h4{font-size:15px;margin:24px 0 8px;color:var(--brand2);font-family:'JetBrains Mono';text-transform:uppercase;letter-spacing:.04em}
+.doc p,.doc li{color:var(--body)}.doc a{color:var(--brand2);text-decoration:none;border-bottom:1px solid rgba(34,211,238,.3)}.doc a:hover{border-color:var(--brand2)}
+.doc strong{color:var(--ink)}.doc code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#e7ecf6}
+.doc pre{background:#060a12;border:1px solid var(--line);border-radius:13px;padding:16px 18px;overflow-x:auto}.doc pre code{background:none;border:none;padding:0;color:var(--neon);font-size:13px;line-height:1.65}
+.doc blockquote{margin:18px 0;padding:12px 18px;border-left:3px solid var(--brand);background:rgba(139,123,255,.06);border-radius:0 10px 10px 0}
+.doc table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px;display:block;overflow-x:auto}
+.doc th,.doc td{border:1px solid var(--line);padding:10px 13px;text-align:left;vertical-align:top}
+.doc th{background:rgba(255,255,255,.04);color:var(--ink);font-family:'JetBrains Mono';font-size:12px;text-transform:uppercase}
+.doc tr:nth-child(even) td{background:rgba(255,255,255,.015)}.doc hr{border:none;border-top:1px solid var(--line);margin:34px 0}
+.prevnext{max-width:880px;margin:0 auto;padding:6px 24px 18px;display:flex;justify-content:space-between;gap:14px}
+.prevnext a{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px 16px;text-decoration:none;transition:transform .15s,border-color .15s;min-width:0}
+.prevnext a:hover{border-color:var(--brand);transform:translateY(-2px)}.prevnext a.next{text-align:right}
+.prevnext .lab{font:600 11px/1 'JetBrains Mono';color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.prevnext .ttl{color:var(--ink);font-weight:700;font-size:14px;margin-top:6px;display:block}
+.prevnext a.disabled{visibility:hidden}
+.backbar{max-width:880px;margin:0 auto;padding:0 24px 70px}
+.backbar a{display:inline-flex;align-items:center;gap:8px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:11px 18px;text-decoration:none;font-weight:600;font-size:14px}
+.backbar a:hover{border-color:var(--brand)}
+</style></head><body>
+<nav><div class="in"><a class="home" href="../index.html"><span class="g"></span> Ganesh OS</a>
+<div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">27 Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
+<div class="crumb"><span class="badge">Product &amp; craft</span> <a href="../index.html">Ganesh OS</a> › <a href="../index.html#cases">back to this on the site</a> › <span style="color:var(--ink)">Case studies</span></div>
+<article class="doc"><h1>Case studies</h1>
+<p>Four real incidents, each traced from symptom to root cause to a durable fix. Names and data are generalized; the engineering is exactly as it happened. Every one ends the same way: an eval is added so the class of bug cannot silently return. That last step is the difference between a demo and a system you trust with a life.</p>
+<hr />
+<h2>1. The overdue collapse: 99 to 0, then held there</h2>
+<p><em>A system can be perfectly polite and still fail you. This one waited so respectfully for permission that it let a life pile up in red.</em></p>
+<p><strong>Status quo.</strong> The triage and sweep agents were deliberately non-destructive: they set priority and surfaced decisions, but waited for a human confirmation before changing any date. Safe by design.</p>
+<p><strong>Symptom.</strong> The reminders store showed 99 items in "today and overdue" and a 63-item pure-overdue pile that kept growing no matter how often it was triaged.</p>
+<p><strong>Investigation.</strong> Two root causes. First, with no confirmation ever given, nothing moved — so overdue accumulated while the system sat politely waiting. The bottleneck was the human decision step, not the agents. Second, a one-time review snapshot silently omitted two lists (the default "uncategorized" list and the inbox), so a whole cluster of real commitments was invisible to triage and never tiered.</p>
+<p><strong>Fix.</strong> An auto-park rule in the sweeps: any overdue item with no pending decision is automatically re-dated forward by its tier (urgent to today, medium a week out, low to a two-week backlog, prune-candidates a month out and queued for deletion confirmation), never touching sacred or recurring items. The loop now advances on its own and surfaces only exceptions. Separately, triage was made to enumerate every list dynamically, with an explicit guard naming the previously-skipped lists, and the snapshot was stamped non-canonical.</p>
+<p><strong>Outcome.</strong> Overdue went to zero in one pass and is now held there automatically. A behavioral regression check (overdue-zero after a sweep) was added so the failure cannot silently return.</p>
+<p><strong>Lesson.</strong> A human-in-the-loop system must still make forward progress autonomously. Gate only the irreversible actions; let everything reversible flow.</p>
+<hr />
+<h2>2. The single-day pileup: distribution as a first-class concern</h2>
+<p><em>The tiers were right. The shape was wrong. A correct ranking, stacked on one day, is just a pile with better labels.</em></p>
+<p><strong>Status quo.</strong> Triage assigned importance tiers correctly and a bulk re-tier had just run across the backlog.</p>
+<p><strong>Symptom.</strong> One day held about 48 tasks while neighboring days were nearly empty. The "today" view became noise and lost the user's trust.</p>
+<p><strong>Investigation.</strong> Triage had no notion of per-day capacity, so every "do this week" item landed on the same date. The day was further inflated because recurring rituals (hydration, a daily mobility protocol, two standing habits) were counted as if they were tasks. And ranking purely by urgency made a high-volume opportunity flow crowd out health and relationship items entirely.</p>
+<p><strong>Fix.</strong> Three coordinated changes. A per-day budget caps real-task load (lower on travel days, auto-detected from the calendar) and excludes recurring rituals from the count. A spread mandate fans overflow round-robin across the next open days instead of stacking one date. And the daily top three is now constructed with one slot per domain (work, health-or-life, relationship-or-anchor), so no single domain can monopolize the ranked view.</p>
+<p><strong>Outcome.</strong> A 48-item day was redistributed to roughly a dozen real tasks, the rest spread across the week, with the ranked top three always spanning domains. A per-day-budget check enforces it going forward.</p>
+<p><strong>Lesson.</strong> Prioritization without distribution is just a different pile. Capacity and balance have to be modeled explicitly.</p>
+<hr />
+<h2>3. From notification stream to action surface</h2>
+<p><em>Awareness is not throughput. A digest that tells you about ten things and lets you do none of them is just a louder badge.</em></p>
+<p><strong>Status quo.</strong> Five message channels produced clean daily digests of "here's what's unread and what matters."</p>
+<p><strong>Symptom.</strong> Each surfaced item still required the user to switch apps and act, so the digests created awareness but not throughput. Items sat for days between being surfaced and being done.</p>
+<p><strong>Investigation.</strong> The digests summarized well but dead-ended. There was no path from "here is an item" to "do something about it" without leaving the phone, and the desktop store was awkward to bulk-edit anyway.</p>
+<p><strong>Fix.</strong> Every surfaced item now gets a short namespaced handle and a line in a daily machine-readable manifest (handle, source, summary, suggested list, suggested due, and the underlying id when one exists). The store is also mirrored into decision-canvas files where each row carries that handle, the id, and a blank decision cell. The user acts by replying to a handle from the phone ("done 3", "push 2 to Thursday") or by editing the decision cell in a file. An hourly processor resolves the reply against the manifest, applies the right store action with read-after-write verification, stamps the row so it never re-fires, and re-mirrors.</p>
+<p><strong>Outcome.</strong> The same item can be acted on from a text, a file, or the desktop and stays consistent everywhere. Digests became an action surface; the round trip from "surfaced" to "done" no longer requires leaving the phone.</p>
+<p><strong>Lesson.</strong> A notification is only useful if the reply path is as cheap as the alert. Design the action surface, not just the feed.</p>
+<hr />
+<h2>4. The stale id: a silent write that did nothing</h2>
+<p><em>Every other failure here was loud. This one was the dangerous kind — it succeeded quietly and was wrong. The fix wasn't a patch; it was making silence impossible.</em></p>
+<p><strong>Status quo.</strong> The reply-processor applied store actions by id, carrying ids forward across steps in a single run for efficiency.</p>
+<p><strong>Symptom.</strong> Writes occasionally failed with record-not-found, and a handful of "completes" silently did nothing. The user marked something done; the system agreed; nothing changed.</p>
+<p><strong>Investigation.</strong> An id was reproduced from memory across steps — effectively transcribed — instead of read fresh from source immediately before the write. Between the read and the write the record had moved, so the stale id pointed at nothing. Worse, a not-found result was being swallowed as a no-op rather than raised.</p>
+<p><strong>Fix.</strong> Read every id fresh from source immediately before any write; read-after-write verify by id to confirm the change landed; and treat a not-found id as a hard error that surfaces, never a silent skip. An id-freshness check now runs in CI, so the whole class of bug is fenced out rather than patched once.</p>
+<p><strong>Outcome.</strong> Failed and silent writes went to zero. Status: CLOSED. The system will now rather shout than lie.</p>
+<p><strong>Lesson.</strong> Silent failure is the only unforgivable one. Make the failure loud, then fence the class of it out with an eval.</p></article>
+<div class="prevnext"><a class="prev" href="decisions.html"><span class="lab">← Previous</span><span class="ttl">Architecture decision records (ADRs)</span></a><a class="next" href="operator.html"><span class="lab">Next →</span><span class="ttl">The operator behind the system</span></a></div>
+<div class="backbar"><a href="../index.html">← Back to Ganesh OS</a></div>
+</body></html>

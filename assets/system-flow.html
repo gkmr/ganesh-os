@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ganesh OS — daily flow</title>
+<style>
+  :root{--pri:#2563eb;--date:#16a34a;--surface:#d97706;--new:#7c3aed;--sync:#0891b2;--ink:#1f2937;--mut:#6b7280;--line:#e5e7eb;--bg:#fff;--card:#f9fafb}
+  *{box-sizing:border-box}
+  body{font:14px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg);margin:0 auto;max-width:980px;padding:28px}
+  h1{font-size:22px;margin:0 0 2px}
+  .sub{color:var(--mut);margin:0 0 20px}
+  h2{font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--mut);margin:26px 0 10px}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin:0 0 8px}
+  .legend span{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--mut)}
+  .dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+  .row{display:grid;grid-template-columns:78px 1fr;gap:14px;padding:9px 0;border-top:1px solid var(--line)}
+  .row:first-of-type{border-top:none}
+  .time{font-weight:600;font-variant-numeric:tabular-nums;font-size:13px}
+  .task{display:flex;flex-direction:column;gap:3px}
+  .task .owns{font-size:12.5px;color:var(--mut)}
+  .task .out{font-size:12.5px}
+  .tag{display:inline-block;padding:1px 7px;border-radius:20px;font-size:11px;font-weight:600;color:#fff}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .panel h3{margin:0 0 8px;font-size:13.5px}
+  .panel ul{margin:0;padding-left:18px}
+  .panel li{margin:3px 0;font-size:13px}
+  code{background:#eef2ff;color:#3730a3;padding:1px 5px;border-radius:4px;font-size:12px}
+  @media(max-width:680px){.grid{grid-template-columns:1fr}.row{grid-template-columns:66px 1fr}}
+</style>
+</head>
+<body>
+
+<h1>Ganesh OS — how a day comes together</h1>
+<p class="sub">One rule keeps it sane: every field has exactly one owner. Priority is set by triage, dates by the sweeps, new opportunities by the scan, surfacing by the brief, lifecycle by the reply processor.</p>
+
+<div class="legend">
+  <span><i class="dot" style="background:var(--pri)"></i> sets PRIORITY</span>
+  <span><i class="dot" style="background:var(--date)"></i> owns DATES</span>
+  <span><i class="dot" style="background:var(--surface)"></i> SURFACES</span>
+  <span><i class="dot" style="background:var(--new)"></i> adds NEW roles</span>
+  <span><i class="dot" style="background:var(--sync)"></i> SYNCS replies</span>
+</div>
+
+<div class="row"><div class="time">5:45a</div><div class="task"><b>Pipeline triage <span class="tag" style="background:var(--pri)">priority</span></b><span class="owns">Owns the pipeline. Tiers now / this-week / later / prune.</span><span class="out">&rarr; writes the pipeline decision canvas</span></div></div>
+<div class="row"><div class="time">5:50a</div><div class="task"><b>To-do triage <span class="tag" style="background:var(--pri)">priority</span></b><span class="owns">Owns every other list, including the default and inbox lists.</span><span class="out">&rarr; writes the to-do decision canvas</span></div></div>
+<div class="row"><div class="time">6:04a</div><div class="task"><b>Morning sweep <span class="tag" style="background:var(--date)">dates</span></b><span class="owns">Reconciles reminders against 6 calendars, dedupes, advances recurrers, auto-parks overdue, budgets the day. Preserves priority.</span><span class="out">&rarr; publishes the morning calendar event</span></div></div>
+<div class="row"><div class="time">7:10a</div><div class="task"><b>Morning brief <span class="tag" style="background:var(--surface)">surface</span></b><span class="owns">Reads both canvases + calendar + messages. Builds the most-important-task + a cross-domain top three.</span><span class="out">&rarr; chat, vault file, phone calendar event, SMS</span></div></div>
+<div class="row"><div class="time">8:40a<br>1:40p · 6:40p</div><div class="task"><b>Meetings briefer <span class="tag" style="background:var(--new)">Granola + Krisp</span></b><span class="owns">Pre-brief upcoming meetings and post-brief finished ones; reconcile Krisp metadata to Granola.</span><span class="out">&rarr; proposed calendar / reminder / draft actions, gated on reply</span></div></div>
+<div class="row"><div class="time">hourly</div><div class="task"><b>Reply processor <span class="tag" style="background:var(--sync)">sync</span></b><span class="owns">Applies the human's decisions (file or text) to the store; mirrors back.</span><span class="out">&rarr; two-way sync, read-after-write verified</span></div></div>
+<div class="row"><div class="time">7:20p</div><div class="task"><b>Tomorrow plan <span class="tag" style="background:var(--surface)">surface</span></b><span class="owns">Fuses tomorrow's calendar blocks + reminders due + tiers, time-ordered.</span><span class="out">&rarr; the master next-day shortlist</span></div></div>
+<div class="row"><div class="time">6:45p<br>8:15p</div><div class="task"><b>Evening sweep + brief</b><span class="owns">Mirror of the morning; Sunday adds a deep reconciliation.</span><span class="out">&rarr; evening wrap + tomorrow setup</span></div></div>
+<div class="row"><div class="time">8:50p</div><div class="task"><b>Food logger</b><span class="owns">Logs food, workout, and health stats against goals.</span><span class="out">&rarr; coaching SMS + daily health log</span></div></div>
+<div class="row"><div class="time">9:35p</div><div class="task"><b>End-of-day review</b><span class="owns">Diffs the morning plan vs what actually happened; grades the day.</span><span class="out">&rarr; scorecard file, note, coaching SMS</span></div></div>
+<div class="row"><div class="time">Sun 4p</div><div class="task"><b>Self-improvement</b><span class="owns">Error analysis + knowledge-base lint + regression checks.</span><span class="out">&rarr; one proposal per agent, never self-deploys</span></div></div>
+
+<div class="grid" style="margin-top:22px">
+  <div class="panel">
+    <h3>Where the master views live</h3>
+    <ul>
+      <li><b>Today, ranked, cross-domain:</b> the brief's MIT + top three (chat + phone calendar event). Not the raw "due today" list.</li>
+      <li><b>Tomorrow, time-ordered:</b> the tomorrow-plan file.</li>
+      <li><b>The eternal pipeline and the other lists:</b> the two decision canvases.</li>
+    </ul>
+  </div>
+  <div class="panel">
+    <h3>The fences (one owner per field)</h3>
+    <ul>
+      <li><b>Priority</b> &rarr; the two triage agents only.</li>
+      <li><b>Dates / dedupe / conflicts / auto-park</b> &rarr; the sweeps.</li>
+      <li><b>New roles</b> &rarr; an intake agent (tier-1 creates only).</li>
+      <li><b>Lifecycle</b> &rarr; the reply processor, from explicit decisions.</li>
+      <li><b>Deletion</b> &rarr; never automatic; confirmation-gated.</li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>

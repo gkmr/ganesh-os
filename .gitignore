@@ -1,0 +1,20 @@
+# This repo is the design portfolio only — authored clean and PII-scanned.
+# (The live personal system is never copied here; it lives outside this folder.)
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Local-only, never commit
+private/
+*.local.*
