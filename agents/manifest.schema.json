@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gkmr/ganesh-os/agents/manifest.schema.json",
+  "title": "Surfaced item — manifest line",
+  "description": "One JSON line per repliable item. Digests write it; the reply processor reads today's and yesterday's manifests to resolve a reply by handle.",
+  "type": "object",
+  "required": ["handle", "source", "title"],
+  "additionalProperties": false,
+  "properties": {
+    "handle":         {"type": "string", "description": "Namespaced + stable for the day, e.g. W3 (WhatsApp), I2 (intake), M1 (iMessage), P4 (day-plan)."},
+    "source":         {"type": "string", "description": "The originating agent's tag, e.g. whatsapp, gmail, intake-scan."},
+    "title":          {"type": "string"},
+    "summary":        {"type": "string"},
+    "verbatim":       {"type": "string", "description": "Full text lives in the channel archive; the SMS carries only summary + one quote."},
+    "link":           {"type": "string", "format": "uri"},
+    "suggested_list": {"type": "string"},
+    "suggested_due":  {"type": ["string", "null"], "description": "ISO date, or null for backlog."},
+    "reminder_id":    {"type": ["string", "null"], "description": "Set only when the item already maps to a reminder, so it can be completed or rescheduled."}
+  }
+}

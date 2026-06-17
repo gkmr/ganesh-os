@@ -1,0 +1,277 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent catalog · Ganesh OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070a14;--surface:#111829;--line:rgba(255,255,255,.09);--ink:#f4f7fc;--body:#c4cde0;--mut:#8995ad;--brand:#8b7bff;--brand2:#22d3ee;--neon:#5dff9b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 85% -10%,rgba(59,45,143,.35),transparent 60%),radial-gradient(800px 460px at 0% 20%,rgba(14,94,110,.3),transparent 60%),var(--bg);color:var(--body);font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;font-size:16.5px;line-height:1.7;-webkit-font-smoothing:antialiased}
+nav{position:sticky;top:0;z-index:10;background:rgba(8,11,20,.8);backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--line)}
+nav .in{max-width:880px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+nav a.home{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:800;font-size:15px;text-decoration:none}
+nav a.home .g{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 0 18px rgba(139,123,255,.5)}
+nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;text-decoration:none;font-weight:500}nav .links a:hover{color:var(--ink)}
+.crumb{max-width:880px;margin:0 auto;padding:24px 24px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--mut)}
+.crumb a{color:var(--brand2);text-decoration:none}.crumb a:hover{text-decoration:underline}
+.crumb .badge{background:rgba(139,123,255,.12);border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink);font-weight:600;font-size:12px}
+.doc{max-width:880px;margin:0 auto;padding:18px 24px 30px}
+.doc h1{font-size:clamp(28px,4vw,40px);line-height:1.1;letter-spacing:-.02em;margin:0 0 22px;background:linear-gradient(180deg,#fff,#aeb8d4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.doc h2{font-size:25px;margin:42px 0 14px;color:var(--ink);padding-top:14px;border-top:1px solid var(--line)}
+.doc h3{font-size:19px;margin:30px 0 10px;color:var(--ink)}
+.doc h4{font-size:15px;margin:24px 0 8px;color:var(--brand2);font-family:'JetBrains Mono';text-transform:uppercase;letter-spacing:.04em}
+.doc p,.doc li{color:var(--body)}.doc a{color:var(--brand2);text-decoration:none;border-bottom:1px solid rgba(34,211,238,.3)}.doc a:hover{border-color:var(--brand2)}
+.doc strong{color:var(--ink)}.doc code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#e7ecf6}
+.doc pre{background:#060a12;border:1px solid var(--line);border-radius:13px;padding:16px 18px;overflow-x:auto}.doc pre code{background:none;border:none;padding:0;color:var(--neon);font-size:13px;line-height:1.65}
+.doc blockquote{margin:18px 0;padding:12px 18px;border-left:3px solid var(--brand);background:rgba(139,123,255,.06);border-radius:0 10px 10px 0}
+.doc table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px;display:block;overflow-x:auto}
+.doc th,.doc td{border:1px solid var(--line);padding:10px 13px;text-align:left;vertical-align:top}
+.doc th{background:rgba(255,255,255,.04);color:var(--ink);font-family:'JetBrains Mono';font-size:12px;text-transform:uppercase}
+.doc tr:nth-child(even) td{background:rgba(255,255,255,.015)}.doc hr{border:none;border-top:1px solid var(--line);margin:34px 0}
+.prevnext{max-width:880px;margin:0 auto;padding:6px 24px 18px;display:flex;justify-content:space-between;gap:14px}
+.prevnext a{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px 16px;text-decoration:none;transition:transform .15s,border-color .15s;min-width:0}
+.prevnext a:hover{border-color:var(--brand);transform:translateY(-2px)}.prevnext a.next{text-align:right}
+.prevnext .lab{font:600 11px/1 'JetBrains Mono';color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.prevnext .ttl{color:var(--ink);font-weight:700;font-size:14px;margin-top:6px;display:block}
+.prevnext a.disabled{visibility:hidden}
+.backbar{max-width:880px;margin:0 auto;padding:0 24px 70px}
+.backbar a{display:inline-flex;align-items:center;gap:8px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:11px 18px;text-decoration:none;font-weight:600;font-size:14px}
+.backbar a:hover{border-color:var(--brand)}
+</style></head><body>
+<nav><div class="in"><a class="home" href="../index.html"><span class="g"></span> Ganesh OS</a>
+<div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">27 Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
+<div class="crumb"><span class="badge">Systems &amp; AI depth</span> <a href="../index.html">Ganesh OS</a> › <a href="../index.html#agents">back to this on the site</a> › <span style="color:var(--ink)">Agent catalog</span></div>
+<article class="doc"><h1>Agent catalog</h1>
+<p>27 scheduled agents, grouped by layer. Each is a self-contained <code>SKILL.md</code> prompt fired by cron in local time. "Owns" names the single field the agent is allowed to mutate; everything else it treats as read-only.</p>
+<h2>Layer 1 — Capture and digest (read-only, surfacing)</h2>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Cadence</th>
+<th>Owns</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WhatsApp digest</td>
+<td>7:30a, 8:30p</td>
+<td>nothing (read-only)</td>
+<td>every unread chat, summarized with a key quote, verbatim archived; one SMS</td>
+</tr>
+<tr>
+<td>iMessage digest</td>
+<td>7:30a, 8:30p</td>
+<td>nothing</td>
+<td>unread threads summarized; phishing-link flag; one SMS</td>
+</tr>
+<tr>
+<td>Slack digest</td>
+<td>7:30a, 8:30p</td>
+<td>nothing</td>
+<td>unread DMs, mentions, threads waiting on the user; one SMS</td>
+</tr>
+<tr>
+<td>Google Voice digest</td>
+<td>7:30a, 8:30p</td>
+<td>nothing</td>
+<td>unread texts and voicemails via email; one SMS</td>
+</tr>
+<tr>
+<td>Gmail digest</td>
+<td>7:30a, 8:30p</td>
+<td>nothing</td>
+<td>signal-vs-noise inbox triage with a key quote; one SMS</td>
+</tr>
+<tr>
+<td>Meetings briefer</td>
+<td>8:40a, 1:40p, 6:40p</td>
+<td>nothing</td>
+<td>pre-briefs upcoming meetings and post-briefs finished ones across Granola + Krisp; proposes calendar/reminder/draft actions, gated on reply</td>
+</tr>
+<tr>
+<td>Meeting reconciliation</td>
+<td>before each brief</td>
+<td>a local crosswalk</td>
+<td>matches Krisp transcripts (which lack calendar access) to Granola's calendar-true metadata; corrects title, attendees, and stream</td>
+</tr>
+</tbody>
+</table>
+<p>Every digest follows one format contract: a leading source tag, a one-line summary plus counts, action items first with a stable handle, then compressed FYIs. Each repliable item also gets a JSON line in a daily manifest so it can be acted on by text.</p>
+<h2>Layer 2 — Triage (priority only, non-destructive)</h2>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Cadence</th>
+<th>Owns</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pipeline triage</td>
+<td>5:45a</td>
+<td>priority on the pipeline</td>
+<td>four-tier re-tiering by deadline, freshness, company priority, warm-path strength; writes the pipeline decision canvas</td>
+</tr>
+<tr>
+<td>To-do triage</td>
+<td>5:50a</td>
+<td>priority on every other list</td>
+<td>same four tiers across all other lists, including the default and inbox lists; writes the to-do decision canvas</td>
+</tr>
+</tbody>
+</table>
+<p>Both are constrained writers: they set the priority field and tags only, never dates, completion, or deletion. Prune candidates are queued for per-item human confirmation, never auto-deleted.</p>
+<h2>Layer 3 — Reconcile and surface</h2>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Cadence</th>
+<th>Owns</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning sweep</td>
+<td>6:04a</td>
+<td>dates, dedupe, conflicts, auto-park</td>
+<td>reconciles reminders against six calendars; advances recurring items; auto-parks overdue by tier; enforces the daily budget; publishes the morning calendar event</td>
+</tr>
+<tr>
+<td>Evening sweep</td>
+<td>6:45p</td>
+<td>same</td>
+<td>mirror of the morning; runs the weekly deep reconciliation on Sundays</td>
+</tr>
+<tr>
+<td>Morning briefing</td>
+<td>7:10a</td>
+<td>nothing (read-only + its calendar event)</td>
+<td>the ranked day: most-important-task plus a cross-domain top three; four-surface delivery (chat, vault file, phone calendar event, SMS)</td>
+</tr>
+<tr>
+<td>Evening briefing</td>
+<td>8:15p</td>
+<td>nothing</td>
+<td>evening wrap plus tomorrow's setup</td>
+</tr>
+<tr>
+<td>Weekday catch-up</td>
+<td>11:00a</td>
+<td>nothing</td>
+<td>runs the morning brief only if it is still missing</td>
+</tr>
+<tr>
+<td>Tomorrow plan</td>
+<td>7:20p</td>
+<td>nothing</td>
+<td>the time-ordered master shortlist for the next day, fusing calendar blocks, reminders due, and tiers</td>
+</tr>
+<tr>
+<td>Reply processor</td>
+<td>hourly, 6a–11p</td>
+<td>lifecycle (create / complete / reschedule)</td>
+<td>applies the human's decisions, whether typed into a canvas file or sent as a text; mirrors reminders back to a file; two-way sync</td>
+</tr>
+<tr>
+<td>Weekly status</td>
+<td>weekly</td>
+<td>nothing</td>
+<td>a tiered weekly accountability summary assembled from the week's artifacts</td>
+</tr>
+</tbody>
+</table>
+<h2>Layer 4 — Wellbeing coaching</h2>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Cadence</th>
+<th>Owns</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Morning weigh-in</td>
+<td>7:00a</td>
+<td>nothing (capture)</td>
+<td>prompts weight, body-fat, sleep, and how the body feels; the reply feeds the metrics brain</td>
+</tr>
+<tr>
+<td>Readiness + energy</td>
+<td>6:50a</td>
+<td>nothing (advisory)</td>
+<td>reads last night's recovery, scores readiness, recommends an energy-timed day to a text + the dashboard; never writes dates</td>
+</tr>
+<tr>
+<td>Meal coaching</td>
+<td>9a, 1p, 7p</td>
+<td>nothing</td>
+<td>context-aware meal prompts that read the last 48-72h and carry a goal-tied coaching line; the evening one also asks workout + feeling</td>
+</tr>
+<tr>
+<td>Food + macro logger</td>
+<td>8:50p</td>
+<td>a daily health log file</td>
+<td>logs food, macros, workout, and health stats vs goals; an adaptive-TDEE loop calibrates the calorie target against the actual weight trend; coaching SMS</td>
+</tr>
+<tr>
+<td>Workout coach</td>
+<td>preview + pre-session</td>
+<td>its own state file</td>
+<td>previews the day's training and nudges ~45 min before each session, joint-aware</td>
+</tr>
+<tr>
+<td>Sleep coach</td>
+<td>10:15p</td>
+<td>nothing</td>
+<td>wind-down, recovery framing, names tomorrow's first move; sleep-apnea-aware</td>
+</tr>
+<tr>
+<td>Metrics brain + dashboard</td>
+<td>9:05p</td>
+<td>the metrics file + the dashboard</td>
+<td>silent: captures weigh-in/sleep/feeling + device stats + ritual adherence, tracks all trends, regenerates the holistic dashboard</td>
+</tr>
+</tbody>
+</table>
+<h2>Layer 5 — Reflection and growth</h2>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Cadence</th>
+<th>Owns</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>End-of-day review</td>
+<td>9:35p</td>
+<td>a daily scorecard file and a note</td>
+<td>diffs the morning plan against what actually happened; grades the day; coaching and motivation SMS</td>
+</tr>
+<tr>
+<td>Weekly self-improvement</td>
+<td>Sun 4p</td>
+<td>a proposal report only</td>
+<td>error analysis across the logs, a lint of the knowledge base, the regression checks, and at most one proposed change per agent — never self-deploying</td>
+</tr>
+<tr>
+<td>Goal review</td>
+<td>Sun 8a</td>
+<td>the goals file</td>
+<td>reads the week's signals, updates each goal's state and next action, runs the goal evals, flags stalls with one gated tactic change</td>
+</tr>
+</tbody>
+</table>
+<h2>Interoperation</h2>
+<p>The agents never call each other. They coordinate through three shared surfaces: the decision canvases (triage writes, the human edits, the reply processor applies), the manifest (digests write, the reply processor reads), and the single append-only change log (everyone writes, the weekly pass reads). Priority flows from triage to the sweep, which preserves it, to the brief, which ranks by it. One human decision in a canvas propagates through the whole chain by the next morning.</p></article>
+<div class="prevnext"><a class="prev" href="../ARCHITECTURE.html"><span class="lab">← Previous</span><span class="ttl">Architecture</span></a><a class="next" href="../agents/README.html"><span class="lab">Next →</span><span class="ttl">Example agents (sanitized)</span></a></div>
+<div class="backbar"><a href="../index.html">← Back to Ganesh OS</a></div>
+</body></html>

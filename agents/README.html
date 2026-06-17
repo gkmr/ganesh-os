@@ -1,0 +1,53 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Example agents (sanitized) · Ganesh OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070a14;--surface:#111829;--line:rgba(255,255,255,.09);--ink:#f4f7fc;--body:#c4cde0;--mut:#8995ad;--brand:#8b7bff;--brand2:#22d3ee;--neon:#5dff9b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 85% -10%,rgba(59,45,143,.35),transparent 60%),radial-gradient(800px 460px at 0% 20%,rgba(14,94,110,.3),transparent 60%),var(--bg);color:var(--body);font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;font-size:16.5px;line-height:1.7;-webkit-font-smoothing:antialiased}
+nav{position:sticky;top:0;z-index:10;background:rgba(8,11,20,.8);backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--line)}
+nav .in{max-width:880px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+nav a.home{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:800;font-size:15px;text-decoration:none}
+nav a.home .g{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 0 18px rgba(139,123,255,.5)}
+nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;text-decoration:none;font-weight:500}nav .links a:hover{color:var(--ink)}
+.crumb{max-width:880px;margin:0 auto;padding:24px 24px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--mut)}
+.crumb a{color:var(--brand2);text-decoration:none}.crumb a:hover{text-decoration:underline}
+.crumb .badge{background:rgba(139,123,255,.12);border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink);font-weight:600;font-size:12px}
+.doc{max-width:880px;margin:0 auto;padding:18px 24px 30px}
+.doc h1{font-size:clamp(28px,4vw,40px);line-height:1.1;letter-spacing:-.02em;margin:0 0 22px;background:linear-gradient(180deg,#fff,#aeb8d4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.doc h2{font-size:25px;margin:42px 0 14px;color:var(--ink);padding-top:14px;border-top:1px solid var(--line)}
+.doc h3{font-size:19px;margin:30px 0 10px;color:var(--ink)}
+.doc h4{font-size:15px;margin:24px 0 8px;color:var(--brand2);font-family:'JetBrains Mono';text-transform:uppercase;letter-spacing:.04em}
+.doc p,.doc li{color:var(--body)}.doc a{color:var(--brand2);text-decoration:none;border-bottom:1px solid rgba(34,211,238,.3)}.doc a:hover{border-color:var(--brand2)}
+.doc strong{color:var(--ink)}.doc code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#e7ecf6}
+.doc pre{background:#060a12;border:1px solid var(--line);border-radius:13px;padding:16px 18px;overflow-x:auto}.doc pre code{background:none;border:none;padding:0;color:var(--neon);font-size:13px;line-height:1.65}
+.doc blockquote{margin:18px 0;padding:12px 18px;border-left:3px solid var(--brand);background:rgba(139,123,255,.06);border-radius:0 10px 10px 0}
+.doc table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px;display:block;overflow-x:auto}
+.doc th,.doc td{border:1px solid var(--line);padding:10px 13px;text-align:left;vertical-align:top}
+.doc th{background:rgba(255,255,255,.04);color:var(--ink);font-family:'JetBrains Mono';font-size:12px;text-transform:uppercase}
+.doc tr:nth-child(even) td{background:rgba(255,255,255,.015)}.doc hr{border:none;border-top:1px solid var(--line);margin:34px 0}
+.prevnext{max-width:880px;margin:0 auto;padding:6px 24px 18px;display:flex;justify-content:space-between;gap:14px}
+.prevnext a{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px 16px;text-decoration:none;transition:transform .15s,border-color .15s;min-width:0}
+.prevnext a:hover{border-color:var(--brand);transform:translateY(-2px)}.prevnext a.next{text-align:right}
+.prevnext .lab{font:600 11px/1 'JetBrains Mono';color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.prevnext .ttl{color:var(--ink);font-weight:700;font-size:14px;margin-top:6px;display:block}
+.prevnext a.disabled{visibility:hidden}
+.backbar{max-width:880px;margin:0 auto;padding:0 24px 70px}
+.backbar a{display:inline-flex;align-items:center;gap:8px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:11px 18px;text-decoration:none;font-weight:600;font-size:14px}
+.backbar a:hover{border-color:var(--brand)}
+</style></head><body>
+<nav><div class="in"><a class="home" href="../index.html"><span class="g"></span> Ganesh OS</a>
+<div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">27 Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
+<div class="crumb"><span class="badge">Systems &amp; AI depth</span> <a href="../index.html">Ganesh OS</a> › <a href="../index.html#agents">back to this on the site</a> › <span style="color:var(--ink)">Example agents (sanitized)</span></div>
+<article class="doc"><h1>Example agents (sanitized)</h1>
+<p>Three of the 27 agents, generalized to remove personal data, plus the shared manifest schema and the format contract every agent obeys. They illustrate the single-writer fence in practice: each agent's prompt names exactly the one field it is allowed to write. The live prompts and the personal system are not included.</p>
+<ul>
+<li><code>pipeline-triage.md</code> — owns <strong>priority</strong> on the pipeline (writes nothing else).</li>
+<li><code>morning-sweep.md</code> — owns <strong>dates</strong> (reconcile, dedupe, auto-park, budget); never touches priority.</li>
+<li><code>reply-processor.md</code> — owns <strong>lifecycle</strong> (create / complete / reschedule) from explicit human decisions.</li>
+<li><code>manifest.schema.json</code> — the JSON contract for a surfaced, repliable item.</li>
+<li><code>format-contract.md</code> — the house style, handle namespaces, and decision vocabulary shared by all agents.</li>
+</ul></article>
+<div class="prevnext"><a class="prev" href="../docs/agent-catalog.html"><span class="lab">← Previous</span><span class="ttl">Agent catalog</span></a><a class="next" href="format-contract.html"><span class="lab">Next →</span><span class="ttl">Format contract (shared by every agent)</span></a></div>
+<div class="backbar"><a href="../index.html">← Back to Ganesh OS</a></div>
+</body></html>
