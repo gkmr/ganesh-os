@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="660" viewBox="0 0 1280 660" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
   <rect width="1280" height="660" fill="#ffffff"/>
   <text x="48" y="52" fill="#0b1020" font-size="26" font-weight="800" letter-spacing="-0.5">Architecture — five layers, one owner per field</text>
-  <text x="48" y="80" fill="#697386" font-size="15">22 stateless scheduled agents. Continuity lives in files; coordination happens through shared documents, not shared state.</text>
+  <text x="48" y="80" fill="#697386" font-size="15">27 stateless scheduled agents. Continuity lives in files; coordination happens through shared documents, not shared state.</text>
 
   <!-- layer rows -->
   <g transform="translate(48,110)">
