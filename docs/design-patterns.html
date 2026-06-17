@@ -1,0 +1,86 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design patterns · Ganesh OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070a14;--surface:#111829;--line:rgba(255,255,255,.09);--ink:#f4f7fc;--body:#c4cde0;--mut:#8995ad;--brand:#8b7bff;--brand2:#22d3ee;--neon:#5dff9b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 85% -10%,rgba(59,45,143,.35),transparent 60%),radial-gradient(800px 460px at 0% 20%,rgba(14,94,110,.3),transparent 60%),var(--bg);color:var(--body);font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;font-size:16.5px;line-height:1.7;-webkit-font-smoothing:antialiased}
+nav{position:sticky;top:0;z-index:10;background:rgba(8,11,20,.8);backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--line)}
+nav .in{max-width:880px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+nav a.home{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:800;font-size:15px;text-decoration:none}
+nav a.home .g{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 0 18px rgba(139,123,255,.5)}
+nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;text-decoration:none;font-weight:500}nav .links a:hover{color:var(--ink)}
+.crumb{max-width:880px;margin:0 auto;padding:24px 24px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--mut)}
+.crumb a{color:var(--brand2);text-decoration:none}.crumb a:hover{text-decoration:underline}
+.crumb .badge{background:rgba(139,123,255,.12);border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink);font-weight:600;font-size:12px}
+.doc{max-width:880px;margin:0 auto;padding:18px 24px 30px}
+.doc h1{font-size:clamp(28px,4vw,40px);line-height:1.1;letter-spacing:-.02em;margin:0 0 22px;background:linear-gradient(180deg,#fff,#aeb8d4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.doc h2{font-size:25px;margin:42px 0 14px;color:var(--ink);padding-top:14px;border-top:1px solid var(--line)}
+.doc h3{font-size:19px;margin:30px 0 10px;color:var(--ink)}
+.doc h4{font-size:15px;margin:24px 0 8px;color:var(--brand2);font-family:'JetBrains Mono';text-transform:uppercase;letter-spacing:.04em}
+.doc p,.doc li{color:var(--body)}.doc a{color:var(--brand2);text-decoration:none;border-bottom:1px solid rgba(34,211,238,.3)}.doc a:hover{border-color:var(--brand2)}
+.doc strong{color:var(--ink)}.doc code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#e7ecf6}
+.doc pre{background:#060a12;border:1px solid var(--line);border-radius:13px;padding:16px 18px;overflow-x:auto}.doc pre code{background:none;border:none;padding:0;color:var(--neon);font-size:13px;line-height:1.65}
+.doc blockquote{margin:18px 0;padding:12px 18px;border-left:3px solid var(--brand);background:rgba(139,123,255,.06);border-radius:0 10px 10px 0}
+.doc table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px;display:block;overflow-x:auto}
+.doc th,.doc td{border:1px solid var(--line);padding:10px 13px;text-align:left;vertical-align:top}
+.doc th{background:rgba(255,255,255,.04);color:var(--ink);font-family:'JetBrains Mono';font-size:12px;text-transform:uppercase}
+.doc tr:nth-child(even) td{background:rgba(255,255,255,.015)}.doc hr{border:none;border-top:1px solid var(--line);margin:34px 0}
+.prevnext{max-width:880px;margin:0 auto;padding:6px 24px 18px;display:flex;justify-content:space-between;gap:14px}
+.prevnext a{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px 16px;text-decoration:none;transition:transform .15s,border-color .15s;min-width:0}
+.prevnext a:hover{border-color:var(--brand);transform:translateY(-2px)}.prevnext a.next{text-align:right}
+.prevnext .lab{font:600 11px/1 'JetBrains Mono';color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.prevnext .ttl{color:var(--ink);font-weight:700;font-size:14px;margin-top:6px;display:block}
+.prevnext a.disabled{visibility:hidden}
+.backbar{max-width:880px;margin:0 auto;padding:0 24px 70px}
+.backbar a{display:inline-flex;align-items:center;gap:8px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:11px 18px;text-decoration:none;font-weight:600;font-size:14px}
+.backbar a:hover{border-color:var(--brand)}
+</style></head><body>
+<nav><div class="in"><a class="home" href="../index.html"><span class="g"></span> Ganesh OS</a>
+<div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">27 Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
+<div class="crumb"><span class="badge">Systems &amp; AI depth</span> <a href="../index.html">Ganesh OS</a> › <a href="../index.html#system">back to this on the site</a> › <span style="color:var(--ink)">Design patterns</span></div>
+<article class="doc"><h1>Design patterns</h1>
+<p>The reusable ideas behind Ganesh OS. Each is stated as a problem and the pattern that solves it, so they transfer to any multi-agent personal or operational system.</p>
+<h2>1. Single-writer fences</h2>
+<p><strong>Problem.</strong> Many autonomous agents writing the same store will clobber each other: one normalizes a priority another just set, two both reschedule the same item, a cleanup deletes something mid-edit.</p>
+<p><strong>Pattern.</strong> Give every mutable field exactly one owner. Priority belongs to triage; dates to the sweeps; lifecycle to the reply processor; intake creation to an intake agent; deletion to nobody (it is always confirmation-gated). Every other agent treats those fields as read-only. A lane-fence check verifies it. This single rule is what makes unattended multi-agent writing safe.</p>
+<h2>2. Autonomous forward progress with human-in-the-loop</h2>
+<p><strong>Problem.</strong> A system that waits for the human on every decision becomes a backlog generator; a system that decides everything itself becomes untrustworthy.</p>
+<p><strong>Pattern.</strong> The loop advances on its own and surfaces only exceptions. Overdue items auto-park forward by priority rather than waiting for a confirmation that may never come. Destructive actions (delete) stay gated. The human steers with cheap, reversible decisions (a one-word edit in a canvas or a text); the machine does the mechanical reconciliation. Progress is the default; the human is the exception handler.</p>
+<h2>3. The decision canvas (two-way sync)</h2>
+<p><strong>Problem.</strong> The source of truth (a reminders store) is awkward to bulk-edit and reason over, but a separate planning doc drifts out of sync.</p>
+<p><strong>Pattern.</strong> Mirror the store into a file where each row carries a stable handle, the item id, and a blank decision cell. The human edits only the decision cell — from the file, from a text message, or in chat. An hourly processor reads the decisions, applies each to the store with read-after-write verification, stamps the row as applied so it never re-fires, and re-mirrors. The store stays canonical; the file is a controlled, idempotent edit channel.</p>
+<h2>4. The manifest and reply contract</h2>
+<p><strong>Problem.</strong> A digest that just tells you about an unread message is a dead end; you still have to go act on it.</p>
+<p><strong>Pattern.</strong> Every surfaced item gets a short namespaced handle and a JSON line in a daily manifest (handle, source, summary, suggested list, suggested due, and the underlying id when one exists). The human replies by handle ("done 3", "push 2 to Thursday") or in natural language. A processor resolves the reply against the manifest and turns it into the right store action. The digest becomes an action surface, not a notification.</p>
+<h2>5. Today-budget and spread</h2>
+<p><strong>Problem.</strong> A bulk re-tier dumps forty items onto one day; the "today" view becomes noise and the human stops trusting it.</p>
+<p><strong>Pattern.</strong> Cap the visible real-task load per day (lower on travel days, auto-detected from the calendar). Exclude recurring rituals from the count so the number reflects real work. When overflow or auto-park would stack a single day, fan it round-robin across the next open days under the cap. A per-day-budget check enforces it.</p>
+<h2>6. Cross-domain ranking</h2>
+<p><strong>Problem.</strong> Ranking purely by urgency makes one loud domain (here, a high-volume opportunity flow) crowd out everything else, so health and relationships silently lose.</p>
+<p><strong>Pattern.</strong> Construct the daily top three with one slot per domain — one work, one health-or-life-admin, one relationship-or-dominant-anchor — filling from the next-highest only when a domain is empty, and saying so. The ranked day is structurally never single-domain.</p>
+<h2>7. Knowledge substrate that resists rot</h2>
+<p><strong>Problem.</strong> A growing pile of notes and configs goes stale, contradicts itself, and no agent knows which file is authoritative.</p>
+<p><strong>Pattern.</strong> Four conventions borrowed from the "LLM wiki" and continual-learning literature, reduced to plain Markdown:
+- A <strong>read-first index</strong> so an agent loads a small routing layer before opening any full file.
+- A <strong>shared format contract</strong> that every agent obeys, so behavior is uniform.
+- An <strong>append-only change log</strong> as the single record of what changed and why.
+- <strong>Temporal-validity stamps</strong> ("as of <date>") on anything that can go stale, with a weekly lint that flags an old or contradicted claim. Snapshots are explicitly marked non-canonical and point to the live source.</p>
+<h2>8. Frozen and behavioral evals, evals-gated self-improvement</h2>
+<p><strong>Problem.</strong> A self-modifying system can quietly regress; structural checks ("the file exists") miss the failures that actually happen.</p>
+<p><strong>Pattern.</strong> Keep a frozen set of binary checks plus behavioral ones derived from real incidents — overdue-zero after a sweep, no day over budget, every list covered. The weekly improvement pass runs them before proposing a change and re-runs the affected ones after an approved change; a change that regresses a check is rolled back from a snapshot, not shipped. Proposals are diagnostic only and capped at one per agent per week; nothing self-deploys.</p>
+<h2>9. Idempotent, degradable scheduled jobs</h2>
+<p><strong>Problem.</strong> Cron jobs on an intermittently awake host double-fire, miss, or run on the wrong surface.</p>
+<p><strong>Pattern.</strong> Every agent opens with a concurrency guard (a run ledger plus an off-schedule skip) and a surface check (detect present connectors; on a reduced surface, run partially, note the gap, and queue intents for the next full run). A missed or doubled fire degrades to a short delta, never a duplicate or a crash.</p>
+<h2>Tradeoffs and alternatives considered</h2>
+<p>The roads not taken, because seniority shows in what you reject and why.</p>
+<ul>
+<li><strong>Single-writer fences over a transaction log or optimistic locking.</strong> A real lock manager or MVCC would be the textbook answer, but the substrate is a consumer reminders store with no transactions and a hard token budget per run. Field ownership achieves the same safety property (no lost or clobbered writes) with zero infrastructure, and it is auditable by a one-rule eval. The cost is that ownership is a convention enforced by review and a check, not by the platform; acceptable for a single-operator system.</li>
+<li><strong>Markdown files over a real database (SQLite/Postgres).</strong> A database would give queries and constraints. But every agent run is stateless and the human needs to read and hand-edit the state from a phone. Plain Markdown is the lowest-friction store both a model and a person can read and write, it diffs cleanly in the change log, and it needs no migration story. If grep ever stops scaling, a local SQLite index is the planned next step; it has not been needed.</li>
+<li><strong>27 small agents over one orchestrator.</strong> A single mega-agent would avoid coordination entirely. It was rejected for blast radius and observability: a bug in one small agent degrades one function, each agent has its own guard and eval, and the schedule itself is the orchestration. The cost is the coordination layer (the fences, the manifest, the change log) — which is exactly the part worth showing.</li>
+<li><strong>Auto-park over wait-for-confirmation.</strong> The original design gated every date change on human confirmation, which was safer but produced a permanent backlog. The shift was to gate only irreversible actions (deletion) and let everything reversible flow. The cost is that an item can be auto-moved without the human's say-so; mitigated by tier-aware destinations, sacred-item exclusions, and a report of every auto-park.</li>
+<li><strong>Estimated outcome metrics over instrumented dashboards.</strong> Building real telemetry was deliberately skipped as over-engineering for a single user; honest before/after estimates with a stated method are enough to be truthful and to survive an interview probe.</li>
+</ul></article>
+<div class="prevnext"><a class="prev" href="ai-depth.html"><span class="lab">← Previous</span><span class="ttl">What makes this AI-native</span></a><a class="next" href="decisions.html"><span class="lab">Next →</span><span class="ttl">Architecture decision records (ADRs)</span></a></div>
+<div class="backbar"><a href="../index.html">← Back to Ganesh OS</a></div>
+</body></html>

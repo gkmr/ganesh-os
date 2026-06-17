@@ -1,0 +1,117 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security and PII scan · Ganesh OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070a14;--surface:#111829;--line:rgba(255,255,255,.09);--ink:#f4f7fc;--body:#c4cde0;--mut:#8995ad;--brand:#8b7bff;--brand2:#22d3ee;--neon:#5dff9b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 85% -10%,rgba(59,45,143,.35),transparent 60%),radial-gradient(800px 460px at 0% 20%,rgba(14,94,110,.3),transparent 60%),var(--bg);color:var(--body);font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;font-size:16.5px;line-height:1.7;-webkit-font-smoothing:antialiased}
+nav{position:sticky;top:0;z-index:10;background:rgba(8,11,20,.8);backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--line)}
+nav .in{max-width:880px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+nav a.home{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:800;font-size:15px;text-decoration:none}
+nav a.home .g{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 0 18px rgba(139,123,255,.5)}
+nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;text-decoration:none;font-weight:500}nav .links a:hover{color:var(--ink)}
+.crumb{max-width:880px;margin:0 auto;padding:24px 24px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--mut)}
+.crumb a{color:var(--brand2);text-decoration:none}.crumb a:hover{text-decoration:underline}
+.crumb .badge{background:rgba(139,123,255,.12);border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink);font-weight:600;font-size:12px}
+.doc{max-width:880px;margin:0 auto;padding:18px 24px 30px}
+.doc h1{font-size:clamp(28px,4vw,40px);line-height:1.1;letter-spacing:-.02em;margin:0 0 22px;background:linear-gradient(180deg,#fff,#aeb8d4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.doc h2{font-size:25px;margin:42px 0 14px;color:var(--ink);padding-top:14px;border-top:1px solid var(--line)}
+.doc h3{font-size:19px;margin:30px 0 10px;color:var(--ink)}
+.doc h4{font-size:15px;margin:24px 0 8px;color:var(--brand2);font-family:'JetBrains Mono';text-transform:uppercase;letter-spacing:.04em}
+.doc p,.doc li{color:var(--body)}.doc a{color:var(--brand2);text-decoration:none;border-bottom:1px solid rgba(34,211,238,.3)}.doc a:hover{border-color:var(--brand2)}
+.doc strong{color:var(--ink)}.doc code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#e7ecf6}
+.doc pre{background:#060a12;border:1px solid var(--line);border-radius:13px;padding:16px 18px;overflow-x:auto}.doc pre code{background:none;border:none;padding:0;color:var(--neon);font-size:13px;line-height:1.65}
+.doc blockquote{margin:18px 0;padding:12px 18px;border-left:3px solid var(--brand);background:rgba(139,123,255,.06);border-radius:0 10px 10px 0}
+.doc table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px;display:block;overflow-x:auto}
+.doc th,.doc td{border:1px solid var(--line);padding:10px 13px;text-align:left;vertical-align:top}
+.doc th{background:rgba(255,255,255,.04);color:var(--ink);font-family:'JetBrains Mono';font-size:12px;text-transform:uppercase}
+.doc tr:nth-child(even) td{background:rgba(255,255,255,.015)}.doc hr{border:none;border-top:1px solid var(--line);margin:34px 0}
+.prevnext{max-width:880px;margin:0 auto;padding:6px 24px 18px;display:flex;justify-content:space-between;gap:14px}
+.prevnext a{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px 16px;text-decoration:none;transition:transform .15s,border-color .15s;min-width:0}
+.prevnext a:hover{border-color:var(--brand);transform:translateY(-2px)}.prevnext a.next{text-align:right}
+.prevnext .lab{font:600 11px/1 'JetBrains Mono';color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.prevnext .ttl{color:var(--ink);font-weight:700;font-size:14px;margin-top:6px;display:block}
+.prevnext a.disabled{visibility:hidden}
+.backbar{max-width:880px;margin:0 auto;padding:0 24px 70px}
+.backbar a{display:inline-flex;align-items:center;gap:8px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:11px 18px;text-decoration:none;font-weight:600;font-size:14px}
+.backbar a:hover{border-color:var(--brand)}
+</style></head><body>
+<nav><div class="in"><a class="home" href="../index.html"><span class="g"></span> Ganesh OS</a>
+<div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">27 Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
+<div class="crumb"><span class="badge">🔒 Reference</span> <a href="../index.html">Ganesh OS</a> › <a href="../index.html#">back to this on the site</a> › <span style="color:var(--ink)">Security and PII scan</span></div>
+<article class="doc"><h1>Security and PII scan</h1>
+<p>Reviewed: 2026-06-16. Scope: every file in this repository.</p>
+<h2>Method</h2>
+<p>The repo was authored in a generalized, no-PII voice from the start (the subject is "the user" / "the operator," never a real identity), so it is born clean rather than scrubbed after the fact. It was then scanned with pattern matching across all files as a verification gate.</p>
+<p>Patterns checked:
+- Phone numbers (10-digit and dashed/parenthesized formats).
+- Email addresses (any <code>name@domain.tld</code>).
+- Personal names (partner, family, inbound contacts, colleagues, contacts referenced in the live system).
+- Medical terms and the user's health specifics.
+- Government, insurance, and benefit identifiers.
+- Home address fragments.
+- Named target companies (opportunity-scan privacy check).</p>
+<h2>Result: clean</h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Hits</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phone numbers</td>
+<td>0</td>
+<td>none needed</td>
+</tr>
+<tr>
+<td>Email addresses</td>
+<td>0</td>
+<td>none needed</td>
+</tr>
+<tr>
+<td>Personal / family / contact names</td>
+<td>0</td>
+<td>none needed</td>
+</tr>
+<tr>
+<td>Medical details and IDs</td>
+<td>0</td>
+<td>none needed</td>
+</tr>
+<tr>
+<td>Government / insurance / benefit IDs</td>
+<td>0</td>
+<td>none needed</td>
+</tr>
+<tr>
+<td>Home address</td>
+<td>0</td>
+<td>none needed</td>
+</tr>
+<tr>
+<td>Named target companies</td>
+<td>0</td>
+<td>none needed</td>
+</tr>
+</tbody>
+</table>
+<p>The only matches the company-name pass returned were false positives: the HTML <code>&lt;meta&gt;</code> tag, and "Google" appearing as the connector name "Google Calendar / Google Voice." Both are platform-tool references, not targets or personal data, and are correct to keep.</p>
+<h2>Standing guards</h2>
+<ul>
+<li><code>.gitignore</code> explicitly excludes any accidental copy of the live system: logs, message archives, the reply inbox, triage canvases, the contacts map, manifests, the change log, the health plan, goals, and the reminders mirror.</li>
+<li>The repository deliberately contains no live <code>SKILL.md</code> files from the running system, no logs, and no data exports. It is architecture and patterns only.</li>
+<li>Author name in <code>LICENSE</code> is intentional attribution for a personal portfolio, not sensitive data; remove it if you prefer to publish anonymously.</li>
+</ul>
+<h2>If you later add real artifacts</h2>
+<p>If you ever want to include real prompt files or sample outputs for depth, run them through the same scan first and replace: phone with <code>&lt;phone&gt;</code>, emails with <code>&lt;email&gt;</code>, names with role labels ("partner," "contact," "colleague"), IDs with <code>&lt;id&gt;</code>, and company targets with "a priority employer." Keep the live system out of the repo and copy only sanitized excerpts.</p>
+<h2>Re-scan after the persona/operator restructure (2026-06-16)</h2>
+<p>The site was restructured (landing + persona router + tabbed deck in <code>index.html</code>, a prominent multimodal/channel band, expanded case studies, and a new <code>docs/operator.md</code>) and re-scanned in full. Result unchanged on PII: 0 phone numbers, 0 emails, 0 personal/family/contact names, 0 medical details or IDs, 0 home address, 0 named target companies.</p>
+<p>One intentional change in posture, recorded here for transparency: the new Operator section and <code>docs/operator.md</code> now state the author's <strong>professional scope</strong> on purpose — VC partner and fractional CPO/CTO, with generalized career scale ("billions-scale consumer platforms," "consumer-hardware line past $300M ARR," "a fraud-detection company"). This is deliberate professional attribution for a portfolio, not sensitive data: <strong>no employer names, no dates, no locations, no contacts</strong>. Outward-facing availability is represented only by the public "open to panels, talks, advisory, mentoring, networking" framing; nothing about any private career intent is surfaced. If you prefer to publish anonymously, remove the Operator section, <code>docs/operator.md</code>, and the name in <code>LICENSE</code>.</p>
+<h2>Re-scan after the world-class upgrade (2026-06-16)</h2>
+<p>The repo was rebuilt (new <code>index.html</code>, <code>demo.html</code>, <code>evals/lane_fence.py</code>, reframed <code>README.md</code>, added failure-modes and tradeoffs sections, case studies, samples) and re-scanned in full. Result unchanged: 0 phone numbers, 0 emails (only the literal <code>name@domain.tld</code> placeholder in this file), 0 personal/family/contact names, 0 medical details or IDs, 0 home address, 0 named target companies. The <code>evals/lane_fence.py</code> agent names ("pipeline-triage," "morning-sweep," etc.) are generic role labels, not personal data. The only external dependency is a Google Fonts link in <code>index.html</code> for typography, which degrades gracefully to system fonts offline and transmits no personal data.</p></article>
+<div class="prevnext"><a class="prev" href="operator.html"><span class="lab">← Previous</span><span class="ttl">The operator behind the system</span></a><a class="next disabled"></a></div>
+<div class="backbar"><a href="../index.html">← Back to Ganesh OS</a></div>
+</body></html>

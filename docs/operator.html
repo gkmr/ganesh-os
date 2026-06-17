@@ -1,0 +1,109 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The operator behind the system · Ganesh OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070a14;--surface:#111829;--line:rgba(255,255,255,.09);--ink:#f4f7fc;--body:#c4cde0;--mut:#8995ad;--brand:#8b7bff;--brand2:#22d3ee;--neon:#5dff9b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 85% -10%,rgba(59,45,143,.35),transparent 60%),radial-gradient(800px 460px at 0% 20%,rgba(14,94,110,.3),transparent 60%),var(--bg);color:var(--body);font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;font-size:16.5px;line-height:1.7;-webkit-font-smoothing:antialiased}
+nav{position:sticky;top:0;z-index:10;background:rgba(8,11,20,.8);backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--line)}
+nav .in{max-width:880px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+nav a.home{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:800;font-size:15px;text-decoration:none}
+nav a.home .g{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 0 18px rgba(139,123,255,.5)}
+nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;text-decoration:none;font-weight:500}nav .links a:hover{color:var(--ink)}
+.crumb{max-width:880px;margin:0 auto;padding:24px 24px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--mut)}
+.crumb a{color:var(--brand2);text-decoration:none}.crumb a:hover{text-decoration:underline}
+.crumb .badge{background:rgba(139,123,255,.12);border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink);font-weight:600;font-size:12px}
+.doc{max-width:880px;margin:0 auto;padding:18px 24px 30px}
+.doc h1{font-size:clamp(28px,4vw,40px);line-height:1.1;letter-spacing:-.02em;margin:0 0 22px;background:linear-gradient(180deg,#fff,#aeb8d4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.doc h2{font-size:25px;margin:42px 0 14px;color:var(--ink);padding-top:14px;border-top:1px solid var(--line)}
+.doc h3{font-size:19px;margin:30px 0 10px;color:var(--ink)}
+.doc h4{font-size:15px;margin:24px 0 8px;color:var(--brand2);font-family:'JetBrains Mono';text-transform:uppercase;letter-spacing:.04em}
+.doc p,.doc li{color:var(--body)}.doc a{color:var(--brand2);text-decoration:none;border-bottom:1px solid rgba(34,211,238,.3)}.doc a:hover{border-color:var(--brand2)}
+.doc strong{color:var(--ink)}.doc code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#e7ecf6}
+.doc pre{background:#060a12;border:1px solid var(--line);border-radius:13px;padding:16px 18px;overflow-x:auto}.doc pre code{background:none;border:none;padding:0;color:var(--neon);font-size:13px;line-height:1.65}
+.doc blockquote{margin:18px 0;padding:12px 18px;border-left:3px solid var(--brand);background:rgba(139,123,255,.06);border-radius:0 10px 10px 0}
+.doc table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px;display:block;overflow-x:auto}
+.doc th,.doc td{border:1px solid var(--line);padding:10px 13px;text-align:left;vertical-align:top}
+.doc th{background:rgba(255,255,255,.04);color:var(--ink);font-family:'JetBrains Mono';font-size:12px;text-transform:uppercase}
+.doc tr:nth-child(even) td{background:rgba(255,255,255,.015)}.doc hr{border:none;border-top:1px solid var(--line);margin:34px 0}
+.prevnext{max-width:880px;margin:0 auto;padding:6px 24px 18px;display:flex;justify-content:space-between;gap:14px}
+.prevnext a{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px 16px;text-decoration:none;transition:transform .15s,border-color .15s;min-width:0}
+.prevnext a:hover{border-color:var(--brand);transform:translateY(-2px)}.prevnext a.next{text-align:right}
+.prevnext .lab{font:600 11px/1 'JetBrains Mono';color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.prevnext .ttl{color:var(--ink);font-weight:700;font-size:14px;margin-top:6px;display:block}
+.prevnext a.disabled{visibility:hidden}
+.backbar{max-width:880px;margin:0 auto;padding:0 24px 70px}
+.backbar a{display:inline-flex;align-items:center;gap:8px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:11px 18px;text-decoration:none;font-weight:600;font-size:14px}
+.backbar a:hover{border-color:var(--brand)}
+</style></head><body>
+<nav><div class="in"><a class="home" href="../index.html"><span class="g"></span> Ganesh OS</a>
+<div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">27 Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
+<div class="crumb"><span class="badge">The operator</span> <a href="../index.html">Ganesh OS</a> › <a href="../index.html#operator">back to this on the site</a> › <span style="color:var(--ink)">The operator behind the system</span></div>
+<article class="doc"><h1>The operator behind the system</h1>
+<p>Ganesh OS is not a hobby project. It is the same job its author does for companies, run at the scale of one life and shipped in public so the work is inspectable. This page makes the leadership explicit: the roles held, the functions led, and the throughline that connects a personal system to a professional track record.</p>
+<h2>Operator-investor: two roles, one discipline</h2>
+<p><strong>I invest in AI-native companies, and I build them.</strong> Those are not separate careers; they are the same judgment applied from two sides of the table. The investor knows what "real" looks like because the builder has shipped it; the builder prices risk like an investor because he has had to diligence it.</p>
+<h3>Role 1 — VC partner (invest)</h3>
+<p>Backing AI-native companies as a partner: sourcing, diligence, and hands-on portfolio support.</p>
+<ul>
+<li><strong>Sourcing</strong> — finding teams building genuinely AI-native products, not AI-flavored wrappers.</li>
+<li><strong>Technical diligence</strong> — separating a working system from a demo: where is the judgment, where is the determinism, and what happens when a model is wrong.</li>
+<li><strong>Governance diligence</strong> — the question almost no one asks yet: when these agents act autonomously, who can audit it, recover it, and stop it? This repo is the reference answer.</li>
+<li><strong>Portfolio support</strong> — product, platform, and GTM help for founders, from someone who has operated those functions at scale.</li>
+</ul>
+<p>The edge: an investor who has built the agent-governance layer himself can tell which "agentic AI" is real and which is a slide.</p>
+<h3>Role 2 — Fractional CPO / CTO (build)</h3>
+<p>Standing up and scaling the product-and-engineering function for AI-native teams. The functions led:</p>
+<ul>
+<li><strong>AI / ML product</strong> — the model-facing surface: what the system decides, how it explains itself, and where a human stays in the loop.</li>
+<li><strong>Platform engineering</strong> — the substrate underneath the product: coordination, state, memory, and the guardrails that make autonomy safe.</li>
+<li><strong>Design</strong> — the interface as the product. In this system the output <em>is</em> the surface, wireframed before any logic.</li>
+<li><strong>Go-to-market</strong> — taking the thing to revenue: positioning, the first customers, and the motion that scales.</li>
+</ul>
+<h2>Track record, in scope (no employer names)</h2>
+<p>Generalized so the repo stays clean, but concrete enough to be credible and defensible in conversation:</p>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th>What it was</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Billions-scale</strong></td>
+<td>AI product leadership at consumer platforms used by hundreds of millions of people.</td>
+</tr>
+<tr>
+<td><strong>$300M+ ARR</strong></td>
+<td>General manager of a consumer-hardware line scaled past nine figures of revenue.</td>
+</tr>
+<tr>
+<td><strong>0 → scaled</strong></td>
+<td>CPO/CTO who built and scaled a fraud-detection company end to end.</td>
+</tr>
+</tbody>
+</table>
+<h2>The throughline</h2>
+<p>Every personal-life problem in this system turned out to be a company problem in disguise, and every fix is one I have shipped in a company before:</p>
+<ul>
+<li>Coordinating many autonomous actors without clobbering shared state → <strong>platform engineering</strong>.</li>
+<li>Deciding where the model judges and where code must be exact → <strong>AI/ML product</strong>.</li>
+<li>Making the output legible and trustworthy in one glance → <strong>design</strong>.</li>
+<li>Turning a surfacing layer into something people actually act on → <strong>go-to-market thinking</strong>, applied to a user of one.</li>
+<li>Keeping all of it auditable, recoverable, and human-gated → <strong>the governance thesis</strong> I diligence as an investor.</li>
+</ul>
+<p>I didn't build a to-do app. I ran the playbook I run for companies — on myself, where every decision is inspectable.</p>
+<h2>What I'm open to</h2>
+<p>The active focus is the work above. Concretely, the engagements I take: <strong>board &amp; advisory roles</strong>, <strong>fractional CPO / CTO</strong> work, <strong>panels &amp; talks</strong>, <strong>angel investing and diligence</strong>, and selective <strong>mentoring</strong> of founders and senior product/eng leaders — all centered on agent governance, evals, and making autonomous AI safe to run unattended.</p>
+<h2>Contact</h2>
+<ul>
+<li><strong>Email:</strong> <a href="mailto:gkmr@umich.edu">gkmr@umich.edu</a></li>
+<li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/reachgkumar">linkedin.com/in/reachgkumar</a></li>
+</ul>
+<blockquote>
+<p>Built by <strong>Ganesh Kumar</strong>. The repo is the credential; the single-writer fence is the reusable core.</p>
+</blockquote></article>
+<div class="prevnext"><a class="prev" href="case-studies.html"><span class="lab">← Previous</span><span class="ttl">Case studies</span></a><a class="next" href="SECURITY-SCAN.html"><span class="lab">Next →</span><span class="ttl">Security and PII scan</span></a></div>
+<div class="backbar"><a href="../index.html">← Back to Ganesh OS</a></div>
+</body></html>

@@ -1,0 +1,108 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The craft · Ganesh OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070a14;--surface:#111829;--line:rgba(255,255,255,.09);--ink:#f4f7fc;--body:#c4cde0;--mut:#8995ad;--brand:#8b7bff;--brand2:#22d3ee;--neon:#5dff9b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 85% -10%,rgba(59,45,143,.35),transparent 60%),radial-gradient(800px 460px at 0% 20%,rgba(14,94,110,.3),transparent 60%),var(--bg);color:var(--body);font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;font-size:16.5px;line-height:1.7;-webkit-font-smoothing:antialiased}
+nav{position:sticky;top:0;z-index:10;background:rgba(8,11,20,.8);backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--line)}
+nav .in{max-width:880px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+nav a.home{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:800;font-size:15px;text-decoration:none}
+nav a.home .g{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 0 18px rgba(139,123,255,.5)}
+nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;text-decoration:none;font-weight:500}nav .links a:hover{color:var(--ink)}
+.crumb{max-width:880px;margin:0 auto;padding:24px 24px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--mut)}
+.crumb a{color:var(--brand2);text-decoration:none}.crumb a:hover{text-decoration:underline}
+.crumb .badge{background:rgba(139,123,255,.12);border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink);font-weight:600;font-size:12px}
+.doc{max-width:880px;margin:0 auto;padding:18px 24px 30px}
+.doc h1{font-size:clamp(28px,4vw,40px);line-height:1.1;letter-spacing:-.02em;margin:0 0 22px;background:linear-gradient(180deg,#fff,#aeb8d4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.doc h2{font-size:25px;margin:42px 0 14px;color:var(--ink);padding-top:14px;border-top:1px solid var(--line)}
+.doc h3{font-size:19px;margin:30px 0 10px;color:var(--ink)}
+.doc h4{font-size:15px;margin:24px 0 8px;color:var(--brand2);font-family:'JetBrains Mono';text-transform:uppercase;letter-spacing:.04em}
+.doc p,.doc li{color:var(--body)}.doc a{color:var(--brand2);text-decoration:none;border-bottom:1px solid rgba(34,211,238,.3)}.doc a:hover{border-color:var(--brand2)}
+.doc strong{color:var(--ink)}.doc code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#e7ecf6}
+.doc pre{background:#060a12;border:1px solid var(--line);border-radius:13px;padding:16px 18px;overflow-x:auto}.doc pre code{background:none;border:none;padding:0;color:var(--neon);font-size:13px;line-height:1.65}
+.doc blockquote{margin:18px 0;padding:12px 18px;border-left:3px solid var(--brand);background:rgba(139,123,255,.06);border-radius:0 10px 10px 0}
+.doc table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px;display:block;overflow-x:auto}
+.doc th,.doc td{border:1px solid var(--line);padding:10px 13px;text-align:left;vertical-align:top}
+.doc th{background:rgba(255,255,255,.04);color:var(--ink);font-family:'JetBrains Mono';font-size:12px;text-transform:uppercase}
+.doc tr:nth-child(even) td{background:rgba(255,255,255,.015)}.doc hr{border:none;border-top:1px solid var(--line);margin:34px 0}
+.prevnext{max-width:880px;margin:0 auto;padding:6px 24px 18px;display:flex;justify-content:space-between;gap:14px}
+.prevnext a{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px 16px;text-decoration:none;transition:transform .15s,border-color .15s;min-width:0}
+.prevnext a:hover{border-color:var(--brand);transform:translateY(-2px)}.prevnext a.next{text-align:right}
+.prevnext .lab{font:600 11px/1 'JetBrains Mono';color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.prevnext .ttl{color:var(--ink);font-weight:700;font-size:14px;margin-top:6px;display:block}
+.prevnext a.disabled{visibility:hidden}
+.backbar{max-width:880px;margin:0 auto;padding:0 24px 70px}
+.backbar a{display:inline-flex;align-items:center;gap:8px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:11px 18px;text-decoration:none;font-weight:600;font-size:14px}
+.backbar a:hover{border-color:var(--brand)}
+</style></head><body>
+<nav><div class="in"><a class="home" href="../index.html"><span class="g"></span> Ganesh OS</a>
+<div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">27 Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
+<div class="crumb"><span class="badge">Product &amp; craft</span> <a href="../index.html">Ganesh OS</a> › <a href="../index.html#craft">back to this on the site</a> › <span style="color:var(--ink)">The craft</span></div>
+<article class="doc"><h1>The craft</h1>
+<p>The same system can be read as a product-and-engineering discipline, not just a result. Each agent went through the loop below, and the artifacts are real and sanitized here. This is what "built with the full craft" means: a written spec, a designed surface, a prototype, tests, a review against a contract, and a system-design pass that records the tradeoff.</p>
+<h2>1. PRD (one page, per capability)</h2>
+<p>Every capability starts as a one-pager, not code. Example, the morning brief:</p>
+<ul>
+<li><strong>Job to be done.</strong> When I wake up, I want to know the single most important thing to do today, balanced across my domains, so I can start moving without scanning six tools and guessing.</li>
+<li><strong>Non-goals.</strong> Not a full agenda. Not a second inbox. Not a place I have to open; it comes to me.</li>
+<li><strong>Acceptance check.</strong> Done when: overdue is zero, the day is ranked, the top three reserve one slot per domain, and the whole thing fits in one phone-readable text.</li>
+<li><strong>Inputs / owners.</strong> Reads priority (owned by triage) and dates (owned by the sweeps); writes nothing to the store; emits one text and one calendar event.</li>
+</ul>
+<h2>2. Wireframe and prototype (the surface before the logic)</h2>
+<p>The interface is the output, so it is designed first, as a literal text mock, before any logic exists:</p>
+<pre><code>[brief] 🗓 Tuesday
+Work · ship the diligence memo before noon (gates the IC vote)
+Health · 6pm lift, held (only clean slot this week)
+People · call the founder you went quiet on
+Growth · 20m on the panel talk, kept not dropped
+0 overdue · 11 real tasks · 6 handled while you slept
+</code></pre>
+<p>The mock is the prototype. If it does not read well as a text on a phone at 7:42 a.m., the spec is wrong, not the implementation.</p>
+<h2>3. System-design note + tradeoffs (RFC style)</h2>
+<p>Each non-trivial decision is recorded with the alternative that was rejected and why. A sample:</p>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Alternatives rejected</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Coordinate through shared files, no shared state</td>
+<td>A central database; a message queue</td>
+<td>A scheduled, restartable, single-writer-per-field fleet is simpler to reason about and audit; the change log is the queue.</td>
+</tr>
+<tr>
+<td>Auto-park overdue forward by tier</td>
+<td>Keep human-gated; delete stale</td>
+<td>A human-gated loop never advanced (see case study 1); deletion is irreversible, so it stays gated.</td>
+</tr>
+<tr>
+<td>Per-day budget + spread</td>
+<td>Rank purely by urgency</td>
+<td>Urgency-only stacked one day and starved whole domains (case study 2).</td>
+</tr>
+<tr>
+<td>Fallback model chain</td>
+<td>One best model everywhere</td>
+<td>A single model is a single point of failure and multiplies cost across unattended runs; degrade instead of fail.</td>
+</tr>
+</tbody>
+</table>
+<p>The full set is in <a href="design-patterns.html"><code>docs/design-patterns.md</code></a>; failure modes are in <a href="../ARCHITECTURE.html"><code>ARCHITECTURE.md</code></a>.</p>
+<h2>4. Tests, evals, and review</h2>
+<ul>
+<li><strong>Unit tests</strong> on the deterministic parts: the manifest parser, date math, the reply-vocabulary resolver.</li>
+<li><strong>Behavioral evals</strong> on the invariants, run in CI (<a href="../evals"><code>evals/</code></a>): the lane fence (no agent writes a field it does not own), overdue-zero after a sweep, and the per-day budget. These are the tests that guard the failures that actually happened.</li>
+<li><strong>PR review, against a contract.</strong> Every agent is reviewed against <a href="../agents/format-contract.html"><code>agents/format-contract.md</code></a>: does it write only its owned field, read ids fresh from source, verify read-after-write, and emit the house format. A change that violates the contract fails the lane-fence eval before it can merge.</li>
+<li><strong>Post-mortems</strong> for real incidents, each ending in an eval so the class of bug is fenced out, not just patched (<a href="case-studies.html"><code>docs/case-studies.md</code></a>).</li>
+</ul>
+<h2>5. The loop, end to end</h2>
+<p><code>PRD → wireframe → prototype → build (one-field agent) → unit tests → behavioral evals in CI → self-review vs contract → system-design note → ship → weekly self-improvement under a frozen-eval gate.</code></p>
+<p>The point is not the ceremony. It is that an autonomous fleet you run unattended has to earn trust the same way a production service does, and the artifacts are the evidence that it did.</p></article>
+<div class="prevnext"><a class="prev" href="story.html"><span class="lab">← Previous</span><span class="ttl">The story, the jobs, and the proof</span></a><a class="next" href="governance.html"><span class="lab">Next →</span><span class="ttl">The governance model</span></a></div>
+<div class="backbar"><a href="../index.html">← Back to Ganesh OS</a></div>
+</body></html>

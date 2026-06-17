@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ganesh OS — one day, in motion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070a14; --panel:#111829; --line:rgba(255,255,255,.09); --ink:#f4f7fc; --mut:#8995ad;
+    --work:#fbbf24; --health:#2dd4bf; --people:#fb923c; --growth:#a78bfa;
+    --brand:#8b7bff; --brand2:#22d3ee; --pass:#34d399; --fail:#f87171; --neon:#5dff9b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:
+      radial-gradient(900px 500px at 80% -10%,rgba(59,45,143,.4),transparent 60%),
+      radial-gradient(800px 460px at 5% 30%,rgba(14,94,110,.35),transparent 60%),
+      var(--bg);color:var(--ink);
+    font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;font-size:15px;line-height:1.5;min-height:100vh}
+  .wrap{max-width:1100px;margin:0 auto;padding:26px 22px 64px}
+  .top{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:4px}
+  h1{font-size:23px;margin:0;font-weight:800;letter-spacing:-.02em}
+  .sub{color:var(--mut);margin:2px 0 18px;font-size:13.5px;max-width:70ch}
+  .clock{font-variant-numeric:tabular-nums;font-weight:700;color:#fff;background:var(--panel);border:1px solid var(--line);
+    border-radius:10px;padding:7px 13px;font-size:15px;font-family:'JetBrains Mono'}
+  a.home{color:var(--brand);font-size:13px;text-decoration:none}
+
+  /* domain lanes */
+  .lanes{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:16px}
+  .lane{display:grid;grid-template-columns:130px 1fr 70px;align-items:center;gap:12px;margin:9px 0}
+  .lane .nm{font-size:12px;font-weight:600;text-align:right;color:#c7d0e0}
+  .lane .nm small{display:block;color:#6f7c95;font-weight:400;font-size:10.5px}
+  .track{position:relative;height:11px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden}
+  .track .fill{position:absolute;top:0;left:0;height:100%;border-radius:999px;transition:width .8s cubic-bezier(.4,0,.2,1),opacity .6s}
+  .lane .ct{font:500 11px/1 'JetBrains Mono';color:#8895ad}
+  .lane.quiet{opacity:.42;transition:opacity .8s}
+
+  .stage{display:grid;grid-template-columns:1.5fr 1fr;gap:18px}
+  @media(max-width:840px){.stage{grid-template-columns:1fr}}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}
+  .panel h2{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin:0 0 14px}
+
+  .pipe{display:flex;flex-direction:column;gap:8px}
+  .node{display:grid;grid-template-columns:62px 13px 1fr;align-items:center;gap:10px;opacity:.4;
+    transition:opacity .35s,transform .35s;padding:7px 9px;border-radius:11px;border:1px solid transparent}
+  .node .t{font:500 12px/1 'JetBrains Mono';color:var(--mut);text-align:right}
+  .node .dot{width:11px;height:11px;border-radius:50%;background:#33405a;transition:all .35s;justify-self:center}
+  .node .lab{font-size:13.5px}.node .lab small{display:block;color:var(--mut);font-size:11.5px}
+  .node.active{opacity:1;transform:translateX(4px);background:rgba(255,255,255,.04);border-color:var(--line)}
+  .node.done{opacity:.85}
+  .node.active .dot{transform:scale(1.5);box-shadow:0 0 0 5px rgba(255,255,255,.06)}
+
+  .phone{margin:0 auto;width:248px;background:#06080f;border:8px solid #1c2740;border-radius:30px;padding:14px 12px 18px;
+    box-shadow:0 20px 60px rgba(0,0,0,.5);min-height:430px}
+  .notch{width:80px;height:6px;background:#1c2740;border-radius:6px;margin:0 auto 12px}
+  .msg{background:#14223c;border:1px solid var(--line);border-radius:14px;padding:9px 11px;margin:8px 0;font-size:12.5px;
+    opacity:0;transform:translateY(8px);animation:pop .45s forwards;line-height:1.45}
+  .msg b{display:block;font-size:11px;margin-bottom:3px}
+  .msg.you{background:var(--brand);color:#fff;border-color:transparent;margin-left:38px}
+  @keyframes pop{to{opacity:1;transform:none}}
+
+  /* the decision cut */
+  .cut{margin-top:14px;background:#0e1730;border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-height:88px}
+  .cut .row{display:flex;align-items:center;gap:9px;font-size:12.5px;margin:6px 0;opacity:.5;transition:all .4s}
+  .cut .row.on{opacity:1}
+  .cut .row .d{width:9px;height:9px;border-radius:3px;flex:none}
+  .cut .row.keep{color:#bff0d2}.cut .row.kill{color:#fecaca;text-decoration:line-through;opacity:.6}
+  .cut .row .v{margin-left:auto;font:600 11px/1 'JetBrains Mono'}
+  .cut .row.keep .v{color:var(--pass)}.cut .row.kill .v{color:var(--fail)}
+
+  .caption{min-height:22px;color:#cbd5e1;font-size:13.5px;margin-top:14px;max-width:80ch}
+  .legend{display:flex;flex-wrap:wrap;gap:12px;margin:14px 2px 0}
+  .legend span{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mut)}
+  .legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+  .controls{display:flex;gap:10px;align-items:center;margin:18px 2px 0}
+  button{background:#1c2740;color:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 16px;font-size:13px;cursor:pointer;font-weight:600}
+  button:hover{background:#243353}
+  .note{color:var(--mut);font-size:12px;margin-left:auto}
+
+  /* cross-link nav — sticky, always on top */
+  .xnav{position:sticky;top:0;z-index:50;display:flex;gap:7px;flex-wrap:wrap;margin:0 0 20px;padding:12px 0;background:rgba(7,10,20,.82);backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid var(--line)}
+  .xnav a{font:600 12.5px/1 Inter;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:9px 14px;text-decoration:none;transition:background .15s,transform .15s,box-shadow .15s}
+  .xnav a:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(0,0,0,.4)}
+  .xnav a.lead{background:linear-gradient(135deg,var(--brand),#6d5cf0);border-color:transparent;box-shadow:0 6px 18px rgba(139,123,255,.35)}
+
+  /* case studies strip */
+  .cs{margin-top:30px}
+  .cs h2{font-size:18px;margin:0 0 4px;font-weight:800;letter-spacing:-.02em}
+  .cs .csub{color:var(--mut);font-size:13px;margin:0 0 14px}
+  .csgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:840px){.csgrid{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.csgrid{grid-template-columns:1fr}}
+  .cscard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px;display:flex;flex-direction:column;gap:7px}
+  .cscard .cn{font:700 11px/1 'JetBrains Mono';color:var(--brand)}
+  .cscard b{font-size:13.5px;color:#fff;line-height:1.3}
+  .cscard p{margin:0;font-size:12px;color:var(--mut);flex:1}
+  .cscard .fix{font-size:11.5px;color:#bff0d2;font-family:'JetBrains Mono'}
+  .cscard a{font-size:11.5px;color:var(--brand2);font-weight:600;text-decoration:none}
+  .cscard a:hover{text-decoration:underline}
+
+  /* neon code */
+  .democode{background:#060a12;border:1px solid var(--line);border-radius:13px;margin:22px 0 0;overflow:hidden;font-family:'JetBrains Mono',monospace;box-shadow:0 14px 40px rgba(0,0,0,.4)}
+  .democode .bar{display:flex;align-items:center;gap:7px;padding:9px 13px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--line);font-size:11.5px;color:var(--mut)}
+  .democode .bar .d{width:11px;height:11px;border-radius:50%}
+  .democode pre{margin:0;padding:14px 16px;font-size:12.5px;line-height:1.75;color:#d7e0ee;overflow-x:auto}
+  .democode .g{color:var(--neon)} .democode .c{color:#5b6b86} .democode .r{color:var(--fail)}
+  a.cscard{text-decoration:none;color:inherit}
+  a.cscard:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.45);border-color:var(--brand)}
+  a.cscard .arrow{margin-top:auto;color:var(--brand2);font:700 11.5px/1 'JetBrains Mono'}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>One day, in motion</h1>
+      <p class="sub">The night runs the company. Triage sets priority, the sweep clears the backlog, the brief ranks the day, you reply by text — and at 11:58 it scores two live options and <b style="color:#fff">kills one out loud</b>. Prioritization demonstrated, not asserted. <a class="home" href="index.html">← back to overview</a></p>
+    </div>
+    <div class="clock" id="clock">2:14 AM</div>
+  </div>
+
+  <div class="xnav">
+    <a class="lead" href="index.html#product">▶ Product</a>
+    <a href="index.html#system">System &amp; decisions</a>
+    <a href="index.html#governance">Governance</a>
+    <a href="index.html#memory">Memory</a>
+    <a href="index.html#cases">Case studies</a>
+    <a href="index.html#operator">Operator</a>
+  </div>
+
+  <div class="lanes" id="lanes">
+    <div class="lane work"><div class="nm">Work / company<small>build, GTM, capital</small></div><div class="track"><div class="fill" style="width:92%;background:var(--work)"></div></div><div class="ct" id="cw">48 today</div></div>
+    <div class="lane quiet" id="lh"><div class="nm">Health<small>lift, racket, PT</small></div><div class="track"><div class="fill" style="width:14%;background:var(--health)"></div></div><div class="ct">11d PT</div></div>
+    <div class="lane quiet" id="lp"><div class="nm">People<small>date night, family</small></div><div class="track"><div class="fill" style="width:18%;background:var(--people)"></div></div><div class="ct">3 owed</div></div>
+    <div class="lane quiet" id="lg"><div class="nm">Growth<small>panels, mentoring</small></div><div class="track"><div class="fill" style="width:8%;background:var(--growth)"></div></div><div class="ct">on hold</div></div>
+  </div>
+
+  <div class="stage">
+    <div class="panel">
+      <h2>The overnight pipeline</h2>
+      <div class="pipe" id="pipe"></div>
+      <div class="cut" id="cut">
+        <div style="font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">11:58a · two things want the 6pm slot</div>
+        <div class="row" id="r1"><span class="d" style="background:var(--work)"></span>Partner intro — could close a deal<span class="v">KEEP</span></div>
+        <div class="row" id="r2"><span class="d" style="background:var(--health)"></span>6pm lift — only clean slot this week<span class="v">KEEP</span></div>
+        <div class="row" id="r3"><span class="d" style="background:#64748b"></span>Skim the long newsletter<span class="v">CUT</span></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Your phone</h2>
+      <div class="phone"><div class="notch"></div><div id="msgs"></div></div>
+    </div>
+  </div>
+
+  <div class="caption" id="caption"></div>
+
+  <div class="democode">
+    <div class="bar"><span class="d" style="background:#ff5f56"></span><span class="d" style="background:#ffbd2e"></span><span class="d" style="background:#27c93f"></span>&nbsp;change-log · today · verified in CI</div>
+    <pre><span class="c"># every write, one owner, source-tagged — the audit spine</span>
+<span class="g">05:48</span>  pipeline-triage  → priority(J04)      OK
+<span class="g">06:04</span>  morning-sweep    → due_date(M51)      OK
+<span class="g">06:04</span>  morning-sweep    → auto-park ×63       OK   <span class="c"># overdue → 0</span>
+<span class="g">13:40</span>  reply-processor  → lifecycle(J02)     OK   <span class="c"># read-after-write ✓</span>
+<span class="c">$ pytest evals/  →</span>  <span class="g">5 passed</span>   <span class="c"># lane-fence clean · 0 cross-lane writes</span></pre>
+  </div>
+
+  <div class="legend">
+    <span><i style="background:var(--work)"></i>work</span>
+    <span><i style="background:var(--health)"></i>health</span>
+    <span><i style="background:var(--people)"></i>people</span>
+    <span><i style="background:var(--growth)"></i>growth</span>
+    <span><i style="background:var(--brand)"></i>you</span>
+  </div>
+
+  <div class="cs">
+    <h2>When it broke — four real incidents</h2>
+    <p class="csub">The day above is the happy path. The trust comes from the unhappy ones: each failure traced to a root cause and fenced out with an eval. <a href="index.html#cases" style="color:var(--brand2)">full case studies →</a></p>
+    <div class="csgrid">
+      <div class="cscard"><div class="cn">CASE 01</div><b>The overdue collapse</b><p>A confirmation-gated loop never advanced; 99 piled up.</p><div class="fix">fix · auto-park the reversible</div><a href="index.html#cases">read →</a></div>
+      <div class="cscard"><div class="cn">CASE 02</div><b>The single-day pileup</b><p>A bulk re-tier stacked 48 on one day; "today" lost trust.</p><div class="fix">fix · per-day budget + spread</div><a href="index.html#cases">read →</a></div>
+      <div class="cscard"><div class="cn">CASE 03</div><b>Stream → action surface</b><p>Digests dead-ended; awareness without throughput.</p><div class="fix">fix · manifest + reply-by-text</div><a href="index.html#cases">read →</a></div>
+      <div class="cscard"><div class="cn">CASE 04</div><b>The stale id</b><p>An id read from memory pointed at nothing; silent writes.</p><div class="fix">fix · fresh-read + CI fence</div><a href="index.html#cases">read →</a></div>
+    </div>
+  </div>
+
+  <div class="cs nextwrap">
+    <h2>That was one day. Keep exploring — by discipline</h2>
+    <p class="csub">The demo is one face of the system. Follow the thread that interests you:</p>
+    <div class="csgrid">
+      <a class="cscard" href="index.html#product"><div class="cn">AI-NATIVE PRODUCT</div><b>Designed with the models</b><p>The 7:42 brief, multimodal reach, and the judgment-vs-determinism line.</p><span class="arrow">The product →</span></a>
+      <a class="cscard" href="index.html#prioritize"><div class="cn">STRATEGY &amp; PRIORITIZATION</div><b>Ranking under constraint</b><p>An energy-aware planner that matches the right work to the right hour.</p><span class="arrow">Watch it prioritize →</span></a>
+      <a class="cscard" href="index.html#system"><div class="cn">SYSTEMS &amp; GOVERNANCE</div><b>Safe to run unattended</b><p>The harness, all 27 agents, the architecture, the ADRs and tradeoffs.</p><span class="arrow">The architecture →</span></a>
+      <a class="cscard" href="index.html"><div class="cn">THE WHOLE STORY</div><b>From the top</b><p>The pain, the life it runs, and the craft behind all of it.</p><span class="arrow">↑ Full site →</span></a>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="play">Pause</button>
+    <button id="restart">Restart</button>
+    <span class="note">Loops automatically. Self-contained, no dependencies.</span>
+  </div>
+</div>
+
+<script>
+const C={work:'var(--work)',health:'var(--health)',people:'var(--people)',growth:'var(--growth)',brand:'var(--brand)',mut:'#64748b'};
+const steps=[
+  {t:'2:14a',c:C.mut,lab:'The pile',sub:'where the day starts',cap:'48 items stacked on today, 99 overdue, three of four domains gone dark. This is the state the night inherits.'},
+  {t:'5:48a',c:C.brand,lab:'Triage',sub:'sets priority only',cap:'Two agents tier every open item now / this-week / later / prune across a dozen lists, including the easy-to-miss default and inbox lists. They set priority and nothing else.'},
+  {t:'6:06a',c:C.health,lab:'Morning sweep',sub:'dates + auto-park',cap:'Reconciles six calendars, dedupes, auto-parks the overdue pile forward by tier, and budgets the day. Recurring rituals drop out of the count: 48 raw becomes 12 real tasks, 0 overdue.',lanes:true},
+  {t:'7:42a',c:C.brand,lab:'Morning brief',sub:'ranks across domains',cap:'Builds the most-important task plus a top three with one slot reserved per domain, and texts it before you open an app.',
+    sms:{h:'[brief] 🗓 Tuesday',b:'Work · ship the memo by noon (gates the vote)\nHealth · 6pm lift, held\nPeople · call the founder\nGrowth · 20m on the panel talk\n0 overdue · 12 real'}},
+  {t:'11:58a',c:C.work,lab:'The cut',sub:'prioritization, live',cap:'Two things want the 6pm slot: a deal-closing intro and the only lift of the week. Pure urgency drops the lift. The cross-domain rule says health has had zero slots, so it keeps both and cuts a low-value newsletter instead, and says why.',cut:true},
+  {t:'1:10p',c:C.brand,lab:'You reply',sub:'one text',cap:'You reply from your phone. No app switching, no desktop.',
+    sms:{h:'you →',b:'done memo, push the newsletter to the weekend',you:true}},
+  {t:'1:40p',c:C.brand,lab:'Reply processor',sub:'applies + verifies',cap:'Resolves your reply against the manifest, applies each change with read-after-write by id, stamps it so it never re-fires, and mirrors back.'},
+  {t:'6:00p',c:C.people,lab:'Protected slots hold',sub:'the quiet domains',cap:'The 6pm lift has one owning agent, so no sweep can bump it. Date night stays a protected block. The mentoring slot survived the day intact.'},
+  {t:'9:35p',c:C.growth,lab:'End of day',sub:'scores the day',cap:'Diffs the morning plan against what actually happened and grades it with one honest line of coaching.',
+    sms:{h:'[eod] 🌙 Strong day',b:'MIT met, 4/4 domains touched, 9/11 done.\nWin: held the lift on a deal day.\nTomorrow: book the physio first.'}},
+];
+const pipe=document.getElementById('pipe');
+steps.forEach((s,i)=>{const d=document.createElement('div');d.className='node';d.id='n'+i;
+  d.innerHTML=`<div class="t">${s.t}</div><div class="dot"></div><div class="lab">${s.lab}<small>${s.sub}</small></div>`;pipe.appendChild(d);});
+const clock=document.getElementById('clock'),cap=document.getElementById('caption'),msgs=document.getElementById('msgs');
+const lanes=document.getElementById('lanes');
+let i=0,playing=true,timer=null;
+function equalize(){['lh','lp','lg'].forEach(id=>document.getElementById(id).classList.remove('quiet'));
+  document.querySelector('.lane.work .fill').style.width='40%';document.getElementById('cw').textContent='12 real';
+  document.querySelector('#lh .fill').style.width='62%';document.querySelector('#lp .fill').style.width='58%';document.querySelector('#lg .fill').style.width='55%';}
+function resetLanes(){['lh','lp','lg'].forEach(id=>document.getElementById(id).classList.add('quiet'));
+  document.querySelector('.lane.work .fill').style.width='92%';document.getElementById('cw').textContent='48 today';
+  document.querySelector('#lh .fill').style.width='14%';document.querySelector('#lp .fill').style.width='18%';document.querySelector('#lg .fill').style.width='8%';}
+function showCut(){['r1','r2','r3'].forEach((id,k)=>setTimeout(()=>{const r=document.getElementById(id);r.classList.add('on',k<2?'keep':'kill');},260*k));}
+function resetCut(){['r1','r2','r3'].forEach(id=>{const r=document.getElementById(id);r.classList.remove('on','keep','kill');});}
+function render(){
+  const s=steps[i];
+  steps.forEach((_,k)=>{const n=document.getElementById('n'+k);n.classList.remove('active');if(k<i)n.classList.add('done');});
+  const node=document.getElementById('n'+i);node.classList.add('active');
+  node.querySelector('.dot').style.background=s.c;node.querySelector('.lab').style.color='#fff';
+  clock.textContent=s.t.replace('a',' AM').replace('p',' PM');cap.textContent=s.cap;
+  if(s.lanes)equalize();
+  if(s.cut)showCut();
+  if(s.sms){const m=document.createElement('div');m.className='msg'+(s.sms.you?' you':'');m.innerHTML=`<b>${s.sms.h}</b>${s.sms.b.replace(/\n/g,'<br>')}`;msgs.appendChild(m);msgs.scrollTop=msgs.scrollHeight;}
+}
+function advance(){render();i++;
+  if(i>=steps.length){i=0;timer=setTimeout(()=>{msgs.innerHTML='';resetLanes();resetCut();steps.forEach((_,k)=>document.getElementById('n'+k).classList.remove('done'));if(playing)advance();},2800);return;}
+  if(playing)timer=setTimeout(advance,2100);}
+document.getElementById('play').onclick=function(){playing=!playing;this.textContent=playing?'Pause':'Play';if(playing)advance();else clearTimeout(timer);};
+document.getElementById('restart').onclick=function(){clearTimeout(timer);i=0;msgs.innerHTML='';resetLanes();resetCut();steps.forEach((_,k)=>document.getElementById('n'+k).classList.remove('done'));playing=true;document.getElementById('play').textContent='Pause';advance();};
+advance();
+</script>
+</body>
+</html>
