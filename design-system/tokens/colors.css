@@ -21,6 +21,7 @@
   --body:       #c4cde0;  /* body copy */
   --muted:      #8995ad;  /* secondary / captions */
   --faint:      #5e6b85;  /* tertiary / sub-labels */
+  --ink-dim:    #e6ebf3;  /* dimmed heading white */
 
   /* ---- Brand ---- */
   --brand:      #8b7bff;  /* violet — primary brand */
@@ -51,6 +52,7 @@
   --pass:       #34d399;  /* eval pass / keep */
   --fail:       #f87171;  /* eval fail / cut / blocked */
   --neon:       #5dff9b;  /* terminal "green" highlight */
+  --stroke:     #2a3550;  /* opaque diagram strokes / solid hairlines */
 
   /* ---- Decorative background orbs (blurred radial fields) ---- */
   --orb-violet: #3b2d8f;

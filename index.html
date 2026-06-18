@@ -16,7 +16,7 @@
     --brand:#8b7bff; --brand2:#22d3ee; --brandsoft:rgba(139,123,255,.14);
     --work:#fbbf24; --health:#2dd4bf; --people:#fb923c; --growth:#a78bfa;
     --pri:#8b7bff; --date:#34d399; --sync:#22d3ee; --new:#a78bfa;
-    --pass:#34d399; --fail:#f87171; --neon:#5dff9b;
+    --pass:#34d399; --fail:#f87171; --neon:#5dff9b; --stroke:#2a3550; --ink-dim:#e6ebf3;
     --max:1140px; --r:18px;
     --sh:0 1px 2px rgba(0,0,0,.4),0 14px 40px rgba(0,0,0,.42);
     --sh2:0 2px 10px rgba(0,0,0,.5),0 30px 70px rgba(0,0,0,.55);
@@ -117,7 +117,7 @@
   .code .cbar .d{width:11px;height:11px;border-radius:50%}
   .code .cbar .t{margin-left:8px;font-size:11.5px;color:var(--mut)}
   .code pre{margin:0;padding:15px 16px;font-size:12.7px;line-height:1.65;color:#d7e0ee;overflow-x:auto}
-  .code .g{color:var(--neon)} .code .c{color:#5b6b86} .code .k{color:#c4a6ff} .code .s{color:#7fd1ff} .code .r{color:var(--fail)} .code .y{color:var(--work)}
+  .code .g{color:var(--neon)} .code .c{color:var(--faint)} .code .k{color:#c4a6ff} .code .s{color:#7fd1ff} .code .r{color:var(--fail)} .code .y{color:var(--work)}
 
   /* persona router */
   .personas{display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:14px;margin-top:30px}
@@ -196,13 +196,13 @@
   .backtop:hover{color:var(--brand2)}
 
   /* resolution / phone */
-  .resolve{background:linear-gradient(180deg,#0c1326,#0a0f1f);border:1px solid var(--line);color:#e6ebf3;border-radius:22px;padding:34px;margin-top:6px;position:relative;overflow:hidden}
+  .resolve{background:linear-gradient(180deg,var(--surface2),#0a0f1f);border:1px solid var(--line);color:var(--ink-dim);border-radius:22px;padding:34px;margin-top:6px;position:relative;overflow:hidden}
   .resolve .eyebrow{color:var(--brand)}
   .resolve h3{color:#fff;font-size:22px;margin:0 0 8px}
   .phonewrap{display:grid;grid-template-columns:300px 1fr;gap:34px;align-items:center;margin-top:22px}
   @media(max-width:760px){.phonewrap{grid-template-columns:1fr}}
-  .phone{margin:0 auto;width:284px;background:#05070d;border:9px solid #1a2236;border-radius:38px;padding:16px 14px 22px;box-shadow:0 30px 80px rgba(0,0,0,.6);min-height:430px}
-  .notch{width:90px;height:6px;background:#1a2236;border-radius:6px;margin:0 auto 14px}
+  .phone{margin:0 auto;width:284px;background:#05070d;border:9px solid var(--raise);border-radius:38px;padding:16px 14px 22px;box-shadow:0 30px 80px rgba(0,0,0,.6);min-height:430px}
+  .notch{width:90px;height:6px;background:var(--raise);border-radius:6px;margin:0 auto 14px}
   .ph-h{color:var(--faint);font-size:11px;text-align:center;margin-bottom:10px;font-family:'JetBrains Mono'}
   .bubble{background:#121d33;border:1px solid #20304c;border-radius:16px;padding:12px 13px;font-size:13px;line-height:1.5}
   .bubble .tag{font-family:'JetBrains Mono';font-size:11px;color:var(--mut);margin-bottom:6px}
@@ -274,9 +274,9 @@
   .wrow.blocked .verdict{color:var(--fail)}
   .shake{animation:shake .4s}
   @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
-  .term{font-family:'JetBrains Mono';font-size:12.5px;line-height:1.7;color:#cdd5e3;min-height:172px;border-left:3px solid #2a3550;padding-left:14px;transition:border-color .3s}
+  .term{font-family:'JetBrains Mono';font-size:12.5px;line-height:1.7;color:#cdd5e3;min-height:172px;border-left:3px solid var(--stroke);padding-left:14px;transition:border-color .3s}
   .term.failb{border-color:var(--fail)}
-  .term .g{color:var(--neon)} .term .r{color:var(--fail)} .term .c{color:#5b6b86} .term .k{color:var(--brand)}
+  .term .g{color:var(--neon)} .term .r{color:var(--fail)} .term .c{color:var(--faint)} .term .k{color:var(--brand)}
 
   .fences{background:var(--surface2);border:1px solid var(--line);border-radius:22px;padding:28px 30px;color:var(--body);box-shadow:var(--sh2);margin-top:26px}
   .fence-row{display:grid;grid-template-columns:1fr 210px;gap:14px;align-items:center;padding:13px 0;border-top:1px solid var(--line)}
@@ -285,7 +285,7 @@
   .chip{width:11px;height:11px;border-radius:4px;flex:none}
   .fence-field b{color:#fff;font-weight:600;font-size:15px}
   .fence-field span{display:block;color:var(--mut);font-size:12.5px}
-  .owner{font-size:13px;font-weight:600;color:#e6ebf3;text-align:right}
+  .owner{font-size:13px;font-weight:600;color:var(--ink-dim);text-align:right}
   .owner small{display:block;color:var(--faint);font-weight:400;font-size:11.5px}
 
   /* harness */
@@ -393,7 +393,7 @@
   .rcard.open .toggle{color:var(--brand2)}
 
   /* energy prioritizer */
-  .energy{background:linear-gradient(180deg,#0c1326,#0a0f1f)}
+  .energy{background:linear-gradient(180deg,var(--surface2),#0a0f1f)}
   .ecard{background:var(--surface2);border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:var(--sh2);margin-top:30px}
   .einputs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
   @media(max-width:760px){.einputs{grid-template-columns:1fr 1fr}}
@@ -447,7 +447,7 @@
 
   /* outcomes / prize / opento */
   .method{font-size:13px;color:var(--mut);margin-top:18px;font-style:italic}
-  .prize{background:linear-gradient(135deg,#120e2e,#0a1830);border:1px solid var(--line2);color:#e6ebf3;border-radius:24px;padding:46px;box-shadow:var(--sh2)}
+  .prize{background:linear-gradient(135deg,#120e2e,#0a1830);border:1px solid var(--line2);color:var(--ink-dim);border-radius:24px;padding:46px;box-shadow:var(--sh2)}
   .prize .eyebrow{color:var(--brand)}
   .prize h2{color:#fff}
   .prize p{color:var(--body);font-size:18px;max-width:64ch}
@@ -931,7 +931,7 @@ OWNER = {
       <div class="steplabel">Step 4 · Architecture</div>
       <div class="archwrap">
         <svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
-          <defs><marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5b6b86"/></marker></defs>
+          <defs><marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5e6b85"/></marker></defs>
           <g font-size="12" text-anchor="middle">
             <g><rect x="16" y="54" width="96" height="58" rx="10" fill="#111829" stroke="#2a3550"/><text x="64" y="80" fill="#fff" font-weight="700">Connectors</text><text x="64" y="98" fill="#8995ad" font-size="9">Cal·Slack·Gmail·WA</text></g>
             <g><rect x="128" y="54" width="96" height="58" rx="10" fill="#111829" stroke="#2a3550"/><text x="176" y="80" fill="#fff" font-weight="700">Capture</text><text x="176" y="98" fill="#8995ad" font-size="9">digest + archive</text></g>
@@ -940,7 +940,7 @@ OWNER = {
             <g><rect x="464" y="54" width="96" height="58" rx="10" fill="#111829" stroke="#2a3550"/><text x="512" y="80" fill="#fff" font-weight="700">Brief</text><text x="512" y="98" fill="#8995ad" font-size="9">ranks the day</text></g>
             <g><rect x="576" y="54" width="104" height="58" rx="10" fill="#15203a" stroke="#3a4668"/><text x="628" y="80" fill="#fff" font-weight="700">Channels</text><text x="628" y="98" fill="#8995ad" font-size="9">iMsg·WA·mail·voice</text></g>
           </g>
-          <g stroke="#5b6b86" stroke-width="2" marker-end="url(#ah)">
+          <g stroke="#5e6b85" stroke-width="2" marker-end="url(#ah)">
             <line x1="112" y1="83" x2="126" y2="83"/><line x1="224" y1="83" x2="238" y2="83"/><line x1="336" y1="83" x2="350" y2="83"/><line x1="448" y1="83" x2="462" y2="83"/><line x1="560" y1="83" x2="574" y2="83"/>
           </g>
           <circle r="4" fill="#5dff9b"><animateMotion dur="4s" repeatCount="indefinite" path="M64,83 L628,83"/></circle>
