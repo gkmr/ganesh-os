@@ -54,7 +54,7 @@
   .brand{display:flex;align-items:center;gap:11px;font-weight:800;color:var(--ink);font-size:16px;white-space:nowrap}
   .brand .glyph{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 0 22px rgba(139,123,255,.6)}
   .brand{cursor:pointer;text-decoration:none}
-  .navtabs{display:flex;gap:3px;align-items:center;overflow-x:auto;scrollbar-width:none;flex:1;justify-content:center;margin:0 8px}
+  .navtabs{display:flex;gap:3px;align-items:center;overflow-x:auto;scrollbar-width:none;flex:1;justify-content:flex-start;margin:0 8px}
   .navtabs::-webkit-scrollbar{display:none}
   .navtabs a{color:var(--mut);font-size:13.5px;font-weight:600;cursor:pointer;white-space:nowrap;padding:8px 12px;border-radius:999px;transition:color .15s,background .15s}
   .navtabs a:hover{color:var(--ink);background:rgba(255,255,255,.05)}
@@ -188,6 +188,7 @@
   .buildgate .bg-k{font-family:ui-monospace,'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.22em;color:var(--brand2);text-transform:uppercase}
   .buildgate .bg-h{font-size:clamp(20px,2.6vw,26px);line-height:1.2;margin:10px 0 6px;color:var(--ink);letter-spacing:-.01em}
   .buildgate .bg-p{font-size:15px;color:var(--mut);max-width:62ch;margin:0 auto}
+  @media(max-width:560px){.actband{margin:42px auto 0}.actband::before,.actband::after{width:26px}.buildgate{margin:48px auto 8px;padding:24px 18px}.buildgate .bg-h{font-size:20px}.buildgate .bg-p{font-size:14px}}
   section[id],div[id]{scroll-margin-top:80px}
   .backtop{display:inline-flex;align-items:center;gap:6px;margin-top:30px;font-size:13px;color:var(--mut);cursor:pointer}
   .backtop:hover{color:var(--brand2)}
