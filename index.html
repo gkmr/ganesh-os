@@ -180,6 +180,10 @@
   @keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
   .panelhead{padding-top:6px}
   .panel-sec{padding:74px 0}
+  .actband{max-width:1100px;margin:58px auto 0;padding:0 24px;display:flex;align-items:center;justify-content:center;gap:14px}
+  .actband::before,.actband::after{content:"";height:1px;width:90px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+  .actband .an{font-family:ui-monospace,'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;letter-spacing:.24em;color:var(--brand2);text-transform:uppercase}
+  .actband .at{font-size:13.5px;font-weight:800;letter-spacing:.14em;color:var(--ink);text-transform:uppercase}
   section[id],div[id]{scroll-margin-top:80px}
   .backtop{display:inline-flex;align-items:center;gap:6px;margin-top:30px;font-size:13px;color:var(--mut);cursor:pointer}
   .backtop:hover{color:var(--brand2)}
@@ -482,6 +486,8 @@
       <a href="#agents" data-scroll="agents">27 Agents</a>
       <a href="#memory" data-scroll="memory">Memory</a>
       <a href="#cases" data-scroll="cases">Cases</a>
+      <a href="#outcomes" data-scroll="outcomes">Outcomes</a>
+      <a href="#prize" data-scroll="prize">Prize</a>
       <a href="#operator" data-scroll="operator">Operator</a>
     </div>
     <a class="btn" href="demo.html">▶ Watch</a>
@@ -523,18 +529,21 @@
 <section id="tldr">
   <div class="wrap">
     <div style="max-width:780px;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:16px;padding:22px 26px">
-      <p class="eyebrow" style="margin-top:0">TL;DR</p>
-      <p style="font-size:clamp(16.5px,2.1vw,20px);line-height:1.55;color:var(--ink);margin:6px 0 0">You're not disorganized — you're just listening to the loudest thing in the room. I built something quieter: it reads everything, forgets nothing, and every morning it tells me the one thing worth doing. The noise is still there. I just don't answer to it anymore.</p>
+      <p class="eyebrow" style="margin-top:0">TL;DR &middot; what it actually is</p>
+      <p style="font-size:clamp(16.5px,2.1vw,20px);line-height:1.55;color:var(--ink);margin:6px 0 0">The mechanical version: a personal operating system of 27 scheduled AI agents. They read every channel, rank the one thing that matters each morning across work, health, people, and growth, act on what's reversible, and gate the rest behind a human yes. What makes 27 agents safe to run unattended is a single rule, enforced as a test in CI: every field has exactly one owning agent, so nothing can quietly overwrite anything else. It runs on my own life, in public, so the product, systems, and governance judgment are inspectable, not asserted.</p>
     </div>
   </div>
 </section>
+
+<!-- ACT I -->
+<div class="actband"><span class="an">Act I</span><span class="at">The Wound</span></div>
 
 <!-- THE WHOLE LIFE -->
 <section id="life">
   <div class="wrap reveal">
     <p class="eyebrow">The whole life · not a work hack</p>
     <h2>It doesn't run my tasks. It runs my life — all of it.</h2>
-    <p class="sub">Most "productivity" systems optimize the one domain that was already winning. This one protects the seven that weren't. Each lane has its own owning agents, its own protected slots, and its own honest scorecard.</p>
+    <p class="sub">Four domains, eight lanes. Most "productivity" systems optimize the one lane that was already winning; this one protects the seven that weren't. Each lane has its own owning agents, its own protected slots, and its own honest scorecard.</p>
     <div class="lifegrid">
       <div class="lifecard" style="--c:var(--work)"><div class="lt">Work</div><h3>The company</h3><p>Build, GTM, capital, the pipeline. The loud lane — fenced so it can't eat the others.</p><div class="own">owns: pipeline priority</div></div>
       <div class="lifecard" style="--c:var(--health)"><div class="lt">Lifting</div><h3>Strength</h3><p>The 6 p.m. lift is a protected block with one owning agent. No sweep can bump it.</p><div class="own">held: streak-aware</div></div>
@@ -548,7 +557,10 @@
   </div>
 </section>
 
-<!-- STORY -->
+<!-- ACT II -->
+  <div class="actband"><span class="an">Act II</span><span class="at">The Reframe</span></div>
+
+  <!-- STORY -->
   <section class="panel-sec" id="story">
     <div class="wrap">
       <div class="panelhead">
@@ -587,7 +599,10 @@
   </div>
 </section>
 
-<!-- PRODUCT -->
+<!-- ACT III -->
+  <div class="actband"><span class="an">Act III</span><span class="at">The Product</span></div>
+
+  <!-- PRODUCT -->
   <section class="panel-sec" id="product">
     <div class="wrap">
       <div class="panelhead">
@@ -712,6 +727,8 @@
 </section>
 
 <!-- CRAFT -->
+  <div class="actband"><span class="an">Act IV</span><span class="at">Craft &amp; Depth</span></div>
+
   <section class="panel-sec" id="craft">
     <div class="wrap">
       <div class="panelhead">
@@ -863,7 +880,7 @@ OWNER = {
           </div>
         </div>
       </div>
-      <p class="sub" style="margin-top:18px"><a href="docs/agent-catalog.html">The full agent catalog — every agent, cadence, owned field, and output →</a></p>
+      <p class="sub" style="margin-top:18px"><a href="docs/agent-catalog.html">The full agent catalog — every agent, cadence, owned field, and output →</a><br><a href="docs/system-map.html">The system map — how all 27 agents hand off and chain together →</a></p>
 
       <div class="steplabel" id="sysdesign">📐 System design · an engineering leader's pass</div>
       <p class="sub">Business goal first, then requirements, scale, interface, architecture, deep dive, and what v2 needs. AI as the protagonist, not an ingredient.</p>
@@ -1041,7 +1058,10 @@ OWNER = {
     </div>
   </section>
 
-<!-- CASES -->
+<!-- ACT V -->
+  <div class="actband"><span class="an">Act V</span><span class="at">The Proof</span></div>
+
+  <!-- CASES -->
   <section class="panel-sec" id="cases">
     <div class="wrap">
       <div class="panelhead">
@@ -1089,6 +1109,9 @@ OWNER = {
   </div>
 </section>
 
+<!-- ACT VI -->
+<div class="actband"><span class="an">Act VI</span><span class="at">The Bigger Picture</span></div>
+
 <!-- COMPARABLES -->
 <section id="compare">
   <div class="wrap reveal">
@@ -1127,7 +1150,10 @@ OWNER = {
   </div>
 </section>
 
-<!-- OPERATOR -->
+<!-- ACT VII -->
+  <div class="actband"><span class="an">Act VII</span><span class="at">The Operator &amp; The Door</span></div>
+
+  <!-- OPERATOR -->
   <section class="panel-sec" id="operator">
     <div class="wrap">
       <div class="panelhead">
