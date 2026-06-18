@@ -1,0 +1,41 @@
+<!-- @dsCard group="Brand" viewport="700x200" name="Interaction states" subtitle="Resting → hover → focus → pressed → disabled" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body{margin:0;background:var(--bg);font-family:var(--font-sans);padding:22px;color:var(--body)}
+  .lbl{font:700 11px/1 var(--font-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 12px}
+  .ladder{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
+  .col{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .state{font:600 10px/1 var(--font-mono);text-transform:uppercase;letter-spacing:.05em;color:var(--faint)}
+  /* button replicas at each state */
+  .btn{display:inline-flex;align-items:center;border:none;border-radius:var(--r-pill);background:var(--grad-brand);color:#fff;font-weight:600;font-size:14px;padding:10px 17px;font-family:var(--font-sans)}
+  .btn.hover{transform:translateY(-1px);box-shadow:var(--glow)}
+  .btn.focus{box-shadow:0 0 0 3px var(--focus-ring)}
+  .btn.press{filter:brightness(.92)}
+  .btn.disabled{opacity:.5}
+  /* input replicas */
+  .inp{width:150px;height:38px;border-radius:var(--r-sm);background:var(--surface-2);border:1px solid var(--line-2);display:flex;align-items:center;padding:0 12px;color:var(--muted);font-size:13.5px}
+  .inp.focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--focus-ring);color:var(--ink)}
+  .inp.invalid{border-color:var(--fail)}
+</style>
+</head>
+<body>
+  <div class="lbl">Button</div>
+  <div class="ladder">
+    <div class="col"><span class="btn">Apply →</span><span class="state">resting</span></div>
+    <div class="col"><span class="btn hover">Apply →</span><span class="state">hover · lift + glow</span></div>
+    <div class="col"><span class="btn focus">Apply →</span><span class="state">focus · ring</span></div>
+    <div class="col"><span class="btn press">Apply →</span><span class="state">pressed</span></div>
+    <div class="col"><span class="btn disabled">Apply →</span><span class="state">disabled</span></div>
+  </div>
+  <div class="lbl">Input</div>
+  <div class="ladder">
+    <div class="col"><span class="inp">reply by handle</span><span class="state">resting</span></div>
+    <div class="col"><span class="inp focus">done M51</span><span class="state">focus · violet ring</span></div>
+    <div class="col"><span class="inp invalid">not-an-email</span><span class="state">invalid</span></div>
+  </div>
+</body>
+</html>

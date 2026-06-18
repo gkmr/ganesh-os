@@ -155,6 +155,7 @@ Open to **board & advisory roles, fractional CPO/CTO engagements, panels & talks
 |---|---|
 | [`index.html`](index.html) | The full site: a plain problem / outcome / how walkthrough, then the build (best via GitHub Pages) |
 | [`demo.html`](demo.html) | The animated day — the product, in 60 seconds |
+| [`design-system/`](design-system/) | The Ganesh OS design system: tokens, ~40 React components, guidelines, UI kits, and the `ganesh-os-design` skill |
 | [`docs/operator.md`](docs/operator.md) | Who runs this: the two roles, the functions led, and the throughline |
 | [`docs/ai-depth.md`](docs/ai-depth.md) | What makes it AI-native: the model/correctness split, multimodal channels, the memory moat (MemPalace, the Karpathy LLM-wiki, gbrain) |
 | [`docs/craft.md`](docs/craft.md) | The PM/eng craft: PRD, wireframe, prototype, tests, PR review, system-design tradeoffs |

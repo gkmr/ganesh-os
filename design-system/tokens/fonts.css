@@ -1,0 +1,4 @@
+/* Ganesh OS — webfonts
+   Inter (UI/display) + JetBrains Mono (code, labels, data).
+   Imported from Google Fonts; consumers get the full weight range used across the system. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
