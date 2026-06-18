@@ -1,0 +1,183 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>System map · Ganesh OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070a14;--surface:#111829;--line:rgba(255,255,255,.09);--ink:#f4f7fc;--body:#c4cde0;--mut:#8995ad;--brand:#8b7bff;--brand2:#22d3ee;--neon:#5dff9b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 85% -10%,rgba(59,45,143,.35),transparent 60%),radial-gradient(800px 460px at 0% 20%,rgba(14,94,110,.3),transparent 60%),var(--bg);color:var(--body);font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;font-size:16.5px;line-height:1.7;-webkit-font-smoothing:antialiased}
+nav{position:sticky;top:0;z-index:10;background:rgba(8,11,20,.8);backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--line)}
+nav .in{max-width:880px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+nav a.home{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:800;font-size:15px;text-decoration:none}
+nav a.home .g{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 0 18px rgba(139,123,255,.5)}
+nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;text-decoration:none;font-weight:500}nav .links a:hover{color:var(--ink)}
+.crumb{max-width:880px;margin:0 auto;padding:24px 24px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--mut)}
+.crumb a{color:var(--brand2);text-decoration:none}.crumb a:hover{text-decoration:underline}
+.crumb .badge{background:rgba(139,123,255,.12);border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink);font-weight:600;font-size:12px}
+.doc{max-width:880px;margin:0 auto;padding:18px 24px 30px}
+.doc h1{font-size:clamp(28px,4vw,40px);line-height:1.1;letter-spacing:-.02em;margin:0 0 22px;background:linear-gradient(180deg,#fff,#aeb8d4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.doc h2{font-size:25px;margin:42px 0 14px;color:var(--ink);padding-top:14px;border-top:1px solid var(--line)}
+.doc h3{font-size:19px;margin:30px 0 10px;color:var(--ink)}
+.doc h4{font-size:15px;margin:24px 0 8px;color:var(--brand2);font-family:'JetBrains Mono';text-transform:uppercase;letter-spacing:.04em}
+.doc p,.doc li{color:var(--body)}.doc a{color:var(--brand2);text-decoration:none;border-bottom:1px solid rgba(34,211,238,.3)}.doc a:hover{border-color:var(--brand2)}
+.doc strong{color:var(--ink)}.doc code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#e7ecf6}
+.doc pre{background:#060a12;border:1px solid var(--line);border-radius:13px;padding:16px 18px;overflow-x:auto}.doc pre code{background:none;border:none;padding:0;color:var(--neon);font-size:13px;line-height:1.65}
+.doc blockquote{margin:18px 0;padding:12px 18px;border-left:3px solid var(--brand);background:rgba(139,123,255,.06);border-radius:0 10px 10px 0}
+.doc table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px;display:block;overflow-x:auto}
+.doc th,.doc td{border:1px solid var(--line);padding:10px 13px;text-align:left;vertical-align:top}
+.doc th{background:rgba(255,255,255,.04);color:var(--ink);font-family:'JetBrains Mono';font-size:12px;text-transform:uppercase}
+.doc tr:nth-child(even) td{background:rgba(255,255,255,.015)}.doc hr{border:none;border-top:1px solid var(--line);margin:34px 0}
+.prevnext{max-width:880px;margin:0 auto;padding:6px 24px 18px;display:flex;justify-content:space-between;gap:14px}
+.prevnext a{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px 16px;text-decoration:none;transition:transform .15s,border-color .15s;min-width:0}
+.prevnext a:hover{border-color:var(--brand);transform:translateY(-2px)}.prevnext a.next{text-align:right}
+.prevnext .lab{font:600 11px/1 'JetBrains Mono';color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.prevnext .ttl{color:var(--ink);font-weight:700;font-size:14px;margin-top:6px;display:block}
+.prevnext a.disabled{visibility:hidden}
+.backbar{max-width:880px;margin:0 auto;padding:0 24px 70px}
+.backbar a{display:inline-flex;align-items:center;gap:8px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:11px 18px;text-decoration:none;font-weight:600;font-size:14px}
+.backbar a:hover{border-color:var(--brand)}
+</style></head><body>
+<nav><div class="in"><a class="home" href="../index.html"><span class="g"></span> Ganesh OS</a>
+<div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">27 Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
+<div class="crumb"><span class="badge">Systems &amp; AI depth</span> <a href="../index.html">Ganesh OS</a> &rsaquo; <a href="../index.html#agents">back to this on the site</a> &rsaquo; <span style="color:var(--ink)">System map</span></div>
+<article class="doc"><h1>System map — how the agents connect</h1>
+<p><em>A living map of the chains and dependencies across the <a href="agent-catalog.html">27 agents</a>. The catalog is the index (every agent, its one owned field); this is the wiring (how they hand off). Architecture only, no personal data. Generated 2026-06-17 from the live schedule.</em></p>
+<h2>Two coordination surfaces</h2>
+<p>The agents never call each other. They coordinate through two shared surfaces:</p>
+<ol>
+<li><strong>The append-only change log</strong> — the spine. Every write, from any agent, appends one source-tagged line. Audit trail, eval input, and the reason 27 writers stay reconstructable.</li>
+<li><strong>A single self-message thread</strong> — the bus for the wellbeing layer. Prompts post tagged questions, the human replies in the same thread, and silent readers parse the replies and write files. Because it is a self-thread, each message appears twice (sent + received), so every reader collapses identical text+timestamp doubles first. A stable bracket prefix on each prompt lets each reader take only its own slice, and a prompt is never mis-read as a reply.</li>
+</ol>
+<h2>Wellbeing chain (Layer 4)</h2>
+<p><strong>Prompts — send only, log nothing.</strong> Each carries a distinct prefix and stops if it finds its own prefix already sent today (no double-prompts).</p>
+<table>
+<thead>
+<tr>
+<th>Prompt</th>
+<th>Time</th>
+<th>Asks / sends</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Readiness + energy</td>
+<td>6:50a</td>
+<td>advisory readiness score + an energy-timed plan (not a question)</td>
+</tr>
+<tr>
+<td>Weigh-in</td>
+<td>7:00a</td>
+<td>weight, body-fat, body-feel + hip/ankle, sleep hours + quality</td>
+</tr>
+<tr>
+<td>Workout coach</td>
+<td>7:00a preview + ~45 min pre-session</td>
+<td>today's sessions + joint-aware nudges, max one per session</td>
+</tr>
+<tr>
+<td>Meal coaching</td>
+<td>9a / 1p / 7p</td>
+<td>food; the 7p run also asks workout + feeling</td>
+</tr>
+<tr>
+<td>Sleep coach</td>
+<td>10:15p</td>
+<td>wind-down nudge + tomorrow's first move (reply optional)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Readers / brains — parse replies, write files.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Reader</th>
+<th>Time</th>
+<th>Owns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Food + macro logger</td>
+<td>8:50p</td>
+<td>the food log; sends the one nightly summary</td>
+</tr>
+<tr>
+<td>Metrics brain + dashboard</td>
+<td>9:05p</td>
+<td>the metrics file + the dashboard (silent); adaptive-TDEE + workout volume/overload/1RM</td>
+</tr>
+<tr>
+<td>Readiness + energy</td>
+<td>6:50a</td>
+<td>the readiness file + the dashboard readiness hero / Today panel (advisory; never writes dates)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How the evening reply splits by field:</strong> food → the logger; workout → the logger (logs it) + the metrics brain (volume/overload/1RM); feeling → the logger (next-day plan) + the metrics brain (mood trend); weight + sleep → the metrics brain via the weigh-in reply and the device export.</p>
+<h2>Task + calendar engine (Layers 2–3)</h2>
+<ul>
+<li><strong>Two EA sweeps</strong> (6:04a, 6:52p) are the primary writers of reminders + calendar: reconcile against six calendars, dedupe, auto-park overdue by tier, enforce a per-day budget. Each chains into the briefing at the end of its run.</li>
+<li><strong>Triage</strong> (5:45a pipeline, 5:50a every other list) sets priority and tags only — never dates, completion, or deletion.</li>
+<li><strong>Two-way sync</strong> runs every 30 minutes: mirrors reminders to a file, captures manual edits, and applies the human's approved replies and file decisions back into reminders/calendar, read-after-write verified.</li>
+<li><strong>Tomorrow-plan</strong> (7:20p) writes a DECISION column the sync applies.</li>
+<li><strong>Briefings</strong> (7:10a, 8:15p, plus an 11a weekday catch-up backstop) read the triage canvases + calendar + messages and produce the ranked day, delivered four ways.</li>
+</ul>
+<h2>Capture (Layer 1)</h2>
+<ul>
+<li><strong>Five per-channel digests</strong>, twice daily, each owning only its own output file, otherwise read-only.</li>
+<li><strong>Meetings:</strong> reconciliation runs ~10 minutes before the briefer (8:30a / 1:30p / 6:30p / 8:30p), building a local Granola↔Krisp crosswalk that is read-only on both apps; the briefer (8:40a / 1:40p / 6:40p, plus an 8:40p end-of-day rollup) pre/post-briefs and proposes calendar / reminder / draft actions, all gated on a reply.</li>
+</ul>
+<h2>Reflection + growth (Layer 5)</h2>
+<ul>
+<li><strong>End-of-day</strong> (9:35p) diffs the morning plan against what actually happened and grades the day.</li>
+<li><strong>Weekly status</strong> (Fri), <strong>goal review</strong> (Sun, owns the goals file), and a <strong>diagnostic self-improvement pass</strong> (Sun) that proposes at most one change per agent and never deploys.</li>
+</ul>
+<h2>Single-writer file ownership (sample)</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Owner</th>
+<th>Everyone else</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>food log</td>
+<td>food + macro logger</td>
+<td>read-only</td>
+</tr>
+<tr>
+<td>health metrics + the dashboard</td>
+<td>metrics brain</td>
+<td>read-only</td>
+</tr>
+<tr>
+<td>dashboard readiness hero + Today panel</td>
+<td>readiness + energy</td>
+<td>read-only</td>
+</tr>
+<tr>
+<td>workout-coach state</td>
+<td>workout coach</td>
+<td>read-only</td>
+</tr>
+<tr>
+<td>goals</td>
+<td>goal review</td>
+<td>read-only</td>
+</tr>
+</tbody>
+</table>
+<p>A lane-fence eval blocks any cross-write in CI. This is the property that lets the fleet run unattended.</p>
+<h2>Cross-links</h2>
+<ul>
+<li>Both EA sweeps chain into the briefing.</li>
+<li>Reconciliation always runs ~10 minutes before the briefer.</li>
+<li>Tomorrow-plan writes DECISIONs the two-way sync applies.</li>
+<li>A set of private intake agents (opportunity scanning) runs on the same engine but is intentionally kept out of this public catalog.</li>
+</ul>
+<hr />
+<p><em>Companion to <a href="agent-catalog.html"><code>agent-catalog.md</code></a>. The catalog answers "what is each agent?"; this answers "how do they connect?"</em></p></article>
+<div class="prevnext"><a class="prev" href="agent-catalog.html"><span class="lab">&larr; Previous</span><span class="ttl">Agent catalog</span></a><a class="next" href="harness.html"><span class="lab">Next &rarr;</span><span class="ttl">Harness engineering</span></a></div>
+<div class="backbar"><a href="../index.html">&larr; Back to Ganesh OS</a></div>
+</body></html>
