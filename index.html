@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ganesh OS — an AI-native company, run at the scale of one life</title>
+<title>Ganesh OS — a personal AI operating system, run at the scale of one life</title>
 <meta name="description" content="27 scheduled AI agents run one person's whole life — work, health, people, growth — coordinated by one rule: every field has exactly one owner. A working answer to governing autonomous agents. Built by an operator-investor: VC partner and fractional CPO/CTO.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -184,6 +184,10 @@
   .actband::before,.actband::after{content:"";height:1px;width:90px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
   .actband .an{font-family:ui-monospace,'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;letter-spacing:.24em;color:var(--brand2);text-transform:uppercase}
   .actband .at{font-size:13.5px;font-weight:800;letter-spacing:.14em;color:var(--ink);text-transform:uppercase}
+  .buildgate{max-width:1100px;margin:72px auto 8px;padding:30px 24px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center;background:linear-gradient(180deg,rgba(139,123,255,.06),transparent)}
+  .buildgate .bg-k{font-family:ui-monospace,'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.22em;color:var(--brand2);text-transform:uppercase}
+  .buildgate .bg-h{font-size:clamp(20px,2.6vw,26px);line-height:1.2;margin:10px 0 6px;color:var(--ink);letter-spacing:-.01em}
+  .buildgate .bg-p{font-size:15px;color:var(--mut);max-width:62ch;margin:0 auto}
   section[id],div[id]{scroll-margin-top:80px}
   .backtop{display:inline-flex;align-items:center;gap:6px;margin-top:30px;font-size:13px;color:var(--mut);cursor:pointer}
   .backtop:hover{color:var(--brand2)}
@@ -476,7 +480,7 @@
   <div class="wrap">
     <a class="brand" href="#top" data-scroll="top"><span class="glyph"></span> Ganesh OS</a>
     <div class="navtabs" id="navtabs">
-      <a href="#tldr" data-scroll="tldr">TL;DR</a>
+      <a href="#tldr" data-scroll="tldr">How</a>
       <a href="#story" data-scroll="story">Story</a>
       <a href="#product" data-scroll="product">Product</a>
       <a href="#prioritize" data-scroll="prioritize">Strategy</a>
@@ -498,10 +502,10 @@
 <!-- HERO -->
 <header class="hero" id="top">
   <div class="wrap">
-    <span class="kicker"><span class="pulse"></span> An AI-native company, run at the scale of one life</span>
+    <span class="kicker"><span class="pulse"></span> A personal AI operating system, run at the scale of one life</span>
     <h1>One loud domain was quietly eating my whole life.</h1>
     <p class="lede"><b>Work shouts. Everything that matters whispers.</b> Your body, the people who love you, the person you're becoming — none of them send a push notification. So the loudest thing wins every single day, and you call the wreckage "focus."</p>
-    <p class="lede">I didn't have a discipline problem. I had a governance problem. So I stopped managing a to-do list and built a company to run my life: 27 AI agents, one law — every field has exactly one owner — and at 7:42 each morning, one text that already knows what the day is for.</p>
+    <p class="lede">I didn't have a discipline problem. I had a governance problem. So I stopped managing a to-do list and built a personal AI operating system to run my life: 27 AI agents, one law — every field has exactly one owner — and at 7:42 each morning, one text that already knows what the day is for.</p>
     <p class="lede punch">The dread is gone. Not because there's less to carry. Because nothing I love slips in silence anymore.</p>
     <div class="cta">
       <a class="btn" href="demo.html">▶ Watch one day decide itself</a>
@@ -529,8 +533,9 @@
 <section id="tldr">
   <div class="wrap">
     <div style="max-width:780px;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:16px;padding:22px 26px">
-      <p class="eyebrow" style="margin-top:0">TL;DR &middot; what it actually is</p>
-      <p style="font-size:clamp(16.5px,2.1vw,20px);line-height:1.55;color:var(--ink);margin:6px 0 0">The mechanical version: a personal operating system of 27 scheduled AI agents. They read every channel, rank the one thing that matters each morning across work, health, people, and growth, act on what's reversible, and gate the rest behind a human yes. What makes 27 agents safe to run unattended is a single rule, enforced as a test in CI: every field has exactly one owning agent, so nothing can quietly overwrite anything else. It runs on my own life, in public, so the product, systems, and governance judgment are inspectable, not asserted.</p>
+      <p class="eyebrow" style="margin-top:0">How it works</p>
+      <p style="font-size:clamp(16.5px,2.1vw,20px);line-height:1.55;color:var(--ink);margin:6px 0 0">Three steps, every day. <b>It reads everything</b> overnight: messages, calendar, and health signals across every channel. <b>It ranks one thing</b> each morning: the single most important task plus a top three, with a slot reserved for each domain before urgency votes. <b>It acts safely</b>: it handles what is reversible on its own and asks before anything it cannot undo, with every action logged and checkable.</p>
+      <p style="font-size:14.5px;line-height:1.5;color:var(--body);margin:14px 0 0"><b style="color:var(--ink)">How it reaches me:</b> on the channels I already use, iMessage, SMS, WhatsApp, and email. I reply in plain English to steer it. No app, no dashboard.</p>
     </div>
   </div>
 </section>
@@ -612,7 +617,7 @@
       </div>
       <div class="resolve reveal">
         <p class="eyebrow">7:42 a.m.</p>
-        <h3>While I slept, the company ran. This is the morning it hands back.</h3>
+        <h3>While I slept, the system ran. This is the morning it hands back.</h3>
         <div class="phonewrap">
           <div class="phone">
             <div class="notch"></div>
@@ -727,7 +732,7 @@
 </section>
 
 <!-- CRAFT -->
-  <div class="actband"><span class="an">Act IV</span><span class="at">Craft &amp; Depth</span></div>
+  <div class="buildgate"><span class="bg-k">For the technical reader</span><h2 class="bg-h">Everything above is the what and the why. Below is the build and the proof.</h2><p class="bg-p">The craft, governance, architecture, memory, the real failures, and how I work, for anyone doing diligence. The pitch is complete; skim or stop here.</p></div>
 
   <section class="panel-sec" id="craft">
     <div class="wrap">
