@@ -1,0 +1,34 @@
+<!-- @dsCard group="Brand" viewport="700x150" name="Logo & mark" subtitle="Gradient rounded-square glyph + Inter 800 wordmark" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body{margin:0;background:var(--bg);font-family:var(--font-sans);padding:24px;color:var(--body)}
+  .row{display:flex;align-items:center;gap:40px;flex-wrap:wrap}
+  .lockup{display:flex;align-items:center;gap:12px}
+  .glyph{width:30px;height:30px;border-radius:9px;background:var(--grad-mark);box-shadow:0 0 22px rgba(139,123,255,.6)}
+  .word{font-weight:800;font-size:21px;color:var(--ink);letter-spacing:-.02em}
+  .sizes{display:flex;align-items:center;gap:16px}
+  .g{border-radius:8px;background:var(--grad-mark)}
+  .cap{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+  <div class="row">
+    <div>
+      <div class="lockup"><span class="glyph"></span><span class="word">Ganesh OS</span></div>
+      <div class="cap">primary lockup · --grad-mark + Inter 800</div>
+    </div>
+    <div>
+      <div class="sizes">
+        <span class="g" style="width:44px;height:44px;border-radius:12px"></span>
+        <span class="g" style="width:30px;height:30px"></span>
+        <span class="g" style="width:20px;height:20px;border-radius:6px"></span>
+      </div>
+      <div class="cap">glyph · violet → cyan</div>
+    </div>
+  </div>
+</body>
+</html>

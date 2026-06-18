@@ -1,0 +1,24 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Brand" subtitle="Violet primary + electric cyan secondary" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body{margin:0;background:var(--bg);font-family:var(--font-sans);padding:20px;color:var(--body)}
+  .row{display:flex;gap:14px;flex-wrap:wrap}
+  .sw{flex:1;min-width:150px;border-radius:var(--r-lg);padding:16px;border:1px solid var(--line);color:#fff;display:flex;flex-direction:column;gap:6px;min-height:96px;justify-content:flex-end}
+  .sw .n{font:var(--text-mono-label);text-transform:uppercase;letter-spacing:var(--ls-mono);opacity:.9}
+  .sw .h{font-family:var(--font-mono);font-size:12px;opacity:.75}
+  .sw .t{font-weight:700;font-size:14px}
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="sw" style="background:var(--grad-brand)"><div class="t">Brand violet</div><div class="n">--brand</div><div class="h">#8b7bff → #6d5cf0</div></div>
+    <div class="sw" style="background:var(--brand-2);color:#06202a"><div class="t">Cyan</div><div class="n">--brand-2</div><div class="h">#22d3ee</div></div>
+    <div class="sw" style="background:var(--brand-soft);border-color:var(--line-2)"><div class="t">Soft tint</div><div class="n">--brand-soft</div><div class="h">violet @ 14%</div></div>
+    <div class="sw" style="background:var(--grad-mark)"><div class="t">Mark gradient</div><div class="n">--grad-mark</div><div class="h">violet → cyan</div></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!-- @dsCard group="Slides" viewport="1280x720" name="Quote slide" subtitle="One strong idea with a cyan-highlighted phrase" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  html,body{margin:0}
+  .slide{width:1280px;height:720px;position:relative;overflow:hidden;background:var(--bg-2);color:var(--body);font-family:var(--font-sans);padding:110px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center}
+  .orb{position:absolute;width:680px;height:680px;border-radius:50%;filter:blur(90px);opacity:.4;left:50%;top:-220px;transform:translateX(-50%);background:radial-gradient(circle,var(--orb-violet),transparent 60%)}
+  .mark{position:relative;font-size:120px;line-height:.6;color:var(--brand);opacity:.5;font-weight:900;height:60px}
+  blockquote{position:relative;margin:0;font-size:54px;line-height:1.18;font-weight:800;letter-spacing:-.02em;color:var(--ink);max-width:24ch}
+  blockquote em{font-style:normal;color:var(--brand-2)}
+  .by{position:relative;margin-top:40px;font-family:var(--font-mono);font-size:16px;color:var(--muted);display:flex;align-items:center;gap:12px}
+  .by .l{width:34px;height:1px;background:var(--line-2)}
+</style>
+</head>
+<body>
+  <div class="slide">
+    <span class="orb"></span>
+    <div class="mark">&ldquo;</div>
+    <blockquote>The dread is gone. Not because there's less to carry. Because <em>nothing I love slips in silence</em> anymore.</blockquote>
+    <div class="by"><span class="l"></span>The operator · one year in</div>
+  </div>
+</body>
+</html>

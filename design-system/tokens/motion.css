@@ -1,0 +1,38 @@
+/* ============================================================
+   Ganesh OS — Motion module
+   The canonical keyframes used across the system. Components may
+   inline their own (scoped) copies for self-containment; consumers
+   building plain HTML should use these. Everything is gated off
+   under prefers-reduced-motion at the bottom.
+   ============================================================ */
+
+/* Flowing progress fill — the domain "lanes". */
+@keyframes gos-flow { to { left: 132%; } }
+
+/* Live-indicator blink. */
+@keyframes gos-pulse { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+
+/* Scroll-reveal: fade + rise. Pair with .gos-reveal / .gos-reveal.in. */
+@keyframes gos-reveal { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+
+/* Blocked / failed-eval shake. */
+@keyframes gos-shake {
+  0%,100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); } 40% { transform: translateX(5px); }
+  60% { transform: translateX(-4px); } 80% { transform: translateX(4px); }
+}
+
+/* Voice waveform bar. */
+@keyframes gos-wave { 0%,100% { height: 24%; } 50% { height: 96%; } }
+
+/* Modal/toast entrance. */
+@keyframes gos-pop { from { opacity: 0; transform: translateY(8px) scale(.98); } }
+@keyframes gos-toast { from { opacity: 0; transform: translateY(10px); } }
+
+/* Reveal helper classes (opt-in). */
+.gos-reveal { opacity: 0; transform: translateY(22px); transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out); }
+.gos-reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gos-reveal { opacity: 1; transform: none; transition: none; }
+}
