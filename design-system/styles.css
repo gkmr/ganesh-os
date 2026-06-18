@@ -1,0 +1,11 @@
+/* ============================================================
+   Ganesh OS — global stylesheet entry point.
+   Consumers link THIS file. It is an @import manifest only —
+   every token and @font-face the system ships lives downstream.
+   ============================================================ */
+@import "tokens/fonts.css";
+@import "tokens/colors.css";
+@import "tokens/typography.css";
+@import "tokens/spacing.css";
+@import "tokens/motion.css";
+@import "tokens/themes.css";

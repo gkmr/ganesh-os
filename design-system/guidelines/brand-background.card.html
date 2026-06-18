@@ -1,0 +1,26 @@
+<!-- @dsCard group="Brand" viewport="700x190" name="Background field" subtitle="Blurred nebula orbs + faded 48px grid on near-black" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body{margin:0;background:var(--bg);font-family:var(--font-sans)}
+  .stage{position:relative;height:190px;overflow:hidden;background:var(--bg)}
+  .orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55}
+  .o1{width:300px;height:300px;left:-80px;top:-90px;background:radial-gradient(circle,var(--orb-violet),transparent 65%)}
+  .o2{width:280px;height:280px;right:-70px;top:-40px;background:radial-gradient(circle,var(--orb-teal),transparent 65%)}
+  .o3{width:240px;height:240px;left:40%;top:60px;background:radial-gradient(circle,var(--orb-magenta),transparent 65%)}
+  .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at 50% 0%,#000,transparent 75%)}
+  .cap{position:absolute;left:20px;bottom:16px;z-index:2;font-family:var(--font-mono);font-size:11.5px;color:var(--muted)}
+  .cap b{color:var(--ink);font-weight:700}
+</style>
+</head>
+<body>
+  <div class="stage">
+    <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
+    <span class="grid"></span>
+    <span class="cap"><b>.bgfx</b> — orbs blur(70px) @ .5 · grid 48px masked-fade</span>
+  </div>
+</body>
+</html>
