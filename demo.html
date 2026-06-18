@@ -114,19 +114,15 @@
 <div class="wrap">
   <div class="top">
     <div>
-      <h1>One day, in motion</h1>
-      <p class="sub">The night runs the company. Triage sets priority, the sweep clears the backlog, the brief ranks the day, you reply by text — and at 11:58 it scores two live options and <b style="color:#fff">kills one out loud</b>. Prioritization demonstrated, not asserted. <a class="home" href="index.html">← back to overview</a></p>
+      <h1>Watch one real day run itself</h1>
+      <p class="sub">This is my personal AI operating system running one real day, 2 a.m. to 9:35 p.m. It starts with 99 overdue and three of four life domains gone dark, and ends with a ranked day, the backlog at zero, and an honest scorecard. No app, no dashboard: it texts me, and I reply in plain English. <a class="home" href="index.html">← overview</a></p>
     </div>
-    <div class="clock" id="clock">2:14 AM</div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><div class="clock" id="clock">2:14 AM</div><div id="stepb" style="font:600 11px/1 'JetBrains Mono';color:var(--mut)">step 1 of 9</div></div>
   </div>
 
   <div class="xnav">
-    <a class="lead" href="index.html#product">▶ Product</a>
-    <a href="index.html#system">System &amp; decisions</a>
-    <a href="index.html#governance">Governance</a>
-    <a href="index.html#memory">Memory</a>
-    <a href="index.html#cases">Case studies</a>
-    <a href="index.html#operator">Operator</a>
+    <a class="lead" href="index.html">← Back to the full overview</a>
+    <a href="index.html#system">See how it's built →</a>
   </div>
 
   <div class="lanes" id="lanes">
@@ -149,6 +145,7 @@
     </div>
     <div class="panel">
       <h2>Your phone</h2>
+      <p style="font-size:11.5px;color:var(--mut);margin:-4px 0 12px;line-height:1.45">Real texts, on the channels I already use (iMessage, SMS, WhatsApp, email). I reply in plain English to steer it.</p>
       <div class="phone"><div class="notch"></div><div id="msgs"></div></div>
     </div>
   </div>
@@ -174,25 +171,8 @@
   </div>
 
   <div class="cs">
-    <h2>When it broke — four real incidents</h2>
-    <p class="csub">The day above is the happy path. The trust comes from the unhappy ones: each failure traced to a root cause and fenced out with an eval. <a href="index.html#cases" style="color:var(--brand2)">full case studies →</a></p>
-    <div class="csgrid">
-      <div class="cscard"><div class="cn">CASE 01</div><b>The overdue collapse</b><p>A confirmation-gated loop never advanced; 99 piled up.</p><div class="fix">fix · auto-park the reversible</div><a href="index.html#cases">read →</a></div>
-      <div class="cscard"><div class="cn">CASE 02</div><b>The single-day pileup</b><p>A bulk re-tier stacked 48 on one day; "today" lost trust.</p><div class="fix">fix · per-day budget + spread</div><a href="index.html#cases">read →</a></div>
-      <div class="cscard"><div class="cn">CASE 03</div><b>Stream → action surface</b><p>Digests dead-ended; awareness without throughput.</p><div class="fix">fix · manifest + reply-by-text</div><a href="index.html#cases">read →</a></div>
-      <div class="cscard"><div class="cn">CASE 04</div><b>The stale id</b><p>An id read from memory pointed at nothing; silent writes.</p><div class="fix">fix · fresh-read + CI fence</div><a href="index.html#cases">read →</a></div>
-    </div>
-  </div>
-
-  <div class="cs nextwrap">
-    <h2>That was one day. Keep exploring — by discipline</h2>
-    <p class="csub">The demo is one face of the system. Follow the thread that interests you:</p>
-    <div class="csgrid">
-      <a class="cscard" href="index.html#product"><div class="cn">AI-NATIVE PRODUCT</div><b>Designed with the models</b><p>The 7:42 brief, multimodal reach, and the judgment-vs-determinism line.</p><span class="arrow">The product →</span></a>
-      <a class="cscard" href="index.html#prioritize"><div class="cn">STRATEGY &amp; PRIORITIZATION</div><b>Ranking under constraint</b><p>An energy-aware planner that matches the right work to the right hour.</p><span class="arrow">Watch it prioritize →</span></a>
-      <a class="cscard" href="index.html#system"><div class="cn">SYSTEMS &amp; GOVERNANCE</div><b>Safe to run unattended</b><p>The harness, all 27 agents, the architecture, the ADRs and tradeoffs.</p><span class="arrow">The architecture →</span></a>
-      <a class="cscard" href="index.html"><div class="cn">THE WHOLE STORY</div><b>From the top</b><p>The pain, the life it runs, and the craft behind all of it.</p><span class="arrow">↑ Full site →</span></a>
-    </div>
+    <h2>That was one day.</h2>
+    <p class="csub">The day above is the happy path; the trust comes from the unhappy ones, each failure traced to a root cause and fenced with an eval. <a href="index.html#cases" style="color:var(--brand2)">the four case studies →</a> &middot; <a href="index.html" style="color:var(--brand2)">back to the overview →</a></p>
   </div>
 
   <div class="controls">
@@ -238,6 +218,7 @@ function render(){
   const node=document.getElementById('n'+i);node.classList.add('active');
   node.querySelector('.dot').style.background=s.c;node.querySelector('.lab').style.color='#fff';
   clock.textContent=s.t.replace('a',' AM').replace('p',' PM');cap.textContent=s.cap;
+  var sb=document.getElementById('stepb');if(sb)sb.textContent='step '+(i+1)+' of '+steps.length;
   if(s.lanes)equalize();
   if(s.cut)showCut();
   if(s.sms){const m=document.createElement('div');m.className='msg'+(s.sms.you?' you':'');m.innerHTML=`<b>${s.sms.h}</b>${s.sms.b.replace(/\n/g,'<br>')}`;msgs.appendChild(m);msgs.scrollTop=msgs.scrollHeight;}
