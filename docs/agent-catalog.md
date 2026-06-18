@@ -11,7 +11,7 @@
 | Slack digest | 7:30a, 8:30p | nothing | unread DMs, mentions, threads waiting on the user; one SMS |
 | Google Voice digest | 7:30a, 8:30p | nothing | unread texts and voicemails via email; one SMS |
 | Gmail digest | 7:30a, 8:30p | nothing | signal-vs-noise inbox triage with a key quote; one SMS |
-| Meetings briefer | 8:40a, 1:40p, 6:40p | nothing | pre-briefs upcoming meetings and post-briefs finished ones across Granola + Krisp; proposes calendar/reminder/draft actions, gated on reply |
+| Meetings briefer | 8:40a, 1:40p, 6:40p, 8:40p | nothing | pre-briefs upcoming meetings and post-briefs finished ones across Granola + Krisp; the 8:40p run is an end-of-day rollup of still-open next steps; proposes calendar/reminder/draft actions, gated on reply |
 | Meeting reconciliation | before each brief | a local crosswalk | matches Krisp transcripts (which lack calendar access) to Granola's calendar-true metadata; corrects title, attendees, and stream |
 
 Every digest follows one format contract: a leading source tag, a one-line summary plus counts, action items first with a stable handle, then compressed FYIs. Each repliable item also gets a JSON line in a daily manifest so it can be acted on by text.
