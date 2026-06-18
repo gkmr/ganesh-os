@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="660" viewBox="0 0 1280 660" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+  <rect width="1280" height="660" fill="#ffffff"></rect>
+  <text x="48" y="52" fill="#0b1020" font-size="26" font-weight="800" letter-spacing="-0.5">Architecture — five layers, one owner per field</text>
+  <text x="48" y="80" fill="#697386" font-size="15">27 stateless scheduled agents. Continuity lives in files; coordination happens through shared documents, not shared state.</text>
+
+  
+  <g transform="translate(48,110)">
+    
+    <g>
+      <rect width="1184" height="110" rx="14" fill="#f6f7f9" stroke="#e6e9ef"></rect>
+      <rect width="6" height="110" rx="3" fill="#22d3ee"></rect>
+      <text x="26" y="36" fill="#0b1020" font-size="17" font-weight="800">1 · Capture &amp; digest</text>
+      <text x="26" y="60" fill="#697386" font-size="13">read-only · surfaces, never mutates the task list</text>
+      <text x="26" y="86" fill="#3c4257" font-size="13">5 message digests · meetings briefer · reconciliation  →  one phone-friendly text per source, each item actionable by reply</text>
+    </g>
+    
+    <g transform="translate(0,126)">
+      <rect width="1184" height="110" rx="14" fill="#f6f7f9" stroke="#e6e9ef"></rect>
+      <rect width="6" height="110" rx="3" fill="#7c5cff"></rect>
+      <text x="26" y="36" fill="#0b1020" font-size="17" font-weight="800">2 · Triage</text>
+      <text x="26" y="60" fill="#697386" font-size="13">owns PRIORITY · non-destructive</text>
+      <text x="26" y="86" fill="#3c4257" font-size="13">pipeline triage + to-do triage tier every reminder (now / this-week / later / prune) and write decision canvases you edit by text</text>
+    </g>
+    
+    <g transform="translate(0,252)">
+      <rect width="1184" height="110" rx="14" fill="#f6f7f9" stroke="#e6e9ef"></rect>
+      <rect width="6" height="110" rx="3" fill="#22c55e"></rect>
+      <text x="26" y="36" fill="#0b1020" font-size="17" font-weight="800">3 · Reconcile &amp; brief</text>
+      <text x="26" y="60" fill="#697386" font-size="13">owns DATES · surfaces the ranked day</text>
+      <text x="26" y="86" fill="#3c4257" font-size="13">sweeps reconcile 6 calendars, auto-park overdue, budget the day; briefings build the goal-aligned MIT + cross-domain top three</text>
+    </g>
+    
+    <g transform="translate(0,378)">
+      <rect width="1184" height="110" rx="14" fill="#f6f7f9" stroke="#e6e9ef"></rect>
+      <rect width="6" height="110" rx="3" fill="#ec4899"></rect>
+      <text x="26" y="36" fill="#0b1020" font-size="17" font-weight="800">4 · Reflect &amp; improve</text>
+      <text x="26" y="60" fill="#697386" font-size="13">diagnostic · proposes, never self-deploys</text>
+      <text x="26" y="86" fill="#3c4257" font-size="13">end-of-day grades the plan vs reality; the weekly pass runs the evals and proposes one gated change per agent</text>
+    </g>
+  </g>
+</svg>

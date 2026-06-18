@@ -1,0 +1,32 @@
+<!-- @dsCard group="Slides" viewport="1280x720" name="Big-stat slide" subtitle="One load-bearing number with supporting metrics" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  html,body{margin:0}
+  .slide{width:1280px;height:720px;position:relative;overflow:hidden;background:var(--bg);color:var(--body);font-family:var(--font-sans);padding:96px 110px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center}
+  .orb{position:absolute;width:600px;height:600px;border-radius:50%;filter:blur(80px);opacity:.45;right:-160px;top:-160px;background:radial-gradient(circle,var(--orb-violet),transparent 65%)}
+  .eyebrow{font:700 15px/1 var(--font-mono);text-transform:uppercase;letter-spacing:.1em;color:var(--brand-2);margin-bottom:26px;position:relative}
+  .big{position:relative;font-size:200px;line-height:.92;font-weight:900;letter-spacing:-.04em;color:var(--ink);font-variant-numeric:tabular-nums;margin:0 0 6px;background:linear-gradient(180deg,#fff,#b9c2da);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .cap{position:relative;font-size:27px;color:var(--body);margin:0 0 54px;max-width:30ch}
+  .row{position:relative;display:flex;gap:64px;padding-top:34px;border-top:1px solid var(--line)}
+  .row .n{font-size:46px;font-weight:900;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  .row .l{font-size:16px;color:var(--muted);margin-top:8px;max-width:18ch}
+</style>
+</head>
+<body>
+  <div class="slide">
+    <span class="orb"></span>
+    <div class="eyebrow">Overdue, then held at zero</div>
+    <div class="big">99 → 0</div>
+    <p class="cap">A backlog of 99 overdue items, reconciled overnight and held flat, every day.</p>
+    <div class="row">
+      <div><div class="n">27</div><div class="l">coordinated agents</div></div>
+      <div><div class="n">1 rule</div><div class="l">every field, one owner</div></div>
+      <div><div class="n">0</div><div class="l">cross-lane writes, enforced in CI</div></div>
+    </div>
+  </div>
+</body>
+</html>

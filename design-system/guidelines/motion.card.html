@@ -1,0 +1,27 @@
+<!-- @dsCard group="Brand" viewport="700x150" name="Motion & easing" subtitle="Decelerate reveals, subtle lifts, no bounce" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body{margin:0;background:var(--bg);font-family:var(--font-sans);padding:22px;color:var(--body)}
+  .row{display:flex;gap:14px;flex-wrap:wrap}
+  .m{flex:1;min-width:150px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:14px}
+  .m .n{font:var(--text-mono-label);color:var(--brand-2);text-transform:uppercase}
+  .m .v{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5}
+  .track{height:8px;border-radius:999px;background:rgba(255,255,255,.05);overflow:hidden;margin-top:12px;position:relative}
+  .track i{position:absolute;top:0;left:-32%;height:100%;width:32%;border-radius:999px;background:var(--grad-bar);animation:flow 3.4s linear infinite}
+  @keyframes flow{to{left:132%}}
+  .pulse{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--brand-2);box-shadow:0 0 10px var(--brand-2);animation:pulse 1.8s infinite;margin-top:14px}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="m"><div class="n">Reveal</div><div class="v">opacity + translateY(22px)<br>.8s · --ease-out</div></div>
+    <div class="m"><div class="n">Flow</div><div class="v">domain lane progress</div><div class="track"><i></i></div></div>
+    <div class="m"><div class="n">Pulse</div><div class="v">live indicator</div><div class="pulse"></div></div>
+  </div>
+</body>
+</html>
