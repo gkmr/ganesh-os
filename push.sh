@@ -11,13 +11,25 @@ PAGES="https://gkmr.github.io/ganesh-os/"
 
 git init -b main >/dev/null 2>&1 || git init >/dev/null 2>&1 || true
 
+# Stale locks from interrupted git runs block work: index.lock blocks staging, HEAD.lock blocks the commit ref update.
+# Clear the common ones (only safe because no other git process runs concurrently here).
+for L in index.lock HEAD.lock objects/maintenance.lock; do
+  [ -f ".git/$L" ] && rm -f ".git/$L" && echo "• cleared a stale .git/$L"
+done
+
 # Ensure a git identity exists (local to this repo only) so the commit can't silently fail.
 git config user.email >/dev/null 2>&1 || git config user.email "gkmr@umich.edu"
 git config user.name  >/dev/null 2>&1 || git config user.name  "Ganesh Kumar"
 
 git add -A
-git commit -m "Ganesh OS: single-writer architecture for a personal multi-agent system" >/dev/null 2>&1 \
-  && echo "• committed" || echo "• nothing new to commit (already committed — fine)"
+if git diff --cached --quiet; then
+  echo "• nothing staged to commit (working tree already matches HEAD)"
+else
+  # Do NOT suppress the error: a hidden commit failure (identity, pre-commit hook) is what stalled deploys before.
+  git commit -m "Ganesh OS: single-writer architecture for a personal multi-agent system" \
+    && echo "• committed" \
+    || { echo "✗ COMMIT FAILED — real git error is above (check identity or a .git/hooks/pre-commit hook). Nothing was pushed."; exit 1; }
+fi
 git branch -M main 2>/dev/null || true
 
 if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
