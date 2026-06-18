@@ -1,0 +1,87 @@
+<!-- @dsCard group="Messaging" viewport="700x900" name="Messaging — Digest · Bubble · DayPlan · Scorecard · Canvas" subtitle="The product's output surfaces, from real samples" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body{margin:0;background:var(--bg);font-family:var(--font-sans);padding:24px;color:var(--body)}
+  .sec{margin-bottom:22px}
+  .lbl{font:700 11px/1 var(--font-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  .bubbles{display:flex;flex-direction:column;gap:10px;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px}
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  const { DigestBlock, MessageBubble, DayPlan, DomainScorecard, DecisionCanvas } = window.GaneshOSDesignSystem_462320;
+  function Demo(){
+    return (
+      <div>
+        <div className="two">
+          <div className="sec">
+            <div className="lbl">DigestBlock — house-style channel digest</div>
+            <DigestBlock channel="gmail" summary="7 unread that matter, 2 need you."
+              items={[
+                {handle:"E1", text:"Contact at firm wants times for a screen. Reply with 2 slots."},
+                {handle:"E2", text:"Application received, next step is a take-home. Decide if in."},
+              ]}
+              fyis={["Newsletter weekly issue","Receipt from vendor","Calendar invite already on your calendar"]}
+              noise="12 promotional/social messages filtered out." />
+          </div>
+          <div className="sec">
+            <div className="lbl">MessageBubble — reply by handle</div>
+            <div className="bubbles">
+              <MessageBubble from="them" emoji="🗓" time="7:42 AM">Tue. 4 items, 1 needs you. M51: ship the diligence memo before noon (gates the IC vote).</MessageBubble>
+              <MessageBubble from="me" time="7:43 AM">done M51</MessageBubble>
+              <MessageBubble from="them" time="7:43 AM">Marked done. V3 (PT callback) is now your next move.</MessageBubble>
+              <MessageBubble from="me" time="7:44 AM">push V3 to Thursday</MessageBubble>
+            </div>
+          </div>
+        </div>
+
+        <div className="two">
+          <div className="sec">
+            <div className="lbl">DayPlan — morning brief</div>
+            <DayPlan date="Tue · 7:42"
+              mit="1 pm parents call. Lock the July dates, and move the 1:1 that collides with it."
+              top={[
+                {domain:"work", text:"Ship the diligence memo before noon."},
+                {domain:"health", text:"Confirm the 6 pm lift. Front-load protein."},
+                {domain:"people", text:"Finalize the July trip. Call today."},
+              ]}
+              tiers={{today:6, week:29, later:68, prune:4}} />
+          </div>
+          <div className="sec">
+            <div className="lbl">DomainScorecard — that night</div>
+            <DomainScorecard grade="strong"
+              headline="MIT met. Top 3 ≈ 2.5 of 3. 23 things done."
+              wins={["Shipped both coaching deadlines","Cleared a work blocker","Handled a doctor callback"]}
+              slipped={["Two items, now tomorrow's first move"]}
+              domains={[{domain:"health", label:"Protein", value:"66 / 180 g", ok:false}]}
+              tomorrow="Guard 9–11 am before the meeting wall, and front-load protein at breakfast." />
+          </div>
+        </div>
+
+        <div className="sec">
+          <div className="lbl">DecisionCanvas — the two-way edit channel</div>
+          <DecisionCanvas title="T1 — apply now"
+            rows={[
+              {handle:"J01", list:"Pipeline", title:"Intro: founder intro", due:"today 4pm", tag:"act", decision:""},
+              {handle:"J02", list:"Pipeline", title:"Referral ask at company", due:"today 10am", tag:"warm", decision:"done", applied:true},
+              {handle:"M03", list:"Health", title:"Book specialty appointment", due:"Thu", tag:"call", decision:""},
+              {handle:"P02", list:"Pipeline", title:"Stale lead, posting closed", due:"overdue", tag:"prune-review", decision:"drop"},
+            ]} />
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script>
+</body>
+</html>

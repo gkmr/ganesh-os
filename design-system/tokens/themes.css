@@ -1,0 +1,14 @@
+/* ============================================================
+   Ganesh OS — Domain theming scopes
+   A lightweight theming API: wrap any subtree in a domain scope and
+   its descendants inherit that domain's accent through --accent /
+   --accent-soft. Lets generic surfaces pick up a life-domain color
+   without per-element props.
+
+     <div data-domain="health"> … uses var(--accent) … </div>
+   ============================================================ */
+[data-domain="work"]   { --accent: var(--work);   --accent-soft: var(--work-tint); }
+[data-domain="health"] { --accent: var(--health); --accent-soft: var(--health-tint); }
+[data-domain="people"] { --accent: var(--people); --accent-soft: var(--people-tint); }
+[data-domain="growth"] { --accent: var(--growth); --accent-soft: var(--growth-tint); }
+[data-domain="brand"]  { --accent: var(--brand);  --accent-soft: var(--brand-soft); }

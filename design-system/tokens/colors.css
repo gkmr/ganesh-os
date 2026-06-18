@@ -1,0 +1,83 @@
+/* ============================================================
+   Ganesh OS — Color tokens
+   A deep-space dark system. Near-black navy surfaces, a violet
+   brand paired with electric cyan, and four "life domain" accent
+   colors (work / health / people / growth) that carry meaning.
+   ============================================================ */
+:root {
+  /* ---- Backgrounds & surfaces (darkest → raised) ---- */
+  --bg:         #070a14;  /* page base */
+  --bg-2:       #0a0f1f;  /* alt section / gradient floor */
+  --surface:    #111829;  /* default card */
+  --surface-2:  #0d1322;  /* sunken / inset panel */
+  --raise:      #161f33;  /* raised / hover surface */
+
+  /* ---- Hairlines & dividers (alpha over dark) ---- */
+  --line:       rgba(255,255,255,.085);
+  --line-2:     rgba(255,255,255,.14);
+
+  /* ---- Text (brightest → faintest) ---- */
+  --ink:        #f4f7fc;  /* headings, key numbers */
+  --body:       #c4cde0;  /* body copy */
+  --muted:      #8995ad;  /* secondary / captions */
+  --faint:      #5e6b85;  /* tertiary / sub-labels */
+
+  /* ---- Brand ---- */
+  --brand:      #8b7bff;  /* violet — primary brand */
+  --brand-ink:  #6d5cf0;  /* darker violet, gradient end / press */
+  --brand-2:    #22d3ee;  /* electric cyan — secondary / eyebrows */
+  --brand-soft: rgba(139,123,255,.14); /* tinted brand fill */
+  --brand-alt:  #7c5cff;  /* legacy mark violet (logo / hero.svg) */
+
+  /* ---- Life-domain accents (semantic, color-coded everywhere) ---- */
+  --work:       #fbbf24;  /* amber  — the company / build / capital */
+  --health:     #2dd4bf;  /* teal   — lift, cardio, PT */
+  --people:     #fb923c;  /* orange — partner, family, friends */
+  --growth:     #a78bfa;  /* violet — panels, writing, mentoring */
+
+  /* ---- Change-log / field-owner accents ---- */
+  --field-priority: #8b7bff;
+  --field-date:     #34d399;
+  --field-sync:     #22d3ee;
+  --field-new:      #a78bfa;
+
+  /* ---- Life-domain tint fills (rgba versions for backgrounds) ---- */
+  --work-tint:   rgba(251,191,36,.12);
+  --health-tint: rgba(45,212,191,.12);
+  --people-tint: rgba(251,146,60,.12);
+  --growth-tint: rgba(167,139,250,.14);
+
+  /* ---- Status ---- */
+  --pass:       #34d399;  /* eval pass / keep */
+  --fail:       #f87171;  /* eval fail / cut / blocked */
+  --neon:       #5dff9b;  /* terminal "green" highlight */
+
+  /* ---- Decorative background orbs (blurred radial fields) ---- */
+  --orb-violet: #3b2d8f;
+  --orb-teal:   #0e5e6e;
+  --orb-magenta:#5a2d6e;
+  --orb-blue:   #1d3a7a;
+
+  /* ============================================================
+     Semantic aliases — prefer these in components
+     ============================================================ */
+  --text-strong:    var(--ink);
+  --text-body:      var(--body);
+  --text-muted:     var(--muted);
+  --text-faint:     var(--faint);
+
+  --surface-page:   var(--bg);
+  --surface-card:   var(--surface);
+  --surface-sunken: var(--surface-2);
+  --surface-raised: var(--raise);
+
+  --border-subtle:  var(--line);
+  --border-strong:  var(--line-2);
+
+  --accent:         var(--brand);
+  --accent-2:       var(--brand-2);
+  --accent-soft:    var(--brand-soft);
+
+  --link:           var(--brand);
+  --focus-ring:     rgba(139,123,255,.55);
+}

@@ -1,0 +1,57 @@
+/* ============================================================
+   Ganesh OS — Typography tokens
+   Inter for everything human-facing; JetBrains Mono for data,
+   labels, code, timestamps and the "engineering receipt" voice.
+   Display type is tight-tracked and heavy (800–900). Mono
+   micro-labels are uppercase with positive tracking.
+   ============================================================ */
+:root {
+  /* ---- Families ---- */
+  --font-sans: Inter, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  /* ---- Weights ---- */
+  --fw-regular:  400; /* @kind font */
+  --fw-medium:   500; /* @kind font */
+  --fw-semibold: 600; /* @kind font */
+  --fw-bold:     700; /* @kind font */
+  --fw-heavy:    800; /* @kind font */
+  --fw-black:    900; /* @kind font */
+
+  /* ---- Type scale (px) ---- */
+  --fs-micro:  11px;   /* mono eyebrows, owner pills */
+  --fs-tiny:   12.5px; /* captions, kickers */
+  --fs-small:  13.5px; /* nav, meta */
+  --fs-body:   15px;   /* card body */
+  --fs-base:   17px;   /* base body copy */
+  --fs-lead:   20px;   /* lede / sub */
+  --fs-h3:     18px;
+  --fs-h2:     32px;   /* fluid; see role tokens */
+  --fs-h1:     52px;   /* fluid; see role tokens */
+
+  /* ---- Fluid display sizes (clamp) ---- */
+  --fs-display: clamp(34px, 5.4vw, 62px);   /* @kind font */
+  --fs-title:   clamp(27px, 3.6vw, 42px);   /* @kind font */
+  --fs-quote:   clamp(20px, 2.6vw, 27px);   /* @kind font */
+
+  /* ---- Line heights ---- */
+  --lh-tight:   1.03;  /* @kind font */
+  --lh-snug:    1.12;  /* @kind font */
+  --lh-body:    1.62;  /* @kind font */
+  --lh-mono:    1.65;  /* @kind font */
+
+  /* ---- Letter spacing ---- */
+  --ls-display: -.03em;  /* @kind font */
+  --ls-tight:   -.022em; /* @kind font */
+  --ls-label:   .1em;    /* @kind font */
+  --ls-mono:    .05em;   /* @kind font */
+
+  /* ============================================================
+     Semantic role aliases
+     ============================================================ */
+  --text-display: var(--fw-black) var(--fs-display)/var(--lh-tight) var(--font-sans);
+  --text-title:   var(--fw-heavy) var(--fs-title)/var(--lh-snug) var(--font-sans);
+  --text-eyebrow: var(--fw-bold) var(--fs-tiny)/1 var(--font-sans);
+  --text-mono-label: var(--fw-bold) var(--fs-micro)/1 var(--font-mono);
+  --text-code:    var(--fw-regular) 12.7px/var(--lh-mono) var(--font-mono);
+}
