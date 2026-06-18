@@ -1,18 +1,20 @@
 ![Ganesh OS](assets/hero.svg)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-7c5cff.svg)](LICENSE)
-![agents](https://img.shields.io/badge/agents-22-7c5cff)
+![agents](https://img.shields.io/badge/agents-27-7c5cff)
 ![governance](https://img.shields.io/badge/auditable-yes-22c55e)
 ![personal data](https://img.shields.io/badge/personal%20data-none-22c55e)
 [![evals](https://github.com/gkmr/ganesh-os/actions/workflows/evals.yml/badge.svg)](https://github.com/gkmr/ganesh-os/actions/workflows/evals.yml)
 
 <p align="center"><img src="assets/hero.gif" alt="Ganesh OS — 99 overdue to zero, four life domains rebalanced, one morning text" width="100%"></p>
 
-> **One loud domain was quietly eating my whole life.** Work has a Slack, a sprint board, an on-call alert. Health, the people I love, and my own growth shared a sticky note, so work always won and the quiet things died quietly. I did not have a discipline problem. I had a governance problem. So I built 22 AI agents to run all of it as one company, and at 7:42 a.m. one text names the single thing that matters in each domain. This is what that looks like, and the engineering that makes it safe to trust.
+**Ganesh OS is a personal AI operating system: software I run every day on my own life.** Twenty-seven small AI agents read my messages, calendar, and health data on a schedule, and each morning text me the single most important thing to do across work, health, the people I love, and my own growth. It is real software, running daily. It is not a startup, a concept, or a piece of art, and it sells nothing. This repo is the architecture and patterns only, with all personal data removed, plus a working example of how to make autonomous agents safe to run unattended.
 
-**[▶ Watch one day in motion (60s)](demo.html)** — or open `index.html` (via GitHub Pages) for the full animated walkthrough, a landing page with a **persona router** (product leader · investor · research scientist · engineer · hiring exec) and a tabbed deck: **Story · Product · Craft · Governance · Memory · Case studies · Operator**.
+**How it reaches me:** on the channels I already use: iMessage, SMS, WhatsApp, and email. Work pours in from all of them, and I reply in plain English to steer it. No app, no dashboard.
 
-> Live site (once Pages is on): **https://gkmr.github.io/ganesh-os/**
+> **Why I built it.** Work has a Slack, a sprint board, an on-call alert. My health, the people I love, and my own growth shared a sticky note, so work always won and the quiet things slipped quietly. That was not a discipline problem, it was a coordination problem: many demands, one me, and no system holding the line. So I built 27 agents to run all of it as one governed system, and at 7:42 a.m. one text names the single thing that matters in each domain.
+
+**[▶ Watch one day in motion (60s)](demo.html)**, or open the full site at **https://gkmr.github.io/ganesh-os/**: a plain problem, outcome, and how walkthrough up top, then the build for technical readers (the architecture, the 27-agent fleet, governance, memory, and case studies).
 
 ---
 
@@ -28,7 +30,7 @@ Today: 1 work · ship memo. 2 health · 11am lift (only slot this week).
 0 overdue. 11 real tasks. 6 things I handled while you slept.
 ```
 
-While I slept, 27 agents read five message channels, reconciled six calendars, re-ranked a hundred open items, cleared the overdue pile to zero, and decided — out of everything — that the memo, the lift, and the founder are what today is actually for. I did not plan that. The system did, and it can show its work for every line.
+While I slept, 27 agents read five message channels, reconciled six calendars, re-ranked every open item, cleared the overdue pile to zero, and decided — out of everything — that the memo, the lift, and the founder are what today is actually for. I did not plan that. The system did, and it can show its work for every line.
 
 That is the product. The rest of this page is how it is built so you can trust it.
 
@@ -56,7 +58,7 @@ The hard part was never getting the agents to act. It was making a fleet of auto
 | **Guardrails** | Single-writer fences: every mutable field has exactly one owning agent; an agent literally cannot write a field it does not own. |
 | **Audit trail** | One append-only, source-tagged change log: every autonomous write is attributable to who, what, and why. |
 | **Trust gate** | Behavioral evals run in CI; a change that regresses the invariants is blocked, not shipped. |
-| **Self-healing** | Idempotent run-guards, degradable surfaces, and auto-park: it recovers from a missed run, a downed connector, or a backlog without a human. |
+| **Self-healing** | Run-guards safe to re-run without double-writing (idempotent), degradable surfaces, and auto-park: it recovers from a missed run, a downed connector, or a backlog without a human. |
 | **Governed change** | Self-improvement is snapshot-first, one change per iteration, human-approved — it proposes, it never auto-deploys. |
 | **Human-in-the-loop** | Only irreversible actions (deletion, sending) are gated; everything reversible flows. |
 
@@ -97,7 +99,7 @@ This is the same discipline at the scale of one life that it is at the scale of 
 Longitudinal context only helps if it is stored without rot and recalled without lying. Three ideas, made to run:
 
 - **MemPalace** — a verbatim store that is never edited, plus **temporal validity windows**: a fact carries an "as of" and a "superseded by" stamp instead of being silently overwritten.
-- **The Karpathy LLM-wiki substrate** — a `raw / wiki / index / log` layout with a read-first index, so an agent loads a small routing map before opening any full file, with explicit `ingest / query / lint` passes.
+- **The Karpathy LLM-wiki substrate** (a file-layout convention from AI researcher Andrej Karpathy, adapted here for agent memory) — a `raw / wiki / index / log` layout with a read-first index, so an agent loads a small routing map before opening any full file, with explicit `ingest / query / lint` passes.
 - **gbrain** — the second-brain layer the agents share through files; a memory-OS pattern where a weekly lint flags any fact older than its validity window for re-verification, so the system compounds instead of drifting.
 
 This sits on the same line the whole design defends: **language-model judgment where nuance lives, deterministic code where correctness lives.** Full depth in **[docs/ai-depth.md](docs/ai-depth.md)**.
@@ -110,9 +112,9 @@ Each is a governance decision, traced from symptom to root cause to fix in [docs
 2. **Prioritization without distribution is just a different pile.** A bulk re-tier overloaded one day. Fix: a per-day budget plus spread, and a slot per domain so none starves.
 3. **A notification is only useful if the reply path is as cheap as the alert.** A surfacing layer that dead-ended became an action surface via a manifest and reply-by-text.
 
-## The prize
+## Why governance is the hard part
 
-Agents are shipping into production faster than anyone can govern them, and "trust" is being asserted in slide decks rather than enforced in code. Single-writer ownership, an append-only audit trail, evals-as-CI-gate, and irreversible-only human gating are a working answer to the open problem: real autonomy that stays auditable, recoverable, and trusted. This is that answer, pressure-tested daily.
+Agents are shipping into production faster than anyone can govern them, and "trust" is being asserted in slide decks rather than enforced in code. Single-writer ownership, an append-only audit trail, evals-as-CI-gate, and irreversible-only human gating are a working answer to the open problem: real autonomy that stays auditable, recoverable, and trusted. Here, that answer runs unattended every day: the evals gate every change and the audit trail is one queryable log.
 
 ## Getting started
 
@@ -123,7 +125,7 @@ cd ganesh-os
 # 1. Watch the governance checks pass (this is the trust gate, runnable)
 pip install pytest && pytest evals/ -q
 
-# 2. Open the product — the animated day
+# 2. Open the product — the animated day  (live: https://gkmr.github.io/ganesh-os/demo.html)
 open demo.html            # or just double-click it; no build, no deps
 
 # 3. Read how an agent is built, and the contract they share
@@ -143,7 +145,7 @@ Built by **Ganesh Kumar**, an operator-investor. Two roles, one discipline:
 
 Scope, generalized so the repo stays clean: AI product leadership at **billions-scale** consumer platforms; GM of a consumer-hardware line past **$300M ARR**; CPO/CTO who scaled a **fraud-detection** company. Ganesh OS is that same job — AI product, platform, design, GTM, and the governance that makes autonomy safe — compressed to the scale of one life. Full detail in **[docs/operator.md](docs/operator.md)**.
 
-Open to **board & advisory roles, fractional CPO/CTO engagements, panels & talks, and angel investing / diligence** on making autonomous AI auditable and safe. The reusable core is the single-writer fence; fork it, and if you build something with it, an issue or a link is welcome.
+Open to **board & advisory roles, fractional CPO/CTO engagements, panels & talks, and angel investing / diligence** on making autonomous AI auditable and safe. The reusable core is the single-writer fence (one agent owns each field, enforced in CI); fork it, and if you build something with it, an issue or a link is welcome.
 
 **Contact:** [gkmr@umich.edu](mailto:gkmr@umich.edu) · [linkedin.com/in/reachgkumar](https://www.linkedin.com/in/reachgkumar)
 
@@ -151,7 +153,7 @@ Open to **board & advisory roles, fractional CPO/CTO engagements, panels & talks
 
 | Path | What it is |
 |---|---|
-| [`index.html`](index.html) | The landing experience: persona router + tabbed deck (best via GitHub Pages) |
+| [`index.html`](index.html) | The full site: a plain problem / outcome / how walkthrough, then the build (best via GitHub Pages) |
 | [`demo.html`](demo.html) | The animated day — the product, in 60 seconds |
 | [`docs/operator.md`](docs/operator.md) | Who runs this: the two roles, the functions led, and the throughline |
 | [`docs/ai-depth.md`](docs/ai-depth.md) | What makes it AI-native: the model/correctness split, multimodal channels, the memory moat (MemPalace, the Karpathy LLM-wiki, gbrain) |
