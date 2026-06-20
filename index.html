@@ -1030,6 +1030,26 @@ OWNER = {
     </div>
   </section>
 
+<!-- HONEST STATE -->
+<section id="state">
+  <div class="wrap reveal">
+    <p class="eyebrow">The honest state &middot; what's real, what's not yet</p>
+    <h2>What's running today, and what's still just designed.</h2>
+    <p class="sub">A system doc that oversells is worthless, so here is the candid version for anyone reading closely.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px;margin-top:24px">
+      <div style="background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--pass);border-radius:14px;padding:18px 20px">
+        <div style="font:700 12px/1 'JetBrains Mono',monospace;color:var(--pass);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Running today</div>
+        <p style="margin:0;color:var(--body);font-size:15px;line-height:1.6">One workhorse Claude model across the agents. Cron-fired SKILL.md prompts, one run at a time, behind a concurrency guard. Plain Markdown plus an append-only change log, no database. File-based memory with valid-from and superseded-by stamps. The single-writer fence and fresh-id writes are real and enforced in CI.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--work);border-radius:14px;padding:18px 20px">
+        <div style="font:700 12px/1 'JetBrains Mono',monospace;color:var(--work);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Designed, not all wired yet</div>
+        <p style="margin:0;color:var(--body);font-size:15px;line-height:1.6">Per-agent tiered model routing is mostly aspirational right now; it is one model, not cheap-for-capture and strong-for-judgment. The retry and fallback policies past the concurrency guard and auto-park are partly on paper. Per-agent cost is not instrumented yet; aggregate is low, tens of runs a day.</p>
+      </div>
+    </div>
+    <p class="sub" style="margin-top:18px">On evals, the part worth being honest about: the structural checks (the fence, fresh ids) have clean criteria and I trust them. The judgment checks, did the morning brief rank the right thing, is the coaching any good, are where the criteria are still soft and the golden set is thin. I am hand-labeling and still finding gaps. Setting up evals is easy. Getting the criteria right is the hard part, and that is the part I am still working.</p>
+  </div>
+</section>
+
 <!-- MEMORY -->
   <section class="panel-sec" id="memory">
     <div class="wrap">
