@@ -8,13 +8,13 @@
 
 <p align="center"><img src="assets/hero.gif" alt="Ganesh OS - 99 overdue to zero, four life domains rebalanced, one morning text" width="100%"></p>
 
-**Ganesh OS is a personal AI operating system: software I run every day on my own life.** Twenty-seven small AI agents read my messages, calendar, and health data on a schedule, and each morning text me the single most important thing to do across work, health, the people I love, and my own growth. It is real software, running daily. It is not a startup, a concept, or a piece of art, and it sells nothing. This repo is the architecture and patterns only, with all personal data removed, plus a working example of how to make autonomous agents safe to run unattended.
+**Ganesh OS is a personal AI operating system: software I run every day on my own life.** 30+ small AI agents read my messages, calendar, and health data on a schedule, and each morning text me the single most important thing to do across work, health, the people I love, and my own growth. It is real software, running daily. It is not a startup, a concept, or a piece of art, and it sells nothing. This repo is the architecture and patterns only, with all personal data removed, plus a working example of how to make autonomous agents safe to run unattended.
 
 **How it reaches me:** on the channels I already use: iMessage, SMS, WhatsApp, and email. Work pours in from all of them, and I reply in plain English to steer it. No app, no dashboard.
 
 > **Why I built it.** Work has a Slack, a sprint board, an on-call alert. My health, the people I love, and my own growth shared a sticky note, so work always won and the quiet things slipped quietly. That was not a discipline problem, it was a coordination problem: many demands, one me, and no system holding the line. So I built 30+ agents to run all of it as one governed system, and at 7:42 a.m. one text names the single thing that matters in each domain.
 
-**[▶ Watch one day in motion (60s)](demo.html)**, or open the full site at **https://gkmr.github.io/ganesh-os/**: a plain problem, outcome, and how walkthrough up top, then the build for technical readers (the architecture, the 27-agent fleet, governance, memory, and case studies).
+**[▶ Watch one day in motion (60s)](demo.html)**, or open the full site at **https://gkmr.github.io/ganesh-os/**: a plain problem, outcome, and how walkthrough up top, then the build for technical readers (the architecture, the 30+-agent fleet, governance, memory, and case studies).
 
 ---
 
