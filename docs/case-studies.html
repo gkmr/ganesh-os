@@ -37,7 +37,7 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 .backbar a:hover{border-color:var(--brand)}
 </style></head><body>
 <nav><div class="in"><a class="home" href="../index.html"><span class="g"></span> Ganesh OS</a>
-<div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">27 Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
+<div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">30+ Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
 <div class="crumb"><span class="badge">Product &amp; craft</span> <a href="../index.html">Ganesh OS</a> › <a href="../index.html#cases">back to this on the site</a> › <span style="color:var(--ink)">Case studies</span></div>
 <article class="doc"><h1>Case studies</h1>
 <p>Four real incidents, each traced from symptom to root cause to a durable fix. Names and data are generalized; the engineering is exactly as it happened. Every one ends the same way: an eval is added so the class of bug cannot silently return. That last step is the difference between a demo and a system you trust with a life.</p>
@@ -46,7 +46,7 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 <p><em>A system can be perfectly polite and still fail you. This one waited so respectfully for permission that it let a life pile up in red.</em></p>
 <p><strong>Status quo.</strong> The triage and sweep agents were deliberately non-destructive: they set priority and surfaced decisions, but waited for a human confirmation before changing any date. Safe by design.</p>
 <p><strong>Symptom.</strong> The reminders store showed 99 items in "today and overdue" and a 63-item pure-overdue pile that kept growing no matter how often it was triaged.</p>
-<p><strong>Investigation.</strong> Two root causes. First, with no confirmation ever given, nothing moved — so overdue accumulated while the system sat politely waiting. The bottleneck was the human decision step, not the agents. Second, a one-time review snapshot silently omitted two lists (the default "uncategorized" list and the inbox), so a whole cluster of real commitments was invisible to triage and never tiered.</p>
+<p><strong>Investigation.</strong> Two root causes. First, with no confirmation ever given, nothing moved - so overdue accumulated while the system sat politely waiting. The bottleneck was the human decision step, not the agents. Second, a one-time review snapshot silently omitted two lists (the default "uncategorized" list and the inbox), so a whole cluster of real commitments was invisible to triage and never tiered.</p>
 <p><strong>Fix.</strong> An auto-park rule in the sweeps: any overdue item with no pending decision is automatically re-dated forward by its tier (urgent to today, medium a week out, low to a two-week backlog, prune-candidates a month out and queued for deletion confirmation), never touching sacred or recurring items. The loop now advances on its own and surfaces only exceptions. Separately, triage was made to enumerate every list dynamically, with an explicit guard naming the previously-skipped lists, and the snapshot was stamped non-canonical.</p>
 <p><strong>Outcome.</strong> Overdue went to zero in one pass and is now held there automatically. A behavioral regression check (overdue-zero after a sweep) was added so the failure cannot silently return.</p>
 <p><strong>Lesson.</strong> A human-in-the-loop system must still make forward progress autonomously. Gate only the irreversible actions; let everything reversible flow.</p>
@@ -70,10 +70,10 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 <p><strong>Lesson.</strong> A notification is only useful if the reply path is as cheap as the alert. Design the action surface, not just the feed.</p>
 <hr />
 <h2>4. The stale id: a silent write that did nothing</h2>
-<p><em>Every other failure here was loud. This one was the dangerous kind — it succeeded quietly and was wrong. The fix wasn't a patch; it was making silence impossible.</em></p>
+<p><em>Every other failure here was loud. This one was the dangerous kind - it succeeded quietly and was wrong. The fix wasn't a patch; it was making silence impossible.</em></p>
 <p><strong>Status quo.</strong> The reply-processor applied store actions by id, carrying ids forward across steps in a single run for efficiency.</p>
 <p><strong>Symptom.</strong> Writes occasionally failed with record-not-found, and a handful of "completes" silently did nothing. The user marked something done; the system agreed; nothing changed.</p>
-<p><strong>Investigation.</strong> An id was reproduced from memory across steps — effectively transcribed — instead of read fresh from source immediately before the write. Between the read and the write the record had moved, so the stale id pointed at nothing. Worse, a not-found result was being swallowed as a no-op rather than raised.</p>
+<p><strong>Investigation.</strong> An id was reproduced from memory across steps - effectively transcribed - instead of read fresh from source immediately before the write. Between the read and the write the record had moved, so the stale id pointed at nothing. Worse, a not-found result was being swallowed as a no-op rather than raised.</p>
 <p><strong>Fix.</strong> Read every id fresh from source immediately before any write; read-after-write verify by id to confirm the change landed; and treat a not-found id as a hard error that surfaces, never a silent skip. An id-freshness check now runs in CI, so the whole class of bug is fenced out rather than patched once.</p>
 <p><strong>Outcome.</strong> Failed and silent writes went to zero. Status: CLOSED. The system will now rather shout than lie.</p>
 <p><strong>Lesson.</strong> Silent failure is the only unforgivable one. Make the failure loud, then fence the class of it out with an eval.</p></article>

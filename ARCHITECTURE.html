@@ -37,7 +37,7 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 .backbar a:hover{border-color:var(--brand)}
 </style></head><body>
 <nav><div class="in"><a class="home" href="index.html"><span class="g"></span> Ganesh OS</a>
-<div class="links"><a href="index.html">Home</a><a href="demo.html">▶ Demo</a><a href="index.html#system">Architecture</a><a href="index.html#agents">27 Agents</a><a href="index.html#operator">Operator</a></div></div></nav>
+<div class="links"><a href="index.html">Home</a><a href="demo.html">▶ Demo</a><a href="index.html#system">Architecture</a><a href="index.html#agents">30+ Agents</a><a href="index.html#operator">Operator</a></div></div></nav>
 <div class="crumb"><span class="badge">Systems &amp; AI depth</span> <a href="index.html">Ganesh OS</a> › <a href="index.html#system">back to this on the site</a> › <span style="color:var(--ink)">Architecture</span></div>
 <article class="doc"><h1>Architecture</h1>
 <h2>Runtime</h2>
@@ -51,10 +51,10 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 <p>Each scheduled run starts fresh with no memory of prior runs. All continuity lives in files. That constraint forces the whole design: state is external, every agent reloads context from disk, and coordination happens through shared files rather than shared memory.</p>
 <h2>The five layers</h2>
 <p><strong>1. Capture and digest.</strong> Per-channel agents (WhatsApp, iMessage, Slack, Google Voice, Gmail) read unread items twice a day, summarize each with a key quote, write the verbatim to a per-channel archive, and emit one phone-friendly SMS per channel. A meetings layer reconciles and briefs every meeting across Granola and Krisp. Nothing here mutates the task list directly; it surfaces and proposes.</p>
-<p><strong>2. Triage.</strong> Two agents tier every open reminder (now, this-week, later, prune) and set priority. One owns the pipeline; the other owns every other list. They write decision canvases — files with a stable handle and id per row and a blank decision column the human can edit from a file or a text.</p>
+<p><strong>2. Triage.</strong> Two agents tier every open reminder (now, this-week, later, prune) and set priority. One owns the pipeline; the other owns every other list. They write decision canvases - files with a stable handle and id per row and a blank decision column the human can edit from a file or a text.</p>
 <p><strong>3. Reconcile and surface.</strong> Two daily sweeps own dates: they reconcile reminders against six calendars, dedupe, resolve conflicts, advance recurring items, auto-park overdue, and enforce a per-day budget. Two briefings then read the triage canvases plus calendar plus messages and produce the ranked daily view (the single most important task plus a cross-domain top three) delivered to chat, a vault file, a phone-readable calendar event, and an SMS.</p>
-<p><strong>4. Wellbeing coaching.</strong> A morning weigh-in captures weight, sleep, and how the body feels; a readiness pass reads last night's recovery and recommends an energy-timed day (advisory only — it never writes dates); context-aware meal prompts carry coaching; a workout coach previews the day's training and nudges before each session, joint-aware; a sleep coach runs the wind-down. A silent metrics brain captures all of it, tracks the trends (weight, body-fat, sleep debt, macros, body-feeling, ritual adherence) with an adaptive-TDEE loop that calibrates calorie targets against the actual weight trend, and regenerates a holistic dashboard. Hydration and mind rituals ride one-way reminders, not extra pings.</p>
-<p><strong>5. Reflect.</strong> An end-of-day agent diffs the morning plan against what actually happened and grades the day with coaching. A weekly agent runs error analysis across the logs, lints the knowledge base for rot, runs the regression checks, and proposes at most one change per agent — diagnostic only, never self-deploying.</p>
+<p><strong>4. Wellbeing coaching.</strong> A morning weigh-in captures weight, sleep, and how the body feels; a readiness pass reads last night's recovery and recommends an energy-timed day (advisory only - it never writes dates); context-aware meal prompts carry coaching; a workout coach previews the day's training and nudges before each session, joint-aware; a sleep coach runs the wind-down. A silent metrics brain captures all of it, tracks the trends (weight, body-fat, sleep debt, macros, body-feeling, ritual adherence) with an adaptive-TDEE loop that calibrates calorie targets against the actual weight trend, and regenerates a holistic dashboard. Hydration and mind rituals ride one-way reminders, not extra pings.</p>
+<p><strong>5. Reflect.</strong> An end-of-day agent diffs the morning plan against what actually happened and grades the day with coaching. A weekly agent runs error analysis across the logs, lints the knowledge base for rot, runs the regression checks, and proposes at most one change per agent - diagnostic only, never self-deploying.</p>
 <h2>Single-writer fences</h2>
 <p>The core invariant. Each mutable field has exactly one owner:</p>
 <table>
@@ -93,7 +93,7 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 </tr>
 </tbody>
 </table>
-<p>A lane-fence regression check verifies that each agent writes only its owned field. This is the property that lets 27 writers run unattended.</p>
+<p>A lane-fence regression check verifies that each agent writes only its owned field. This is the property that lets 30+ writers run unattended.</p>
 <h2>The daily data flow</h2>
 <pre><code>5:45a  pipeline triage      -&gt; sets pipeline priority      -&gt; writes pipeline-triage canvas
 5:50a  to-do triage    -&gt; sets other priority  -&gt; writes to-do canvas (every list)
@@ -136,8 +136,8 @@ Sun 4p self-improvement -&gt; error analysis + lint + evals -&gt; proposals (no 
 <p>Nothing here uses blind retries. A blind retry on a system that mutates shared state is how you get double-writes. Instead every run is built to be safe to repeat, so "retry" reduces to "run again."</p>
 <ul>
 <li><strong>Idempotent by construction.</strong> Each agent opens with a concurrency guard and a run-ledger check keyed on its <code>(agent, scheduled-slot)</code>. A second fire for a slot that already ran is a no-op; a fire for a missed slot runs as a short delta against current state, not a replay of the original window.</li>
-<li><strong>Retry vs. re-fire.</strong> Within a run, a failed connector call is retried a bounded number of times with backoff; if it still fails the run does not abort — it degrades and records the gap. Across runs, the schedule itself is the retry: the next slot re-derives the world from disk and closes whatever the last run left open. There is no retry queue to corrupt.</li>
-<li><strong>Writes are verified, not assumed.</strong> Every write is read-after-write checked by id, and ids are read fresh from source immediately before the write. A write to a not-found id is a hard error that re-surfaces the item, never a silent skip — which is what makes a re-run safe: a half-applied change is detectable on the next pass.</li>
+<li><strong>Retry vs. re-fire.</strong> Within a run, a failed connector call is retried a bounded number of times with backoff; if it still fails the run does not abort - it degrades and records the gap. Across runs, the schedule itself is the retry: the next slot re-derives the world from disk and closes whatever the last run left open. There is no retry queue to corrupt.</li>
+<li><strong>Writes are verified, not assumed.</strong> Every write is read-after-write checked by id, and ids are read fresh from source immediately before the write. A write to a not-found id is a hard error that re-surfaces the item, never a silent skip - which is what makes a re-run safe: a half-applied change is detectable on the next pass.</li>
 <li><strong>Ambiguity refuses rather than guesses.</strong> A retry must never resolve an ambiguous instruction differently than the first attempt would. The reply processor matches strictly by namespaced handle and id; an ambiguous or stale match is re-surfaced for clarification, so retrying a batch can't silently act on the wrong record.</li>
 </ul>
 <h2>Fallback and graceful degradation</h2>
@@ -151,13 +151,13 @@ Sun 4p self-improvement -&gt; error analysis + lint + evals -&gt; proposals (no 
 <h2>Model-selection and routing policy</h2>
 <p>A model is one component in the harness. The system is explicit about where model judgment is allowed and which model does which job.</p>
 <ul>
-<li><strong>Judgment vs. determinism is a hard line, not a preference.</strong> Anything that must be exact — id lookups, calendar math, the per-day budget, the lane-fence check, dedupe — is deterministic code. Model judgment is confined to the genuinely fuzzy: reading forty messages and surfacing the three that matter, summarizing a thread to one quote and the ask, ranking a day across competing domains, writing coaching in a human voice. The model proposes; deterministic code disposes of anything irreversible.</li>
+<li><strong>Judgment vs. determinism is a hard line, not a preference.</strong> Anything that must be exact - id lookups, calendar math, the per-day budget, the lane-fence check, dedupe - is deterministic code. Model judgment is confined to the genuinely fuzzy: reading forty messages and surfacing the three that matter, summarizing a thread to one quote and the ask, ranking a day across competing domains, writing coaching in a human voice. The model proposes; deterministic code disposes of anything irreversible.</li>
 <li><strong>Tiered model routing.</strong> Work is routed to the cheapest model that can do it correctly. Mechanical, high-volume passes (channel capture, formatting, extraction) run on a small fast model; reasoning-heavy passes (triage ranking, reconciliation narrative, end-of-day coaching, weekly error analysis) run on a stronger model. Routing is by task class, declared in the agent's contract, not chosen per call at random.</li>
 <li><strong>Model fallback.</strong> If the preferred model is unavailable or rate-limited, the agent falls back to the next tier and records which model produced the run. A capture agent degrades happily to a smaller model; a reasoning agent that can only reach a weaker model marks its output reduced-confidence rather than final. No run blocks solely because one model is down.</li>
-<li><strong>The harness owns the model boundary.</strong> Prompts, context assembly, the output contract, and the eval gate sit around the model, so the model is swappable without touching the agents. The reasoning lives in versioned prompts and the harness, not in a fine-tune — which is what makes the model itself a replaceable part.</li>
+<li><strong>The harness owns the model boundary.</strong> Prompts, context assembly, the output contract, and the eval gate sit around the model, so the model is swappable without touching the agents. The reasoning lives in versioned prompts and the harness, not in a fine-tune - which is what makes the model itself a replaceable part.</li>
 </ul>
 <h2>Scaling: challenges and techniques</h2>
-<p>The honest scaling story is that this is a <em>single point of presence</em> — one life, low tens of runs a day, a read-to-write ratio around 20:1. There is no QPS problem. The scaling challenges are correctness, coordination, and state growth, and each has a named technique.</p>
+<p>The honest scaling story is that this is a <em>single point of presence</em> - one life, low tens of runs a day, a read-to-write ratio around 20:1. There is no QPS problem. The scaling challenges are correctness, coordination, and state growth, and each has a named technique.</p>
 <table>
 <thead>
 <tr>
@@ -174,7 +174,7 @@ Sun 4p self-improvement -&gt; error analysis + lint + evals -&gt; proposals (no 
 </tr>
 <tr>
 <td>Coordination grows with agents</td>
-<td>Naively, every new writer is another chance to clobber shared state — an O(agents²) problem.</td>
+<td>Naively, every new writer is another chance to clobber shared state - an O(agents²) problem.</td>
 <td>Single-writer field fences make coordination O(fields), not O(agents). A new agent adds a row to the ownership table, not a new race.</td>
 </tr>
 <tr>
@@ -201,15 +201,15 @@ Sun 4p self-improvement -&gt; error analysis + lint + evals -&gt; proposals (no 
 </table>
 <p>The throughline: design correctly for one POP, and the single-writer fence carries you to many POPs without a rewrite. What changes at 10× is the <em>substrate</em> (queue, index, per-connector circuit breakers); what stays fixed is the <em>invariant set</em>.</p>
 <h2>Privacy and security</h2>
-<p>The system runs on the most sensitive data a person has — every message, calendar, and health signal — so privacy and security are architectural, not bolted on.</p>
+<p>The system runs on the most sensitive data a person has - every message, calendar, and health signal - so privacy and security are architectural, not bolted on.</p>
 <ul>
 <li><strong>Local-first by default.</strong> The knowledge base, the verbatim archives, and the change log live as files on the operator's own device. State is not shipped to a server; it leaves the machine only through the operator's own connectors, into the operator's own accounts.</li>
-<li><strong>Least privilege, for agents and connectors.</strong> Each connector is scoped to what its agents need; each agent reads only the files its job requires and — via the single-writer fence — writes exactly one field. The fence is least-privilege for writes: an agent literally cannot touch state it doesn't own, and a violation is caught in CI.</li>
+<li><strong>Least privilege, for agents and connectors.</strong> Each connector is scoped to what its agents need; each agent reads only the files its job requires and - via the single-writer fence - writes exactly one field. The fence is least-privilege for writes: an agent literally cannot touch state it doesn't own, and a violation is caught in CI.</li>
 <li><strong>The human gate is an exfiltration control.</strong> Every outbound or irreversible action (sending a message, deleting an item) is gated on an explicit human decision. An agent cannot autonomously send data out; the same gate that guards against mistakes guards against exfiltration.</li>
-<li><strong>No secrets, no PII in the open.</strong> Credentials are never committed; the public repo is architecture and sanitized patterns only — no personal data, enforced by a pre-publish scan and a <code>.gitignore</code> that fences the live system. Public-repo secret scanning is on as a backstop.</li>
-<li><strong>Auditability is a security property.</strong> The append-only, source-tagged change log makes every action — by any agent or any human channel — attributable after the fact. You can answer <em>what touched this, when, and why</em> with one grep, which is the difference between a system you can secure and one you can only hope about.</li>
+<li><strong>No secrets, no PII in the open.</strong> Credentials are never committed; the public repo is architecture and sanitized patterns only - no personal data, enforced by a pre-publish scan and a <code>.gitignore</code> that fences the live system. Public-repo secret scanning is on as a backstop.</li>
+<li><strong>Auditability is a security property.</strong> The append-only, source-tagged change log makes every action - by any agent or any human channel - attributable after the fact. You can answer <em>what touched this, when, and why</em> with one grep, which is the difference between a system you can secure and one you can only hope about.</li>
 <li><strong>Data minimization in transit.</strong> Digests summarize; the verbatim stays local. What travels to a phone is a short brief, not the underlying corpus, so the high-sensitivity material has the smallest possible blast radius.</li>
 </ul></article>
-<div class="prevnext"><a class="prev" href="docs/harness.html"><span class="lab">← Previous</span><span class="ttl">Harness engineering</span></a><a class="next" href="docs/agent-roster.html"><span class="lab">Next →</span><span class="ttl">The 27 agents, in plain language</span></a></div>
+<div class="prevnext"><a class="prev" href="docs/harness.html"><span class="lab">← Previous</span><span class="ttl">Harness engineering</span></a><a class="next" href="docs/agent-roster.html"><span class="lab">Next →</span><span class="ttl">The 30+ agents, in plain language</span></a></div>
 <div class="backbar"><a href="index.html">← Back to Ganesh OS</a></div>
 </body></html>

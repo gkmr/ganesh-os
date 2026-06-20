@@ -1,8 +1,8 @@
 # Agent catalog
 
-27 scheduled agents, grouped by layer. Each is a self-contained `SKILL.md` prompt fired by cron in local time. "Owns" names the single field the agent is allowed to mutate; everything else it treats as read-only.
+30+ scheduled agents, grouped by layer. Each is a self-contained `SKILL.md` prompt fired by cron in local time. "Owns" names the single field the agent is allowed to mutate; everything else it treats as read-only.
 
-## Layer 1 — Capture and digest (read-only, surfacing)
+## Layer 1 - Capture and digest (read-only, surfacing)
 
 | Agent | Cadence | Owns | Output |
 |---|---|---|---|
@@ -16,7 +16,7 @@
 
 Every digest follows one format contract: a leading source tag, a one-line summary plus counts, action items first with a stable handle, then compressed FYIs. Each repliable item also gets a JSON line in a daily manifest so it can be acted on by text.
 
-## Layer 2 — Triage (priority only, non-destructive)
+## Layer 2 - Triage (priority only, non-destructive)
 
 | Agent | Cadence | Owns | Output |
 |---|---|---|---|
@@ -25,7 +25,7 @@ Every digest follows one format contract: a leading source tag, a one-line summa
 
 Both are constrained writers: they set the priority field and tags only, never dates, completion, or deletion. Prune candidates are queued for per-item human confirmation, never auto-deleted.
 
-## Layer 3 — Reconcile and surface
+## Layer 3 - Reconcile and surface
 
 | Agent | Cadence | Owns | Output |
 |---|---|---|---|
@@ -38,7 +38,7 @@ Both are constrained writers: they set the priority field and tags only, never d
 | Reply processor | hourly, 6a–11p | lifecycle (create / complete / reschedule) | applies the human's decisions, whether typed into a canvas file or sent as a text; mirrors reminders back to a file; two-way sync |
 | Weekly status | weekly | nothing | a tiered weekly accountability summary assembled from the week's artifacts |
 
-## Layer 4 — Wellbeing coaching
+## Layer 4 - Wellbeing coaching
 
 | Agent | Cadence | Owns | Output |
 |---|---|---|---|
@@ -50,12 +50,12 @@ Both are constrained writers: they set the priority field and tags only, never d
 | Sleep coach | 10:15p | nothing | wind-down, recovery framing, names tomorrow's first move; sleep-apnea-aware |
 | Metrics brain + dashboard | 9:05p | the metrics file + the dashboard | silent: captures weigh-in/sleep/feeling + device stats + ritual adherence, tracks all trends, regenerates the holistic dashboard |
 
-## Layer 5 — Reflection and growth
+## Layer 5 - Reflection and growth
 
 | Agent | Cadence | Owns | Output |
 |---|---|---|---|
 | End-of-day review | 9:35p | a daily scorecard file and a note | diffs the morning plan against what actually happened; grades the day; coaching and motivation SMS |
-| Weekly self-improvement | Sun 4p | a proposal report only | error analysis across the logs, a lint of the knowledge base, the regression checks, and at most one proposed change per agent — never self-deploying |
+| Weekly self-improvement | Sun 4p | a proposal report only | error analysis across the logs, a lint of the knowledge base, the regression checks, and at most one proposed change per agent - never self-deploying |
 | Goal review | Sun 8a | the goals file | reads the week's signals, updates each goal's state and next action, runs the goal evals, flags stalls with one gated tactic change |
 
 ## Interoperation

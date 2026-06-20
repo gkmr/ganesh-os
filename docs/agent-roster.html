@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The 27 agents, in plain language · Ganesh OS</title>
+<title>The 30+ agents, in plain language · Ganesh OS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -47,12 +47,12 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 .backbar a:hover{border-color:var(--brand)}
 </style></head><body>
 <nav><div class="in"><a class="home" href="../index.html"><span class="g"></span> Ganesh OS</a>
-<div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">27 Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
-<div class="crumb"><span class="badge">Systems &amp; AI depth</span> <a href="../index.html">Ganesh OS</a> › <a href="../index.html#agents">back to this on the site</a> › <span style="color:var(--ink)">The 27 agents, in plain language</span></div>
-<article class="doc"><h1>The 27 agents, in plain language</h1>
-<p>A one-line description of what each of the 27 agents actually does — the context, not the full agenda. They run on a schedule, never call each other, and each one is allowed to write exactly one thing (its <strong>owns</strong> field); everything else it treats as read-only. For cadence, owned field, and exact output in table form, see the <a href="agent-catalog.html">agent catalog</a>; for how they hand off, see the <a href="system-map.html">system map</a>.</p>
+<div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">30+ Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
+<div class="crumb"><span class="badge">Systems &amp; AI depth</span> <a href="../index.html">Ganesh OS</a> › <a href="../index.html#agents">back to this on the site</a> › <span style="color:var(--ink)">The 30+ agents, in plain language</span></div>
+<article class="doc"><h1>The 30+ agents, in plain language</h1>
+<p>A one-line description of what each of the 30+ agents actually does - the context, not the full agenda. They run on a schedule, never call each other, and each one is allowed to write exactly one thing (its <strong>owns</strong> field); everything else it treats as read-only. For cadence, owned field, and exact output in table form, see the <a href="agent-catalog.html">agent catalog</a>; for how they hand off, see the <a href="system-map.html">system map</a>.</p>
 
-<h2><span class="layhead"><span>Layer 1 — Capture &amp; digest</span> <span class="tag">read-only · just surfaces</span></span></h2>
+<h2><span class="layhead"><span>Layer 1 - Capture &amp; digest</span> <span class="tag">read-only · just surfaces</span></span></h2>
 <p>Seven agents read every channel so nothing has to be checked by hand. They summarize and flag, but never change anything.</p>
 <ul class="roster">
 <li><div class="top"><span class="nm"><span class="num">01</span>WhatsApp digest</span><span class="cad">7:30a · 8:30p</span></div><p class="desc">Summarizes every unread chat with a key quote and archives the verbatim text, then sends one SMS. <span class="owns">Owns: <b>nothing</b>.</span></p></li>
@@ -60,32 +60,32 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 <li><div class="top"><span class="nm"><span class="num">03</span>Slack digest</span><span class="cad">7:30a · 8:30p</span></div><p class="desc">Surfaces unread DMs, mentions, and threads waiting on me; one SMS. <span class="owns">Owns: <b>nothing</b>.</span></p></li>
 <li><div class="top"><span class="nm"><span class="num">04</span>Google Voice digest</span><span class="cad">7:30a · 8:30p</span></div><p class="desc">Collects unread texts and voicemails, surfaced via email; one SMS. <span class="owns">Owns: <b>nothing</b>.</span></p></li>
 <li><div class="top"><span class="nm"><span class="num">05</span>Gmail digest</span><span class="cad">7:30a · 8:30p</span></div><p class="desc">Signal-vs-noise inbox triage with a key quote per thread; one SMS. <span class="owns">Owns: <b>nothing</b>.</span></p></li>
-<li><div class="top"><span class="nm"><span class="num">06</span>Meetings briefer</span><span class="cad">8:40a · 1:40p · 6:40p · 8:40p</span></div><p class="desc">Pre-briefs upcoming meetings and post-briefs finished ones across Granola + Krisp; the 8:40p run is an end-of-day rollup of still-open next steps. Proposes calendar, reminder, and draft actions — gated on my reply. <span class="owns">Owns: <b>nothing</b>.</span></p></li>
+<li><div class="top"><span class="nm"><span class="num">06</span>Meetings briefer</span><span class="cad">8:40a · 1:40p · 6:40p · 8:40p</span></div><p class="desc">Pre-briefs upcoming meetings and post-briefs finished ones across Granola + Krisp; the 8:40p run is an end-of-day rollup of still-open next steps. Proposes calendar, reminder, and draft actions - gated on my reply. <span class="owns">Owns: <b>nothing</b>.</span></p></li>
 <li><div class="top"><span class="nm"><span class="num">07</span>Meeting reconciliation</span><span class="cad">before each brief</span></div><p class="desc">Matches Krisp transcripts (which lack calendar access) to Granola's calendar-true metadata, correcting title, attendees, and stream. <span class="owns">Owns: <b>a local crosswalk</b>.</span></p></li>
 </ul>
 
-<h2><span class="layhead"><span>Layer 2 — Triage</span> <span class="tag">sets priority only · non-destructive</span></span></h2>
-<p>Two agents decide what matters most. They set priority and tags — never dates, completion, or deletion.</p>
+<h2><span class="layhead"><span>Layer 2 - Triage</span> <span class="tag">sets priority only · non-destructive</span></span></h2>
+<p>Two agents decide what matters most. They set priority and tags - never dates, completion, or deletion.</p>
 <ul class="roster">
 <li><div class="top"><span class="nm"><span class="num">08</span>Pipeline triage</span><span class="cad">5:45a</span></div><p class="desc">Four-tier re-ranking of the deal pipeline by deadline, freshness, company priority, and warm-path strength; writes the pipeline decision canvas. <span class="owns">Owns: <b>priority on the pipeline</b>.</span></p></li>
 <li><div class="top"><span class="nm"><span class="num">09</span>To-do triage</span><span class="cad">5:50a</span></div><p class="desc">The same four tiers across every other list, including the default and inbox lists; writes the to-do decision canvas. Prune candidates are queued for per-item human confirmation, never auto-deleted. <span class="owns">Owns: <b>priority on every other list</b>.</span></p></li>
 </ul>
 
-<h2><span class="layhead"><span>Layer 3 — Reconcile &amp; surface</span> <span class="tag">turns the pile into one ranked day</span></span></h2>
+<h2><span class="layhead"><span>Layer 3 - Reconcile &amp; surface</span> <span class="tag">turns the pile into one ranked day</span></span></h2>
 <p>Eight agents reconcile everything against the calendars and produce the day I actually see.</p>
 <ul class="roster">
 <li><div class="top"><span class="nm"><span class="num">10</span>Morning sweep</span><span class="cad">6:04a</span></div><p class="desc">Reconciles reminders against six calendars, advances recurring items, auto-parks overdue by tier, enforces the daily budget, and publishes the morning calendar event. <span class="owns">Owns: <b>dates, dedupe, conflicts, auto-park</b>.</span></p></li>
 <li><div class="top"><span class="nm"><span class="num">11</span>Evening sweep</span><span class="cad">6:45p</span></div><p class="desc">A mirror of the morning sweep; runs the weekly deep reconciliation on Sundays. <span class="owns">Owns: <b>same as morning sweep</b>.</span></p></li>
-<li><div class="top"><span class="nm"><span class="num">12</span>Morning briefing</span><span class="cad">7:10a</span></div><p class="desc">The ranked day: one most-important task plus a cross-domain top three, delivered four ways — chat, vault file, phone calendar event, and SMS. <span class="owns">Owns: <b>nothing</b> (read-only + its calendar event).</span></p></li>
+<li><div class="top"><span class="nm"><span class="num">12</span>Morning briefing</span><span class="cad">7:10a</span></div><p class="desc">The ranked day: one most-important task plus a cross-domain top three, delivered four ways - chat, vault file, phone calendar event, and SMS. <span class="owns">Owns: <b>nothing</b> (read-only + its calendar event).</span></p></li>
 <li><div class="top"><span class="nm"><span class="num">13</span>Evening briefing</span><span class="cad">8:15p</span></div><p class="desc">The evening wrap plus tomorrow's setup. <span class="owns">Owns: <b>nothing</b>.</span></p></li>
 <li><div class="top"><span class="nm"><span class="num">14</span>Weekday catch-up</span><span class="cad">11:00a</span></div><p class="desc">Re-runs the morning brief only if it is still missing. <span class="owns">Owns: <b>nothing</b>.</span></p></li>
 <li><div class="top"><span class="nm"><span class="num">15</span>Tomorrow plan</span><span class="cad">7:20p</span></div><p class="desc">The time-ordered master shortlist for the next day, fusing calendar blocks, reminders due, and tiers. <span class="owns">Owns: <b>nothing</b>.</span></p></li>
-<li><div class="top"><span class="nm"><span class="num">16</span>Reply processor</span><span class="cad">hourly · 6a–11p</span></div><p class="desc">Applies my decisions — whether typed into a canvas file or sent as a text — and mirrors reminders back to a file for two-way sync. <span class="owns">Owns: <b>lifecycle</b> (create / complete / reschedule).</span></p></li>
+<li><div class="top"><span class="nm"><span class="num">16</span>Reply processor</span><span class="cad">hourly · 6a–11p</span></div><p class="desc">Applies my decisions - whether typed into a canvas file or sent as a text - and mirrors reminders back to a file for two-way sync. <span class="owns">Owns: <b>lifecycle</b> (create / complete / reschedule).</span></p></li>
 <li><div class="top"><span class="nm"><span class="num">17</span>Weekly status</span><span class="cad">weekly</span></div><p class="desc">A tiered weekly accountability summary assembled from the week's artifacts. <span class="owns">Owns: <b>nothing</b>.</span></p></li>
 </ul>
 
-<h2><span class="layhead"><span>Layer 4 — Wellbeing coaching</span> <span class="tag">health, energy, recovery</span></span></h2>
-<p>Seven agents make sure the quiet domains — body, sleep, food — get their own slots, not just whatever work leaves behind.</p>
+<h2><span class="layhead"><span>Layer 4 - Wellbeing coaching</span> <span class="tag">health, energy, recovery</span></span></h2>
+<p>Seven agents make sure the quiet domains - body, sleep, food - get their own slots, not just whatever work leaves behind.</p>
 <ul class="roster">
 <li><div class="top"><span class="nm"><span class="num">18</span>Morning weigh-in</span><span class="cad">7:00a</span></div><p class="desc">Prompts weight, body-fat, sleep, and how the body feels; the reply feeds the metrics brain. <span class="owns">Owns: <b>nothing</b> (capture).</span></p></li>
 <li><div class="top"><span class="nm"><span class="num">19</span>Readiness + energy</span><span class="cad">6:50a</span></div><p class="desc">Reads last night's recovery, scores readiness, and recommends an energy-timed day to a text and the dashboard; never writes dates. <span class="owns">Owns: <b>nothing</b> (advisory).</span></p></li>
@@ -96,16 +96,16 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 <li><div class="top"><span class="nm"><span class="num">24</span>Metrics brain + dashboard</span><span class="cad">9:05p</span></div><p class="desc">Runs silently: captures weigh-in, sleep, feeling, device stats, and ritual adherence, tracks every trend, and regenerates the holistic dashboard. <span class="owns">Owns: <b>the metrics file + the dashboard</b>.</span></p></li>
 </ul>
 
-<h2><span class="layhead"><span>Layer 5 — Reflection &amp; growth</span> <span class="tag">does the system get better?</span></span></h2>
-<p>Three agents grade the day, the week, and the goals — and propose improvements without ever shipping them unattended.</p>
+<h2><span class="layhead"><span>Layer 5 - Reflection &amp; growth</span> <span class="tag">does the system get better?</span></span></h2>
+<p>Three agents grade the day, the week, and the goals - and propose improvements without ever shipping them unattended.</p>
 <ul class="roster">
 <li><div class="top"><span class="nm"><span class="num">25</span>End-of-day review</span><span class="cad">9:35p</span></div><p class="desc">Diffs the morning plan against what actually happened, grades the day, and sends coaching and motivation by SMS. <span class="owns">Owns: <b>a daily scorecard file and a note</b>.</span></p></li>
-<li><div class="top"><span class="nm"><span class="num">26</span>Weekly self-improvement</span><span class="cad">Sun 4p</span></div><p class="desc">Error analysis across the logs, a lint of the knowledge base, the regression checks, and at most one proposed change per agent — never self-deploying. <span class="owns">Owns: <b>a proposal report only</b>.</span></p></li>
+<li><div class="top"><span class="nm"><span class="num">26</span>Weekly self-improvement</span><span class="cad">Sun 4p</span></div><p class="desc">Error analysis across the logs, a lint of the knowledge base, the regression checks, and at most one proposed change per agent - never self-deploying. <span class="owns">Owns: <b>a proposal report only</b>.</span></p></li>
 <li><div class="top"><span class="nm"><span class="num">27</span>Goal review</span><span class="cad">Sun 8a</span></div><p class="desc">Reads the week's signals, updates each goal's state and next action, runs the goal evals, and flags stalls with one gated tactic change. <span class="owns">Owns: <b>the goals file</b>.</span></p></li>
 </ul>
 
 <h2>How they fit together</h2>
-<p>The agents never call each other. They coordinate through three shared surfaces: the <strong>decision canvases</strong> (triage writes, the human edits, the reply processor applies), the <strong>manifest</strong> (digests write, the reply processor reads), and a single append-only <strong>change log</strong> (everyone writes, the weekly pass reads). Priority flows from triage to the sweep, which preserves it, to the brief, which ranks by it — so one human decision in a canvas propagates through the whole chain by the next morning. That single-writer fence is what makes 27 autonomous agents safe to run unattended.</p></article>
+<p>The agents never call each other. They coordinate through three shared surfaces: the <strong>decision canvases</strong> (triage writes, the human edits, the reply processor applies), the <strong>manifest</strong> (digests write, the reply processor reads), and a single append-only <strong>change log</strong> (everyone writes, the weekly pass reads). Priority flows from triage to the sweep, which preserves it, to the brief, which ranks by it - so one human decision in a canvas propagates through the whole chain by the next morning. That single-writer fence is what makes 27 autonomous agents safe to run unattended.</p></article>
 <div class="prevnext"><a class="prev" href="../ARCHITECTURE.html"><span class="lab">← Previous</span><span class="ttl">Architecture</span></a><a class="next" href="agent-catalog.html"><span class="lab">Next →</span><span class="ttl">Agent catalog</span></a></div>
 <div class="backbar"><a href="../index.html">← Back to Ganesh OS</a></div>
 </body></html>

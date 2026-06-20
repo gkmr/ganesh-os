@@ -12,7 +12,7 @@ Four real incidents, each traced from symptom to root cause to a durable fix. Na
 
 **Symptom.** The reminders store showed 99 items in "today and overdue" and a 63-item pure-overdue pile that kept growing no matter how often it was triaged.
 
-**Investigation.** Two root causes. First, with no confirmation ever given, nothing moved — so overdue accumulated while the system sat politely waiting. The bottleneck was the human decision step, not the agents. Second, a one-time review snapshot silently omitted two lists (the default "uncategorized" list and the inbox), so a whole cluster of real commitments was invisible to triage and never tiered.
+**Investigation.** Two root causes. First, with no confirmation ever given, nothing moved - so overdue accumulated while the system sat politely waiting. The bottleneck was the human decision step, not the agents. Second, a one-time review snapshot silently omitted two lists (the default "uncategorized" list and the inbox), so a whole cluster of real commitments was invisible to triage and never tiered.
 
 **Fix.** An auto-park rule in the sweeps: any overdue item with no pending decision is automatically re-dated forward by its tier (urgent to today, medium a week out, low to a two-week backlog, prune-candidates a month out and queued for deletion confirmation), never touching sacred or recurring items. The loop now advances on its own and surfaces only exceptions. Separately, triage was made to enumerate every list dynamically, with an explicit guard naming the previously-skipped lists, and the snapshot was stamped non-canonical.
 
@@ -60,13 +60,13 @@ Four real incidents, each traced from symptom to root cause to a durable fix. Na
 
 ## 4. The stale id: a silent write that did nothing
 
-*Every other failure here was loud. This one was the dangerous kind — it succeeded quietly and was wrong. The fix wasn't a patch; it was making silence impossible.*
+*Every other failure here was loud. This one was the dangerous kind - it succeeded quietly and was wrong. The fix wasn't a patch; it was making silence impossible.*
 
 **Status quo.** The reply-processor applied store actions by id, carrying ids forward across steps in a single run for efficiency.
 
 **Symptom.** Writes occasionally failed with record-not-found, and a handful of "completes" silently did nothing. The user marked something done; the system agreed; nothing changed.
 
-**Investigation.** An id was reproduced from memory across steps — effectively transcribed — instead of read fresh from source immediately before the write. Between the read and the write the record had moved, so the stale id pointed at nothing. Worse, a not-found result was being swallowed as a no-op rather than raised.
+**Investigation.** An id was reproduced from memory across steps - effectively transcribed - instead of read fresh from source immediately before the write. Between the read and the write the record had moved, so the stale id pointed at nothing. Worse, a not-found result was being swallowed as a no-op rather than raised.
 
 **Fix.** Read every id fresh from source immediately before any write; read-after-write verify by id to confirm the change landed; and treat a not-found id as a hard error that surfaces, never a silent skip. An id-freshness check now runs in CI, so the whole class of bug is fenced out rather than patched once.
 

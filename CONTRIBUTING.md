@@ -1,6 +1,6 @@
 # Contributing
 
-This is a design portfolio repo — architecture, patterns, and the evals that enforce them. It contains no personal data and no live system. You are welcome to fork the patterns (the single-writer fence especially) into your own multi-agent system.
+This is a design portfolio repo - architecture, patterns, and the evals that enforce them. It contains no personal data and no live system. You are welcome to fork the patterns (the single-writer fence especially) into your own multi-agent system.
 
 ## Run the evals locally
 
@@ -13,10 +13,10 @@ The evals are behavioral, not structural: `check_lane_fence` fails on a cross-la
 
 ## Repo layout
 
-- `ARCHITECTURE.md`, `docs/` — the design and the patterns.
-- `evals/` — the real checks + sample data.
-- `agents/` — sanitized example agent prompts + the manifest schema.
-- `index.html`, `demo.html`, `assets/` — the visual showcase.
+- `ARCHITECTURE.md`, `docs/` - the design and the patterns.
+- `evals/` - the real checks + sample data.
+- `agents/` - sanitized example agent prompts + the manifest schema.
+- `index.html`, `demo.html`, `assets/` - the visual showcase.
 
 ## If you adopt the pattern
 
