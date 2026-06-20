@@ -47,6 +47,7 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 <div class="crumb"><span class="badge">📚 Learnings</span> <a href="../index.html">Ganesh OS</a> › <span style="color:var(--ink)">Learnings</span></div>
 <article class="doc"><h1>Learnings</h1>
 <p>A standing section for what running this system teaches. The first entry is a first-principles audit of the whole fleet against the context ladder, and what it changed.</p>
+<figure style="margin:22px 0"><img src="../assets/context-ladder.svg" alt="The context ladder, L1 to L5 plus MCP" style="width:100%;height:auto;display:block;border:1px solid rgba(255,255,255,.09);border-radius:14px;background:#070a14;padding:8px"/></figure>
 
 <h2>Why this section exists</h2>
 <p>The rest of this repo documents how the system is built. This section documents what it got wrong and corrected, because a governance architecture is only as honest as its willingness to audit itself. Each entry states a principle, the evidence that forced it, and the change that followed.</p>
@@ -59,6 +60,10 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 
 <h2>The one idea</h2>
 <p>Subtract as deliberately as you add. The ladder is usually taught as a climb - add a rung when friction forces it. The other half is the descent: convert the top invariants to prevention and delete the checks they retire, read each source once and delete the duplicate fetches, merge agents on a quota. A system that only ever adds is one that has stopped being designed.</p>
+<div style="margin:22px 0 4px;padding:13px 16px;border:1px solid rgba(255,255,255,.09);border-left:3px solid #22d3ee;border-radius:0 10px 10px 0;background:rgba(34,211,238,.05);font-size:13.5px;color:#c4cde0">
+<span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#22d3ee;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:5px">Source</span>
+The context-ladder framework is from <a href="https://aishwaryanareshreganti.substack.com/">"Claude Code 101: A First Principles Approach"</a> by Akshat Kharbanda, Aiza Hasib and Aishwarya Naresh Reganti, LevelUp Labs. The audit, the redrawn diagrams, and the system mapping here are our own.
+</div>
 </article>
 <div class="prevnext"><a class="prev" href="SECURITY-SCAN.html"><span class="lab">← Previous</span><span class="ttl">Security and PII scan</span></a><a class="next" href="first-principles.html"><span class="lab">Next →</span><span class="ttl">First principles - the context ladder</span></a></div>
 <div class="backbar"><a href="../index.html">← Back to Ganesh OS</a></div>

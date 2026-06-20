@@ -41,6 +41,7 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 <div class="crumb"><span class="badge">📚 Learnings</span> <a href="../index.html">Ganesh OS</a> › <a href="learnings.html">Learnings</a> › <span style="color:var(--ink)">First principles</span></div>
 <article class="doc"><h1>First principles - the context ladder</h1>
 <p>Adapted from "Claude Code 101: A First Principles Approach" (LevelUp Labs - Akshat Kharbanda, Aiza Hasib, Aishwarya Naresh Reganti). The framing is theirs; the scorecard at the end is this system measured against it.</p>
+<figure style="margin:24px 0"><img src="../assets/context-ladder.svg" alt="The context ladder, L1 raw prompting up to L5 orchestration, plus MCP" style="width:100%;height:auto;display:block;border:1px solid rgba(255,255,255,.09);border-radius:14px;background:#070a14;padding:8px"/></figure>
 
 <h2>Why the context window decides everything</h2>
 <p>An agentic assistant gathers context, takes an action, checks the result, and loops. The context window is finite, so every instruction loaded competes for the same space. Overload it and the model skims. Two failure modes follow, opposite in cause:</p>
@@ -63,10 +64,12 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 <tr><td>-</td><td>MCP</td><td>The work lives somewhere local files cannot reach</td><td>tool names always; schemas on demand</td></tr>
 </tbody></table>
 <p>The decision rule, stated as friction to response: convention wrong twice goes in CLAUDE.md; the same prompt a third time becomes a skill; data the model cannot see connects through MCP; a side task that floods the window goes to a subagent; something that must happen every time becomes a hook; a second project that needs the same setup becomes a plugin.</p>
+<figure style="margin:24px 0"><img src="../assets/decision-tree.svg" alt="Decision rule: which level to reach for" style="width:100%;height:auto;display:block;border:1px solid rgba(255,255,255,.09);border-radius:14px;background:#070a14;padding:8px"/></figure>
 <p>The one non-negotiable is a lean CLAUDE.md. Everything else is added the moment the friction appears, never in anticipation of it.</p>
 
 <h2>The real power is in the combinations</h2>
 <p>No primitive works alone. CLAUDE.md holds the always-true line ("follow the contract"); the heavy reference lives in a skill that loads only when relevant. MCP gives the model hands; a skill gives it the knowledge to use them. A hook fires on a lifecycle event and triggers an MCP call at zero context cost. The judgment is deciding which primitive carries which job.</p>
+<figure style="margin:24px 0"><img src="../assets/load-context.svg" alt="When each feature loads into the context window, and how this system maps to it" style="width:100%;height:auto;display:block;border:1px solid rgba(255,255,255,.09);border-radius:14px;background:#070a14;padding:8px"/></figure>
 
 <h2>Scorecard - this system against the ladder</h2>
 <table>
@@ -79,6 +82,10 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 <tr><td>MCP</td><td>Reminders, Calendar, mail, and chat connectors, matched by trailing tool name because server ids rotate</td><td>strong</td></tr>
 </tbody></table>
 <p>The lesson the audit surfaced is on the next page: a system can climb the whole ladder and still enforce its hardest invariants probabilistically. Prevention beats detection, and you subtract the checks that prevention retires.</p>
+<div style="margin:26px 0 4px;padding:13px 16px;border:1px solid rgba(255,255,255,.09);border-left:3px solid #22d3ee;border-radius:0 10px 10px 0;background:rgba(34,211,238,.05);font-size:13.5px;color:#c4cde0">
+<span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#22d3ee;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:5px">Source</span>
+Framework and diagrams adapted from <a href="https://aishwaryanareshreganti.substack.com/">"Claude Code 101: A First Principles Approach"</a> by Akshat Kharbanda, Aiza Hasib and Aishwarya Naresh Reganti, LevelUp Labs. The ladder is theirs; these diagrams are redrawn on-brand, and the mapping to this system is our own.
+</div>
 </article>
 <div class="prevnext"><a class="prev" href="learnings.html"><span class="lab">← Previous</span><span class="ttl">Learnings</span></a><a class="next" href="applied-learnings.html"><span class="lab">Next →</span><span class="ttl">What a first-principles audit changed</span></a></div>
 <div class="backbar"><a href="../index.html">← Back to Ganesh OS</a></div>
