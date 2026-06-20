@@ -6,16 +6,16 @@ Format: **Context → Options → Decision → Consequences.**
 
 ---
 
-## ADR-01 — Concurrency control for 27 writers
+## ADR-01 - Concurrency control for 30+ writers
 
 **Status:** Accepted · core invariant.
 
 **Context.** Many autonomous agents write the same store. Two agents touching the same field will clobber each other: one normalizes a priority another just set, two reschedule the same item, a cleanup deletes mid-edit. The substrate is a consumer reminders store with no transactions and a hard token budget per run.
 
 **Options.**
-- A real lock manager / MVCC / optimistic locking — the textbook answer.
+- A real lock manager / MVCC / optimistic locking - the textbook answer.
 - Optimistic retries with version stamps.
-- **Single-writer field fences** — every mutable field has exactly one owning agent; everyone else treats it read-only.
+- **Single-writer field fences** - every mutable field has exactly one owning agent; everyone else treats it read-only.
 
 **Decision.** Single-writer field fences, verified by a lane-fence eval that fails on the first cross-lane write.
 
@@ -23,45 +23,45 @@ Format: **Context → Options → Decision → Consequences.**
 
 ---
 
-## ADR-02 — State store
+## ADR-02 - State store
 
 **Status:** Accepted.
 
 **Context.** Every agent run is stateless and reloads context from disk. The human must be able to read and hand-edit the state from a phone.
 
 **Options.**
-- SQLite / Postgres — real queries, constraints, indices.
+- SQLite / Postgres - real queries, constraints, indices.
 - A SaaS task API as the source of truth.
 - **Plain Markdown files** on disk.
 
 **Decision.** Markdown files as the canonical store; the reminders store is mirrored into decision-canvas files.
 
-**Consequences.** Lowest-friction store a model and a person can both read and write; diffs cleanly into the append-only change log; no migration story. The cost: no query engine and no DB-enforced constraints. If grep stops scaling, a local SQLite index is the planned next step — it has not been needed.
+**Consequences.** Lowest-friction store a model and a person can both read and write; diffs cleanly into the append-only change log; no migration story. The cost: no query engine and no DB-enforced constraints. If grep stops scaling, a local SQLite index is the planned next step - it has not been needed.
 
 ---
 
-## ADR-03 — One orchestrator vs. many agents
+## ADR-03 - One orchestrator vs. many agents
 
 **Status:** Accepted.
 
-**Context.** Coordination between 27 agents is the hard part. A single mega-agent would avoid it entirely.
+**Context.** Coordination between 30+ agents is the hard part. A single mega-agent would avoid it entirely.
 
 **Options.**
 - One orchestrator agent that does everything in-process.
 - A central queue/broker with workers.
-- **27 small, single-purpose scheduled agents**, coordinated through shared files and the cron schedule.
+- **30+ small, single-purpose scheduled agents**, coordinated through shared files and the cron schedule.
 
 **Decision.** Many small agents; the schedule itself is the orchestration.
 
-**Consequences.** A bug degrades one function, not the whole system; each agent has its own concurrency guard and eval; observability is per-agent. The cost is the coordination layer — the fences, the manifest, the change log — which is exactly the part worth showing. This is Conway's law on purpose: the architecture is the org chart.
+**Consequences.** A bug degrades one function, not the whole system; each agent has its own concurrency guard and eval; observability is per-agent. The cost is the coordination layer - the fences, the manifest, the change log - which is exactly the part worth showing. This is Conway's law on purpose: the architecture is the org chart.
 
 ---
 
-## ADR-04 — Forward progress vs. human confirmation
+## ADR-04 - Forward progress vs. human confirmation
 
 **Status:** Accepted · replaced the original design.
 
-**Context.** The first design gated every date change on human confirmation. It was safe and produced a permanent, growing backlog — the system sat politely waiting while overdue piled up (see [case study 1](case-studies.md)).
+**Context.** The first design gated every date change on human confirmation. It was safe and produced a permanent, growing backlog - the system sat politely waiting while overdue piled up (see [case study 1](case-studies.md)).
 
 **Options.**
 - Confirm every mutation (original).
@@ -74,7 +74,7 @@ Format: **Context → Options → Decision → Consequences.**
 
 ---
 
-## ADR-05 — Where the model judges and where code decides
+## ADR-05 - Where the model judges and where code decides
 
 **Status:** Accepted · the AI-native line.
 
@@ -91,7 +91,7 @@ Format: **Context → Options → Decision → Consequences.**
 
 ---
 
-## ADR-06 — Delivery surface
+## ADR-06 - Delivery surface
 
 **Status:** Accepted.
 
@@ -108,7 +108,7 @@ Format: **Context → Options → Decision → Consequences.**
 
 ---
 
-## ADR-07 — Self-improvement safety
+## ADR-07 - Self-improvement safety
 
 **Status:** Accepted.
 
@@ -121,11 +121,11 @@ Format: **Context → Options → Decision → Consequences.**
 
 **Decision.** A weekly pass runs error analysis, lints for rot, and runs frozen + behavioral evals before proposing; an approved change is snapshot-first and rolled back if any affected eval regresses. Nothing self-deploys.
 
-**Consequences.** Autonomy with a brake — the continual-learning pattern reduced to something safe to run unattended. The cost: improvement is slow by construction (one change per agent per week) and needs a human in the approval loop.
+**Consequences.** Autonomy with a brake - the continual-learning pattern reduced to something safe to run unattended. The cost: improvement is slow by construction (one change per agent per week) and needs a human in the approval loop.
 
 ---
 
-## ADR-08 — Outcome measurement
+## ADR-08 - Outcome measurement
 
 **Status:** Accepted.
 
@@ -142,32 +142,32 @@ Format: **Context → Options → Decision → Consequences.**
 
 ---
 
-## ADR-09 — Determinism layer: prevention over detection
+## ADR-09 - Determinism layer: prevention over detection
 
 **Status:** Accepted · 2026-06-20.
 
 **Context.** The single-writer fence, alarm-sync, and changelog-on-write were enforced at runtime by prose plus an after-the-fact final-check subagent. Detection let a 62-item alarm desync pass every verification read; it was caught only by a human glancing at the phone.
 
 **Options.**
-- Add more verification checks after the write — more tokens, still detection.
+- Add more verification checks after the write - more tokens, still detection.
 - Trust the prompt to remember the rule.
 - **Lifecycle hooks that block the bad write before it lands, plus a runtime-agnostic verifier where hooks are unavailable.**
 
 **Decision.** A determinism layer in `hooks/`: PreToolUse fences (alarm-sync, lane, char-sanitize), a PostToolUse changelog receipt, and `fence-verify.py`, all gated in CI by `evals/test_hooks.py`.
 
-**Consequences.** The top invariants become impossible to violate at zero context cost, and the matching verification checks can be retired — verification shrinks as prevention grows. The cost: hooks only pre-block where the runtime executes them; elsewhere the verifier runs as a post-step. See [`../docs/applied-learnings.md`](applied-learnings.md).
+**Consequences.** The top invariants become impossible to violate at zero context cost, and the matching verification checks can be retired - verification shrinks as prevention grows. The cost: hooks only pre-block where the runtime executes them; elsewhere the verifier runs as a post-step. See [`../docs/applied-learnings.md`](applied-learnings.md).
 
 ---
 
-## ADR-10 — Gather once, fan out from disk
+## ADR-10 - Gather once, fan out from disk
 
 **Status:** Accepted · 2026-06-20.
 
 **Context.** The same raw sources (mail, chat, calendar, reminders) were read three to five times per cycle by the sweep, the briefing, and the per-channel digests.
 
 **Options.**
-- Let each agent fetch what it needs independently — simplest, and what existed.
-- A shared cache service — infrastructure one operator does not need.
+- Let each agent fetch what it needs independently - simplest, and what existed.
+- A shared cache service - infrastructure one operator does not need.
 - **One gather wave writes dated snapshots; downstream agents consume them with a freshness fallback to a live read.**
 
 **Decision.** The gather wave publishes per-source snapshots; read-only agents consume the snapshot; write-bearing agents keep fresh reads for the items they mutate.

@@ -12,7 +12,7 @@
 
 **How it reaches me:** on the channels I already use: iMessage, SMS, WhatsApp, and email. Work pours in from all of them, and I reply in plain English to steer it. No app, no dashboard.
 
-> **Why I built it.** Work has a Slack, a sprint board, an on-call alert. My health, the people I love, and my own growth shared a sticky note, so work always won and the quiet things slipped quietly. That was not a discipline problem, it was a coordination problem: many demands, one me, and no system holding the line. So I built 27 agents to run all of it as one governed system, and at 7:42 a.m. one text names the single thing that matters in each domain.
+> **Why I built it.** Work has a Slack, a sprint board, an on-call alert. My health, the people I love, and my own growth shared a sticky note, so work always won and the quiet things slipped quietly. That was not a discipline problem, it was a coordination problem: many demands, one me, and no system holding the line. So I built 30+ agents to run all of it as one governed system, and at 7:42 a.m. one text names the single thing that matters in each domain.
 
 **[▶ Watch one day in motion (60s)](demo.html)**, or open the full site at **https://gkmr.github.io/ganesh-os/**: a plain problem, outcome, and how walkthrough up top, then the build for technical readers (the architecture, the 27-agent fleet, governance, memory, and case studies).
 
@@ -30,7 +30,7 @@ Today: 1 work · ship memo. 2 health · 11am lift (only slot this week).
 0 overdue. 11 real tasks. 6 things I handled while you slept.
 ```
 
-While I slept, 27 agents read five message channels, reconciled six calendars, re-ranked every open item, cleared the overdue pile to zero, and decided - out of everything - that the memo, the lift, and the founder are what today is actually for. I did not plan that. The system did, and it can show its work for every line.
+While I slept, 30+ agents read five message channels, reconciled six calendars, re-ranked every open item, cleared the overdue pile to zero, and decided - out of everything - that the memo, the lift, and the founder are what today is actually for. I did not plan that. The system did, and it can show its work for every line.
 
 That is the product. The rest of this page is how it is built so you can trust it.
 
@@ -194,7 +194,7 @@ Open to **board & advisory roles, fractional CPO/CTO engagements, panels & talks
 | [`docs/harness.md`](docs/harness.md) | Harness engineering: scheduler, context, tools, contract, log, evals - and how agents/skills/memory plug in |
 | [`docs/case-studies.md`](docs/case-studies.md) | Three governance decisions, end to end |
 | [`docs/design-patterns.md`](docs/design-patterns.md) | The nine patterns + tradeoffs and alternatives |
-| [`docs/agent-catalog.md`](docs/agent-catalog.md) | All 27 agents and the one field each owns |
+| [`docs/agent-catalog.md`](docs/agent-catalog.md) | All 30+ agents and the one field each owns |
 | [`evals/`](evals/) | The real behavioral checks, run in CI |
 | [`agents/`](agents/) | Sanitized example agent prompts + the manifest schema |
 

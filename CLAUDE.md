@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-BLUF: this repo is a personal AI operating system - 27 scheduled Claude agents that run a daily life across work, health, people, and growth, coordinated by one rule: every field has exactly one owning agent. This file is the always-on context for working in the repo. It stays lean on purpose; the heavy reference lives in `docs/` and `skills/` and loads only when needed.
+BLUF: this repo is a personal AI operating system - 30+ scheduled Claude agents that run a daily life across work, health, people, and growth, coordinated by one rule: every field has exactly one owning agent. This file is the always-on context for working in the repo. It stays lean on purpose; the heavy reference lives in `docs/` and `skills/` and loads only when needed.
 
 ## What this is
 - A design portfolio and reference architecture, not the live system. Architecture and patterns only, no personal data.

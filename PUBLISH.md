@@ -11,7 +11,7 @@ If `gh` is installed and signed in (`gh auth login` once), `push.sh` creates the
 GitHub's web uploader cannot preserve a nested folder tree (`.github/workflows/`, `evals/data/`, `agents/`, `docs/`), and a flattened upload would break CI. So the reliable path is a one-time `git push`. It takes about 20 seconds.
 
 ## 1. Create the empty repo
-On github.com (signed in as **gkmr**, your personal account — not the work org): New repository → name `ganesh-os`, **Public**, do NOT add a README/license/gitignore (this repo already has them).
+On github.com (signed in as **gkmr**, your personal account - not the work org): New repository → name `ganesh-os`, **Public**, do NOT add a README/license/gitignore (this repo already has them).
 
 ## 2. Push from your Mac
 ```bash

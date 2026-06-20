@@ -6,7 +6,7 @@
 set -uo pipefail
 
 REPO="gkmr/ganesh-os"
-DESC="A governance layer for autonomous AI agents, proven on a life: 27 scheduled agents made auditable, self-healing, and human-gated by single-writer field ownership. Architecture and patterns, no personal data."
+DESC="A governance layer for autonomous AI agents, proven on a life: 30+ scheduled agents made auditable, self-healing, and human-gated by single-writer field ownership. Architecture and patterns, no personal data."
 PAGES="https://gkmr.github.io/ganesh-os/"
 
 git init -b main >/dev/null 2>&1 || git init >/dev/null 2>&1 || true
