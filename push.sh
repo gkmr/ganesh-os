@@ -35,10 +35,18 @@ git branch -M main 2>/dev/null || true
 if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
   echo "• gh detected — creating + configuring the repo"
   if ! gh repo view "$REPO" >/dev/null 2>&1; then
-    gh repo create "$REPO" --public --source=. --remote=origin --description "$DESC" --push
+    gh repo create "$REPO" --public --source=. --remote=origin --description "$DESC" --push \
+      || { echo "✗ repo create/push failed (see above). Nothing deployed."; exit 1; }
   else
     git remote get-url origin >/dev/null 2>&1 || git remote add origin "https://github.com/$REPO.git"
-    git push -u origin main
+    # Another session may have pushed since the last sync; integrate first so this push fast-forwards.
+    if ! git pull --rebase origin main; then
+      git rebase --abort 2>/dev/null || true
+      echo "✗ Remote diverged and auto-rebase hit a conflict. Resolve, then re-run."
+      echo "  If it is just the zip:  git checkout --theirs ganesh-os.zip && git add ganesh-os.zip && git rebase --continue && git push origin main"
+      exit 1
+    fi
+    git push -u origin main || { echo "✗ push failed (see above). Nothing deployed."; exit 1; }
   fi
   gh repo edit "$REPO" --description "$DESC" --homepage "$PAGES" \
     --add-topic ai-agents --add-topic multi-agent-systems --add-topic ai-governance \
