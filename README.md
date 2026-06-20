@@ -137,6 +137,14 @@ A system doc that oversells is worthless, so here is the candid version.
 
 **Cost:** not yet instrumented per agent. Aggregate is low, tens of runs a day, read-heavy, a handful of writes. Per-role telemetry in the change log is on the list.
 
+## For engineers, start here
+
+If you live in Claude Code, read `docs/claude-code-map.md` first. It maps this system's vocabulary (harness, `SKILL.md`, change log, fence) to the primitives you know (CLAUDE.md, skills, hooks, subagents, MCP). Then:
+- `CLAUDE.md` - the always-on law and conventions.
+- `skills/morning-brief/SKILL.md` - one agent, in skill form.
+- `hooks/` - the determinism layer, the fence as a hook.
+- `evals/lane_fence.py` - the law as deterministic code; `QUICKSTART.md` runs it in a minute.
+
 ## Getting started
 
 ```bash
