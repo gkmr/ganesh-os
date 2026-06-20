@@ -18,3 +18,7 @@ __pycache__/
 # Local-only, never commit
 private/
 *.local.*
+
+# Build artifact. GitHub already offers "Download ZIP", and tracking this binary
+# made it conflict on every cross-session push. Untracked on purpose.
+ganesh-os.zip
