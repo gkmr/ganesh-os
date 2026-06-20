@@ -116,6 +116,27 @@ Each is a governance decision, traced from symptom to root cause to fix in [docs
 
 Agents are shipping into production faster than anyone can govern them, and "trust" is being asserted in slide decks rather than enforced in code. Single-writer ownership, an append-only audit trail, evals-as-CI-gate, and irreversible-only human gating are a working answer to the open problem: real autonomy that stays auditable, recoverable, and trusted. Here, that answer runs unattended every day: the evals gate every change and the audit trail is one queryable log.
 
+## The stack, and what's actually running
+
+A system doc that oversells is worthless, so here is the candid version.
+
+**Running today:**
+- **Models:** Claude, one workhorse model doing most of the agents.
+- **Harness:** a scheduled-agent runtime. Each agent is a `SKILL.md` prompt fired by cron, one run at a time, with a concurrency guard so a missed or doubled fire is a no-op.
+- **State:** plain Markdown files plus one append-only change log. No database.
+- **Memory:** file-based, with "valid from / superseded by" stamps so facts age out instead of being silently overwritten.
+- **Connectors:** Apple Reminders and Calendar, Gmail, Slack, WhatsApp, Granola and Krisp.
+
+**Designed but not fully wired yet** (other parts of these docs describe some of this as if it is built; it is not all live):
+- Per-agent tiered model routing. Right now it is mostly one model, not a cheap-model-for-capture, strong-model-for-judgment split.
+- The fuller retry, fallback, and degradation policies. The concurrency guard and auto-park are real; the rest is partly on paper.
+
+**Evals, honestly:**
+- The structural evals (the single-writer fence, ids read fresh before a write) have clean criteria and I trust them.
+- The judgment evals (did the morning brief rank the right thing, is the coaching any good) are where the criteria are still soft and the golden set is thin. I am hand-labeling and still finding gaps. That part is not solved.
+
+**Cost:** not yet instrumented per agent. Aggregate is low, tens of runs a day, read-heavy, a handful of writes. Per-role telemetry in the change log is on the list.
+
 ## Getting started
 
 ```bash
