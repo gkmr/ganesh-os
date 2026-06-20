@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ganesh OS - a personal AI operating system, run at the scale of one life</title>
-<meta name="description" content="27 scheduled AI agents run one person's whole life - work, health, people, growth - coordinated by one rule: every field has exactly one owner. A working answer to governing autonomous agents. Built by an operator-investor: VC partner and fractional CPO/CTO.">
+<meta name="description" content="30+ scheduled AI agents run one person's whole life - work, health, people, growth - coordinated by one rule: every field has exactly one owner. A working answer to governing autonomous agents. Built by an operator-investor: VC partner and fractional CPO/CTO.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -490,7 +490,7 @@
       <a href="#craft" data-scroll="craft">Craft</a>
       <a href="#governance" data-scroll="governance">Governance</a>
       <a href="#system" data-scroll="system">Architecture</a>
-      <a href="#agents" data-scroll="agents">27 Agents</a>
+      <a href="#agents" data-scroll="agents">30+ Agents</a>
       <a href="#memory" data-scroll="memory">Memory</a>
       <a href="#cases" data-scroll="cases">Cases</a>
       <a href="#outcomes" data-scroll="outcomes">Outcomes</a>
@@ -597,7 +597,7 @@
   <div class="wrap reveal">
     <p class="eyebrow">Four disciplines · one artifact</p>
     <h2>I don't talk about being AI-native. I run on it.</h2>
-    <p class="sub">Most portfolios describe the work. This one <em>is</em> the work - a living AI-native system I designed, built, and run every day. Product sense, strategy, systems depth, and craft, all provable in the same place. Four lenses on one artifact - skim the one that's yours, or read straight down.</p>
+    <p class="sub">Most portfolios describe the work. This one <em>is</em> the work - a system I designed, built, and run every day, where the product, strategy, systems depth, and craft are provable in one artifact instead of claimed on a slide. Pick the lens that's yours, or read straight down.</p>
     <div class="personas">
       <button class="pcard" data-scroll="product"><div class="ic">✦</div><b>AI-native product</b><span class="q">I design with the models, not around them - judgment where it shines, determinism where it must.</span><div class="go">See the product →</div></button>
       <button class="pcard" data-scroll="prioritize"><div class="ic">◑</div><b>Strategy &amp; prioritization</b><span class="q">I rank under real constraint and kill the right thing out loud - energy, time, and leverage, not just urgency.</span><div class="go">Watch me prioritize →</div></button>
@@ -615,7 +615,7 @@
     <div class="wrap">
       <div class="panelhead">
         <p class="eyebrow">The product</p>
-        <h2>The product isn't 27 agents. It's one text that can show its work.</h2>
+        <h2>The product isn't 30+ agents. It's one text that can show its work.</h2>
         <p class="sub">Twenty-seven agents read every channel, reconciled six calendars, cleared the overdue pile to zero, and protected the quiet slots. What I see is one message - and every line traces to a change-log entry that says who wrote it and why.</p>
       </div>
       <div class="resolve reveal">
@@ -813,7 +813,7 @@ OWNER = {
         <span class="sl">In this section:</span>
         <a href="#harness" data-scroll="harness">Harness</a>
         <a href="#sysdesign" data-scroll="sysdesign">System design</a>
-        <a href="#agents" data-scroll="agents">27 Agents</a>
+        <a href="#agents" data-scroll="agents">30+ Agents</a>
         <a href="#scaling" data-scroll="scaling">Scaling</a>
         <a href="#adrs" data-scroll="adrs">ADRs</a>
       </div>
@@ -823,7 +823,7 @@ OWNER = {
         <div class="hlayer"><div class="hname">Context assembly<small>read-first index</small></div><div class="hbar"><span class="pill" style="--c:var(--brand2)">loads</span>Every run rebuilds its world from files: a small routing index first, then only the canvases, manifest, and memory it needs.</div></div>
         <div class="hlayer"><div class="hname">Tools &amp; connectors<small>action surface</small></div><div class="hbar"><span class="pill" style="--c:var(--health)">acts</span>File tools, a sandboxed shell, and connectors. A surface check degrades gracefully when one is down and queues write-intents for the next full run.</div></div>
         <div class="hlayer"><div class="hname">Format contract<small>house style</small></div><div class="hbar"><span class="pill" style="--c:var(--people)">constrains</span>A shared contract every agent obeys: handle namespaces, the decision vocabulary, and the one field this agent may write. Where the single-writer fence is enforced.</div></div>
-        <div class="hlayer"><div class="hname">Change log<small>append-only</small></div><div class="hbar"><span class="pill" style="--c:var(--new)">records</span>Every write from any agent appends one source-tagged line. The audit trail, the input to the evals, and the thing that makes 27 writers reconstructable.</div></div>
+        <div class="hlayer"><div class="hname">Change log<small>append-only</small></div><div class="hbar"><span class="pill" style="--c:var(--new)">records</span>Every write from any agent appends one source-tagged line. The audit trail, the input to the evals, and the thing that makes 30+ writers reconstructable.</div></div>
         <div class="hlayer"><div class="hname">Evals<small>CI trust gate</small></div><div class="hbar"><span class="pill" style="--c:var(--pass)">vetoes</span>Frozen + behavioral checks read the change log and block a run that breaks an invariant. The harness can refuse its own agents.</div></div>
       </div>
       <div class="hrel">
@@ -832,7 +832,7 @@ OWNER = {
         <div class="hrelc"><div class="rl">Memory</div><b>State it re-hydrates.</b><p>MemPalace, the LLM-wiki substrate, and gbrain are files the harness reads every run and writes through the change log. The harness is the discipline that keeps memory from rotting.</p></div>
       </div>
 
-      <div class="steplabel" id="agents">🤖 The fleet · all <span class="acount">27</span> agents on the harness</div>
+      <div class="steplabel" id="agents">🤖 The fleet · all <span class="acount">30+</span> agents on the harness</div>
       <p class="sub">Every agent is a self-contained <code>SKILL.md</code> prompt the harness fires on a schedule. "Owns" names the one field it may write; everything else it reads. Grouped by the five layers:</p>
       <div id="agentcat">
         <div class="agroup" style="--c:var(--health)">
@@ -888,7 +888,7 @@ OWNER = {
           </div>
         </div>
       </div>
-      <p class="sub" style="margin-top:18px"><a href="docs/agent-roster.html">The 27 agents in plain language - a one-line description of each →</a><br><a href="docs/agent-catalog.html">The full agent catalog - every agent, cadence, owned field, and output →</a><br><a href="docs/system-map.html">The system map - how all 27 agents hand off and chain together →</a></p>
+      <p class="sub" style="margin-top:18px"><a href="docs/agent-roster.html">The 30+ agents in plain language - a one-line description of each →</a><br><a href="docs/agent-catalog.html">The full agent catalog - every agent, cadence, owned field, and output →</a><br><a href="docs/system-map.html">The system map - how all 30+ agents hand off and chain together →</a></p>
 
       <div class="steplabel" id="sysdesign">📐 System design · an engineering leader's pass</div>
       <p class="sub">Business goal first, then requirements, scale, interface, architecture, deep dive, and what v2 needs. AI as the protagonist, not an ingredient.</p>
@@ -1021,9 +1021,9 @@ OWNER = {
 
       <div class="steplabel" id="adrs">Decisions &amp; verdicts (ADRs)</div>
       <div class="adrs">
-        <div class="adr"><div class="q">ADR-01 · How do 27 writers not clobber each other?</div><div class="opt win"><span class="m">✓</span><div><b>Single-writer field fences</b>, enforced by a one-rule eval.</div></div><div class="opt lose"><span class="m">✕</span><div>A transaction log / MVCC - textbook, but the store has no transactions.</div></div><div class="verdict"><b>Verdict:</b> same safety with zero infrastructure, auditable by one check. Cost: a convention enforced by CI, not the platform.</div></div>
+        <div class="adr"><div class="q">ADR-01 · How do 30+ writers not clobber each other?</div><div class="opt win"><span class="m">✓</span><div><b>Single-writer field fences</b>, enforced by a one-rule eval.</div></div><div class="opt lose"><span class="m">✕</span><div>A transaction log / MVCC - textbook, but the store has no transactions.</div></div><div class="verdict"><b>Verdict:</b> same safety with zero infrastructure, auditable by one check. Cost: a convention enforced by CI, not the platform.</div></div>
         <div class="adr"><div class="q">ADR-02 · Where does the state live?</div><div class="opt win"><span class="m">✓</span><div><b>Plain Markdown files</b> - a model and a human can both read and hand-edit from a phone.</div></div><div class="opt lose"><span class="m">✕</span><div>SQLite / Postgres - real queries, but every run is stateless and edited from a phone.</div></div><div class="verdict"><b>Verdict:</b> wins on legibility and zero migration. SQLite index is the planned next step if grep stops scaling.</div></div>
-        <div class="adr"><div class="q">ADR-03 · One big agent, or many?</div><div class="opt win"><span class="m">✓</span><div><b>27 small agents</b> - a bug degrades one function; the schedule is the orchestration.</div></div><div class="opt lose"><span class="m">✕</span><div>A mega-agent - no coordination, but full blast radius and no observability.</div></div><div class="verdict"><b>Verdict:</b> wins on blast radius. Cost: the coordination layer - the part worth showing.</div></div>
+        <div class="adr"><div class="q">ADR-03 · One big agent, or many?</div><div class="opt win"><span class="m">✓</span><div><b>30+ small agents</b> - a bug degrades one function; the schedule is the orchestration.</div></div><div class="opt lose"><span class="m">✕</span><div>A mega-agent - no coordination, but full blast radius and no observability.</div></div><div class="verdict"><b>Verdict:</b> wins on blast radius. Cost: the coordination layer - the part worth showing.</div></div>
         <div class="adr"><div class="q">ADR-04 · Wait for confirmation, or move?</div><div class="opt win"><span class="m">✓</span><div><b>Auto-park the reversible</b>; gate only the irreversible.</div></div><div class="opt lose"><span class="m">✕</span><div>Confirm every change - safer, but produced a permanent backlog.</div></div><div class="verdict"><b>Verdict:</b> forward progress by default. Cost: an item can move without a say-so; mitigated by tiers, sacred exclusions, a report.</div></div>
       </div>
       <p class="sub" style="margin-top:24px"><a href="docs/harness.html">Harness engineering →</a> &nbsp;·&nbsp; <a href="docs/decisions.html">All ADRs →</a> &nbsp;·&nbsp; <a href="docs/learnings.html">Learnings →</a> &nbsp;·&nbsp; <a href="ARCHITECTURE.html">Architecture - failure modes, retry, model policy, scaling &amp; security →</a></p>
@@ -1170,7 +1170,7 @@ OWNER = {
     <div class="prize">
       <p class="eyebrow">The prize</p>
       <h2>Everyone is shipping autonomous agents. Almost no one can govern them.</h2>
-      <p>Trust is being asserted in slide decks rather than enforced in code. Single-writer ownership, an append-only audit trail, evals-as-CI-gate, and irreversible-only human gating are a working answer: real autonomy that stays auditable, recoverable, and trusted.</p>
+      <p>Right now trust is asserted in slide decks instead of enforced in code. Single-writer ownership, an append-only audit trail, evals as a CI gate, and human gating on the irreversible are a working answer - autonomy that stays auditable, recoverable, and trusted.</p>
       <div class="gap"><div><b id="g1">0</b><span>teams with agents in production</span></div><div><b id="g2">0</b><span>with a governed audit trail</span></div></div>
       <div class="gapbar" id="gapbar"><i></i></div>
       <p style="color:var(--mut);font-size:13.5px;margin-top:12px">The gap is the opportunity. This repo is one answer, pressure-tested daily on the hardest test bed there is: a real life.</p>
@@ -1230,7 +1230,7 @@ OWNER = {
 <footer>
   <div class="wrap">
     <div class="doclinks">
-      <a href="index.html">README</a><a href="docs/operator.html">Operator</a><a href="ARCHITECTURE.html">Architecture</a><a href="docs/harness.html">Harness</a><a href="docs/governance.html">Governance</a><a href="docs/decisions.html">Decisions (ADRs)</a><a href="docs/ai-depth.html">AI depth</a><a href="docs/craft.html">Craft</a><a href="docs/design-patterns.html">Design patterns</a><a href="docs/case-studies.html">Case studies</a><a href="docs/story.html">The story</a><a href="evals/lane_fence.py">Evals</a><a href="agents/README.html">Agents</a><a href="docs/agent-roster.html">27 agents</a><a href="docs/system-map.html">System map</a><a href="docs/learnings.html">Learnings</a><a href="docs/first-principles.html">First principles</a><a href="demo.html">▶ Live demo</a>
+      <a href="index.html">README</a><a href="docs/operator.html">Operator</a><a href="ARCHITECTURE.html">Architecture</a><a href="docs/harness.html">Harness</a><a href="docs/governance.html">Governance</a><a href="docs/decisions.html">Decisions (ADRs)</a><a href="docs/ai-depth.html">AI depth</a><a href="docs/craft.html">Craft</a><a href="docs/design-patterns.html">Design patterns</a><a href="docs/case-studies.html">Case studies</a><a href="docs/story.html">The story</a><a href="evals/lane_fence.py">Evals</a><a href="agents/README.html">Agents</a><a href="docs/agent-roster.html">30+ agents</a><a href="docs/system-map.html">System map</a><a href="docs/learnings.html">Learnings</a><a href="docs/first-principles.html">First principles</a><a href="demo.html">▶ Live demo</a>
     </div>
     <div style="margin-bottom:14px">Contact: <a href="mailto:gkmr@umich.edu">gkmr@umich.edu</a> · <a href="https://www.linkedin.com/in/reachgkumar" target="_blank" rel="noopener">linkedin.com/in/reachgkumar</a></div>
     Ganesh OS - a design portfolio. Built on a desktop AI agent runtime. Architecture and patterns only; no personal data. To run the showcase live, enable GitHub Pages (Settings → Pages → main / root).

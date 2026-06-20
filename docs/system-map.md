@@ -1,17 +1,17 @@
-# System map — how the agents connect
+# System map - how the agents connect
 
-_A living map of the chains and dependencies across the [27 agents](agent-catalog.md). The catalog is the index (every agent, its one owned field); this is the wiring (how they hand off). Architecture only, no personal data. Generated 2026-06-17 from the live schedule._
+_A living map of the chains and dependencies across the [30+ agents](agent-catalog.md). The catalog is the index (every agent, its one owned field); this is the wiring (how they hand off). Architecture only, no personal data. Generated 2026-06-17 from the live schedule._
 
 ## Two coordination surfaces
 
 The agents never call each other. They coordinate through two shared surfaces:
 
-1. **The append-only change log** — the spine. Every write, from any agent, appends one source-tagged line. Audit trail, eval input, and the reason 27 writers stay reconstructable.
-2. **A single self-message thread** — the bus for the wellbeing layer. Prompts post tagged questions, the human replies in the same thread, and silent readers parse the replies and write files. Because it is a self-thread, each message appears twice (sent + received), so every reader collapses identical text+timestamp doubles first. A stable bracket prefix on each prompt lets each reader take only its own slice, and a prompt is never mis-read as a reply.
+1. **The append-only change log** - the spine. Every write, from any agent, appends one source-tagged line. Audit trail, eval input, and the reason 30+ writers stay reconstructable.
+2. **A single self-message thread** - the bus for the wellbeing layer. Prompts post tagged questions, the human replies in the same thread, and silent readers parse the replies and write files. Because it is a self-thread, each message appears twice (sent + received), so every reader collapses identical text+timestamp doubles first. A stable bracket prefix on each prompt lets each reader take only its own slice, and a prompt is never mis-read as a reply.
 
 ## Wellbeing chain (Layer 4)
 
-**Prompts — send only, log nothing.** Each carries a distinct prefix and stops if it finds its own prefix already sent today (no double-prompts).
+**Prompts - send only, log nothing.** Each carries a distinct prefix and stops if it finds its own prefix already sent today (no double-prompts).
 
 | Prompt | Time | Asks / sends |
 |---|---|---|
@@ -21,7 +21,7 @@ The agents never call each other. They coordinate through two shared surfaces:
 | Meal coaching | 9a / 1p / 7p | food; the 7p run also asks workout + feeling |
 | Sleep coach | 10:15p | wind-down nudge + tomorrow's first move (reply optional) |
 
-**Readers / brains — parse replies, write files.**
+**Readers / brains - parse replies, write files.**
 
 | Reader | Time | Owns |
 |---|---|---|
@@ -34,7 +34,7 @@ The agents never call each other. They coordinate through two shared surfaces:
 ## Task + calendar engine (Layers 2–3)
 
 - **Two EA sweeps** (6:04a, 6:52p) are the primary writers of reminders + calendar: reconcile against six calendars, dedupe, auto-park overdue by tier, enforce a per-day budget. Each chains into the briefing at the end of its run.
-- **Triage** (5:45a pipeline, 5:50a every other list) sets priority and tags only — never dates, completion, or deletion.
+- **Triage** (5:45a pipeline, 5:50a every other list) sets priority and tags only - never dates, completion, or deletion.
 - **Two-way sync** runs every 30 minutes: mirrors reminders to a file, captures manual edits, and applies the human's approved replies and file decisions back into reminders/calendar, read-after-write verified.
 - **Tomorrow-plan** (7:20p) writes a DECISION column the sync applies.
 - **Briefings** (7:10a, 8:15p, plus an 11a weekday catch-up backstop) read the triage canvases + calendar + messages and produce the ranked day, delivered four ways.

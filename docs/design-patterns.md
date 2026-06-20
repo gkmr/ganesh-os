@@ -18,7 +18,7 @@ The reusable ideas behind Ganesh OS. Each is stated as a problem and the pattern
 
 **Problem.** The source of truth (a reminders store) is awkward to bulk-edit and reason over, but a separate planning doc drifts out of sync.
 
-**Pattern.** Mirror the store into a file where each row carries a stable handle, the item id, and a blank decision cell. The human edits only the decision cell — from the file, from a text message, or in chat. An hourly processor reads the decisions, applies each to the store with read-after-write verification, stamps the row as applied so it never re-fires, and re-mirrors. The store stays canonical; the file is a controlled, idempotent edit channel.
+**Pattern.** Mirror the store into a file where each row carries a stable handle, the item id, and a blank decision cell. The human edits only the decision cell - from the file, from a text message, or in chat. An hourly processor reads the decisions, applies each to the store with read-after-write verification, stamps the row as applied so it never re-fires, and re-mirrors. The store stays canonical; the file is a controlled, idempotent edit channel.
 
 ## 4. The manifest and reply contract
 
@@ -36,7 +36,7 @@ The reusable ideas behind Ganesh OS. Each is stated as a problem and the pattern
 
 **Problem.** Ranking purely by urgency makes one loud domain (here, a high-volume opportunity flow) crowd out everything else, so health and relationships silently lose.
 
-**Pattern.** Construct the daily top three with one slot per domain — one work, one health-or-life-admin, one relationship-or-dominant-anchor — filling from the next-highest only when a domain is empty, and saying so. The ranked day is structurally never single-domain.
+**Pattern.** Construct the daily top three with one slot per domain - one work, one health-or-life-admin, one relationship-or-dominant-anchor - filling from the next-highest only when a domain is empty, and saying so. The ranked day is structurally never single-domain.
 
 ## 7. Knowledge substrate that resists rot
 
@@ -52,7 +52,7 @@ The reusable ideas behind Ganesh OS. Each is stated as a problem and the pattern
 
 **Problem.** A self-modifying system can quietly regress; structural checks ("the file exists") miss the failures that actually happen.
 
-**Pattern.** Keep a frozen set of binary checks plus behavioral ones derived from real incidents — overdue-zero after a sweep, no day over budget, every list covered. The weekly improvement pass runs them before proposing a change and re-runs the affected ones after an approved change; a change that regresses a check is rolled back from a snapshot, not shipped. Proposals are diagnostic only and capped at one per agent per week; nothing self-deploys.
+**Pattern.** Keep a frozen set of binary checks plus behavioral ones derived from real incidents - overdue-zero after a sweep, no day over budget, every list covered. The weekly improvement pass runs them before proposing a change and re-runs the affected ones after an approved change; a change that regresses a check is rolled back from a snapshot, not shipped. Proposals are diagnostic only and capped at one per agent per week; nothing self-deploys.
 
 ## 9. Idempotent, degradable scheduled jobs
 
@@ -66,6 +66,6 @@ The roads not taken, because seniority shows in what you reject and why.
 
 - **Single-writer fences over a transaction log or optimistic locking.** A real lock manager or MVCC would be the textbook answer, but the substrate is a consumer reminders store with no transactions and a hard token budget per run. Field ownership achieves the same safety property (no lost or clobbered writes) with zero infrastructure, and it is auditable by a one-rule eval. The cost is that ownership is a convention enforced by review and a check, not by the platform; acceptable for a single-operator system.
 - **Markdown files over a real database (SQLite/Postgres).** A database would give queries and constraints. But every agent run is stateless and the human needs to read and hand-edit the state from a phone. Plain Markdown is the lowest-friction store both a model and a person can read and write, it diffs cleanly in the change log, and it needs no migration story. If grep ever stops scaling, a local SQLite index is the planned next step; it has not been needed.
-- **27 small agents over one orchestrator.** A single mega-agent would avoid coordination entirely. It was rejected for blast radius and observability: a bug in one small agent degrades one function, each agent has its own guard and eval, and the schedule itself is the orchestration. The cost is the coordination layer (the fences, the manifest, the change log) — which is exactly the part worth showing.
+- **30+ small agents over one orchestrator.** A single mega-agent would avoid coordination entirely. It was rejected for blast radius and observability: a bug in one small agent degrades one function, each agent has its own guard and eval, and the schedule itself is the orchestration. The cost is the coordination layer (the fences, the manifest, the change log) - which is exactly the part worth showing.
 - **Auto-park over wait-for-confirmation.** The original design gated every date change on human confirmation, which was safer but produced a permanent backlog. The shift was to gate only irreversible actions (deletion) and let everything reversible flow. The cost is that an item can be auto-moved without the human's say-so; mitigated by tier-aware destinations, sacred-item exclusions, and a report of every auto-park.
 - **Estimated outcome metrics over instrumented dashboards.** Building real telemetry was deliberately skipped as over-engineering for a single user; honest before/after estimates with a stated method are enough to be truthful and to survive an interview probe.

@@ -1,6 +1,6 @@
 # Harness engineering
 
-A model is the engine. The harness is the rest of the car. An LLM call is one component; everything that makes twenty-seven of them run unattended, safely, every day is harness engineering. This is the layer most "agent" demos skip, and the layer that decides whether a system is a toy or something you trust with a life.
+A model is the engine. The harness is the rest of the car. An LLM call is one component; everything that makes thirty-plus of them run unattended, safely, every day is harness engineering. This is the layer most "agent" demos skip, and the layer that decides whether a system is a toy or something you trust with a life.
 
 ## What the harness is
 
@@ -17,10 +17,10 @@ The harness is the runtime plus the conventions layered on top of it that turn a
 
 ## How agents, skills, and memory relate to the harness
 
-- **Agents run inside the harness.** An agent is a scheduled prompt that owns exactly one field. It cannot fire itself, assemble its own context, or skip the contract — the harness does all of that around it. Take the harness away and an agent is just a paragraph of text.
-- **Skills are capabilities the harness exposes.** Each `SKILL.md` is a reusable capability the runtime can load — a triage skill, a sweep skill, a brief skill. The harness decides which skill runs when, with what context, and under which contract. Skills are the verbs; the harness is the grammar.
+- **Agents run inside the harness.** An agent is a scheduled prompt that owns exactly one field. It cannot fire itself, assemble its own context, or skip the contract - the harness does all of that around it. Take the harness away and an agent is just a paragraph of text.
+- **Skills are capabilities the harness exposes.** Each `SKILL.md` is a reusable capability the runtime can load - a triage skill, a sweep skill, a brief skill. The harness decides which skill runs when, with what context, and under which contract. Skills are the verbs; the harness is the grammar.
 - **Memory is the state the harness re-hydrates.** MemPalace (validity windows), the Karpathy LLM-wiki substrate (`raw / wiki / index / log`), and gbrain (the shared second brain) are files the harness reads on every run and writes through the change log. Memory is what survives between stateless runs; the harness is the read/write discipline that keeps it from rotting. See [`ai-depth.md`](ai-depth.md).
 
 ## The design consequence
 
-Because the harness — not the model — owns scheduling, context, tools, the contract, the log, and the evals, the system has a single place to enforce safety and a single place to audit it. That is why single-writer fences, the append-only audit trail, and evals-as-CI-gate are not aspirations bolted on at the end: they are properties of the harness, and every agent inherits them by construction. See [`../ARCHITECTURE.md`](../ARCHITECTURE.md) and [`governance.md`](governance.md).
+Because the harness - not the model - owns scheduling, context, tools, the contract, the log, and the evals, the system has a single place to enforce safety and a single place to audit it. That is why single-writer fences, the append-only audit trail, and evals-as-CI-gate are not aspirations bolted on at the end: they are properties of the harness, and every agent inherits them by construction. See [`../ARCHITECTURE.md`](../ARCHITECTURE.md) and [`governance.md`](governance.md).
