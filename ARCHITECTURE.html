@@ -49,6 +49,13 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 <li><strong>Connectors</strong>: Apple Reminders, Apple Calendar, Google Calendar (six accounts), iMessage, WhatsApp, Slack, Gmail, Apple Notes.</li>
 </ul>
 <p>Each scheduled run starts fresh with no memory of prior runs. All continuity lives in files. That constraint forces the whole design: state is external, every agent reloads context from disk, and coordination happens through shared files rather than shared memory.</p>
+<h2>Seen through the context ladder</h2>
+<p>The same system, read against the first-principles context ladder: it sits at the top rungs - skills (each agent), orchestration (the gather, reconcile, and final-check waves), and a determinism layer of hooks - over a lean always-loaded foundation and MCP connectors.</p>
+<figure style="margin:22px 0"><img src="assets/context-ladder.svg" alt="The context ladder, with this system sitting at the top rungs" style="width:100%;height:auto;display:block;border:1px solid rgba(255,255,255,.09);border-radius:14px;background:#070a14;padding:8px"/></figure>
+<div style="margin:22px 0;padding:13px 16px;border:1px solid rgba(255,255,255,.09);border-left:3px solid #22d3ee;border-radius:0 10px 10px 0;background:rgba(34,211,238,.05);font-size:13.5px;color:#c4cde0">
+<span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#22d3ee;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:5px">Source</span>
+Context-ladder framework and diagram adapted from <a href="https://aishwaryanareshreganti.substack.com/">"Claude Code 101: A First Principles Approach"</a> by Akshat Kharbanda, Aiza Hasib and Aishwarya Naresh Reganti, LevelUp Labs. Full mapping in the <a href="docs/first-principles.html">first-principles writeup</a>.
+</div>
 <h2>The five layers</h2>
 <p><strong>1. Capture and digest.</strong> Per-channel agents (WhatsApp, iMessage, Slack, Google Voice, Gmail) read unread items twice a day, summarize each with a key quote, write the verbatim to a per-channel archive, and emit one phone-friendly SMS per channel. A meetings layer reconciles and briefs every meeting across Granola and Krisp. Nothing here mutates the task list directly; it surfaces and proposes.</p>
 <p><strong>2. Triage.</strong> Two agents tier every open reminder (now, this-week, later, prune) and set priority. One owns the pipeline; the other owns every other list. They write decision canvases - files with a stable handle and id per row and a blank decision column the human can edit from a file or a text.</p>
