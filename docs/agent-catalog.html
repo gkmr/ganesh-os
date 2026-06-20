@@ -37,11 +37,11 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 .backbar a:hover{border-color:var(--brand)}
 </style></head><body>
 <nav><div class="in"><a class="home" href="../index.html"><span class="g"></span> Ganesh OS</a>
-<div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">27 Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
+<div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">30+ Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
 <div class="crumb"><span class="badge">Systems &amp; AI depth</span> <a href="../index.html">Ganesh OS</a> › <a href="../index.html#agents">back to this on the site</a> › <span style="color:var(--ink)">Agent catalog</span></div>
 <article class="doc"><h1>Agent catalog</h1>
-<p>27 scheduled agents, grouped by layer. Each is a self-contained <code>SKILL.md</code> prompt fired by cron in local time. "Owns" names the single field the agent is allowed to mutate; everything else it treats as read-only.</p>
-<h2>Layer 1 — Capture and digest (read-only, surfacing)</h2>
+<p>30+ scheduled agents, grouped by layer. Each is a self-contained <code>SKILL.md</code> prompt fired by cron in local time. "Owns" names the single field the agent is allowed to mutate; everything else it treats as read-only.</p>
+<h2>Layer 1 - Capture and digest (read-only, surfacing)</h2>
 <table>
 <thead>
 <tr>
@@ -97,7 +97,7 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 </tbody>
 </table>
 <p>Every digest follows one format contract: a leading source tag, a one-line summary plus counts, action items first with a stable handle, then compressed FYIs. Each repliable item also gets a JSON line in a daily manifest so it can be acted on by text.</p>
-<h2>Layer 2 — Triage (priority only, non-destructive)</h2>
+<h2>Layer 2 - Triage (priority only, non-destructive)</h2>
 <table>
 <thead>
 <tr>
@@ -123,7 +123,7 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 </tbody>
 </table>
 <p>Both are constrained writers: they set the priority field and tags only, never dates, completion, or deletion. Prune candidates are queued for per-item human confirmation, never auto-deleted.</p>
-<h2>Layer 3 — Reconcile and surface</h2>
+<h2>Layer 3 - Reconcile and surface</h2>
 <table>
 <thead>
 <tr>
@@ -184,7 +184,7 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 </tr>
 </tbody>
 </table>
-<h2>Layer 4 — Wellbeing coaching</h2>
+<h2>Layer 4 - Wellbeing coaching</h2>
 <table>
 <thead>
 <tr>
@@ -239,7 +239,7 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 </tr>
 </tbody>
 </table>
-<h2>Layer 5 — Reflection and growth</h2>
+<h2>Layer 5 - Reflection and growth</h2>
 <table>
 <thead>
 <tr>
@@ -260,7 +260,7 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 <td>Weekly self-improvement</td>
 <td>Sun 4p</td>
 <td>a proposal report only</td>
-<td>error analysis across the logs, a lint of the knowledge base, the regression checks, and at most one proposed change per agent — never self-deploying</td>
+<td>error analysis across the logs, a lint of the knowledge base, the regression checks, and at most one proposed change per agent - never self-deploying</td>
 </tr>
 <tr>
 <td>Goal review</td>
@@ -272,6 +272,6 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 </table>
 <h2>Interoperation</h2>
 <p>The agents never call each other. They coordinate through three shared surfaces: the decision canvases (triage writes, the human edits, the reply processor applies), the manifest (digests write, the reply processor reads), and the single append-only change log (everyone writes, the weekly pass reads). Priority flows from triage to the sweep, which preserves it, to the brief, which ranks by it. One human decision in a canvas propagates through the whole chain by the next morning.</p></article>
-<div class="prevnext"><a class="prev" href="agent-roster.html"><span class="lab">← Previous</span><span class="ttl">The 27 agents, in plain language</span></a><a class="next" href="../agents/README.html"><span class="lab">Next →</span><span class="ttl">Example agents (sanitized)</span></a></div>
+<div class="prevnext"><a class="prev" href="agent-roster.html"><span class="lab">← Previous</span><span class="ttl">The 30+ agents, in plain language</span></a><a class="next" href="../agents/README.html"><span class="lab">Next →</span><span class="ttl">Example agents (sanitized)</span></a></div>
 <div class="backbar"><a href="../index.html">← Back to Ganesh OS</a></div>
 </body></html>

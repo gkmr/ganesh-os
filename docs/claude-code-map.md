@@ -10,12 +10,12 @@ BLUF: this system runs on the Claude agent runtime, but it uses its own vocabula
 | Context-scoped conventions | **Rules** | `agents/format-contract.md` - the field-ownership table and handle namespaces every agent obeys |
 | One agent is one scheduled prompt | **Skill** | `skills/` - a short description loads at startup, the full steps load on invocation |
 | The determinism layer | **Hooks** | `hooks/` and `.github/workflows/evals.yml` - the fence fires every time, not when the model feels like it |
-| 27 agents coordinated by cron | **Orchestration, but not subagents** | the scheduler is the orchestrator; see the note below |
+| 30+ agents coordinated by cron | **Orchestration, but not subagents** | the scheduler is the orchestrator; see the note below |
 | Connectors (Reminders, Gmail, Slack...) | **MCP** | the connection layer to everything outside the local files |
 | Package it for the next person | **Plugin** | the reusable core is the single-writer fence; `QUICKSTART.md` is the seed |
 
 ## One important difference: scheduler, not subagents
-A Claude Code reader will assume "27 agents" means subagents a main agent spawns. It does not. These are 27 separate sessions fired by cron, one at a time. The schedule is the orchestrator. They never talk to each other; they coordinate only through shared files and the append-only change log. That is a deliberate choice: a bug degrades one function instead of rippling across a swarm, and the blast radius stays small.
+A Claude Code reader will assume "30+ agents" means subagents a main agent spawns. It does not. These are 27 separate sessions fired by cron, one at a time. The schedule is the orchestrator. They never talk to each other; they coordinate only through shared files and the append-only change log. That is a deliberate choice: a bug degrades one function instead of rippling across a swarm, and the blast radius stays small.
 
 ## Context management is the spine
 Every design choice here answers the Claude Code question of what to load and when:

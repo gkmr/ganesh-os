@@ -15,13 +15,13 @@ Each scheduled run starts fresh with no memory of prior runs. All continuity liv
 
 **1. Capture and digest.** Per-channel agents (WhatsApp, iMessage, Slack, Google Voice, Gmail) read unread items twice a day, summarize each with a key quote, write the verbatim to a per-channel archive, and emit one phone-friendly SMS per channel. A meetings layer reconciles and briefs every meeting across Granola and Krisp. Nothing here mutates the task list directly; it surfaces and proposes.
 
-**2. Triage.** Two agents tier every open reminder (now, this-week, later, prune) and set priority. One owns the pipeline; the other owns every other list. They write decision canvases — files with a stable handle and id per row and a blank decision column the human can edit from a file or a text.
+**2. Triage.** Two agents tier every open reminder (now, this-week, later, prune) and set priority. One owns the pipeline; the other owns every other list. They write decision canvases - files with a stable handle and id per row and a blank decision column the human can edit from a file or a text.
 
 **3. Reconcile and surface.** Two daily sweeps own dates: they reconcile reminders against six calendars, dedupe, resolve conflicts, advance recurring items, auto-park overdue, and enforce a per-day budget. Two briefings then read the triage canvases plus calendar plus messages and produce the ranked daily view (the single most important task plus a cross-domain top three) delivered to chat, a vault file, a phone-readable calendar event, and an SMS.
 
-**4. Wellbeing coaching.** A morning weigh-in captures weight, sleep, and how the body feels; a readiness pass reads last night's recovery and recommends an energy-timed day (advisory only — it never writes dates); context-aware meal prompts carry coaching; a workout coach previews the day's training and nudges before each session, joint-aware; a sleep coach runs the wind-down. A silent metrics brain captures all of it, tracks the trends (weight, body-fat, sleep debt, macros, body-feeling, ritual adherence) with an adaptive-TDEE loop that calibrates calorie targets against the actual weight trend, and regenerates a holistic dashboard. Hydration and mind rituals ride one-way reminders, not extra pings.
+**4. Wellbeing coaching.** A morning weigh-in captures weight, sleep, and how the body feels; a readiness pass reads last night's recovery and recommends an energy-timed day (advisory only - it never writes dates); context-aware meal prompts carry coaching; a workout coach previews the day's training and nudges before each session, joint-aware; a sleep coach runs the wind-down. A silent metrics brain captures all of it, tracks the trends (weight, body-fat, sleep debt, macros, body-feeling, ritual adherence) with an adaptive-TDEE loop that calibrates calorie targets against the actual weight trend, and regenerates a holistic dashboard. Hydration and mind rituals ride one-way reminders, not extra pings.
 
-**5. Reflect.** An end-of-day agent diffs the morning plan against what actually happened and grades the day with coaching. A weekly agent runs error analysis across the logs, lints the knowledge base for rot, runs the regression checks, and proposes at most one change per agent — diagnostic only, never self-deploying.
+**5. Reflect.** An end-of-day agent diffs the morning plan against what actually happened and grades the day with coaching. A weekly agent runs error analysis across the logs, lints the knowledge base for rot, runs the regression checks, and proposes at most one change per agent - diagnostic only, never self-deploying.
 
 ## Single-writer fences
 
@@ -35,7 +35,7 @@ The core invariant. Each mutable field has exactly one owner:
 | Intake creation | an intake agent | tier-1 only, capped per run |
 | Deletion | nobody automatically | confirmation-gated, always |
 
-A lane-fence regression check verifies that each agent writes only its owned field. This is the property that lets 27 writers run unattended.
+A lane-fence regression check verifies that each agent writes only its owned field. This is the property that lets 30+ writers run unattended.
 
 ## The daily data flow
 
@@ -84,8 +84,8 @@ The interesting engineering is in the unhappy paths. Each reliability property a
 Nothing here uses blind retries. A blind retry on a system that mutates shared state is how you get double-writes. Instead every run is built to be safe to repeat, so "retry" reduces to "run again."
 
 - **Idempotent by construction.** Each agent opens with a concurrency guard and a run-ledger check keyed on its `(agent, scheduled-slot)`. A second fire for a slot that already ran is a no-op; a fire for a slot that was missed runs as a short delta against current state, not a replay of the original window.
-- **Retry vs. re-fire.** Within a run, a failed connector call is retried a bounded number of times with backoff; if it still fails the run does not abort — it degrades (below) and records the gap. Across runs, the schedule itself is the retry: the next slot re-derives the world from disk and closes whatever the last run left open. There is no retry queue to corrupt.
-- **Writes are verified, not assumed.** Every write is read-after-write checked by id, and ids are read fresh from source immediately before the write. A write to a not-found id is a hard error that re-surfaces the item, never a silent skip — which is exactly what makes a re-run safe: a half-applied change is detectable on the next pass.
+- **Retry vs. re-fire.** Within a run, a failed connector call is retried a bounded number of times with backoff; if it still fails the run does not abort - it degrades (below) and records the gap. Across runs, the schedule itself is the retry: the next slot re-derives the world from disk and closes whatever the last run left open. There is no retry queue to corrupt.
+- **Writes are verified, not assumed.** Every write is read-after-write checked by id, and ids are read fresh from source immediately before the write. A write to a not-found id is a hard error that re-surfaces the item, never a silent skip - which is exactly what makes a re-run safe: a half-applied change is detectable on the next pass.
 - **Ambiguity refuses rather than guesses.** A retry must never resolve an ambiguous instruction differently than the first attempt would. The reply processor matches strictly by namespaced handle and id; an ambiguous or stale match is re-surfaced for clarification, so retrying a batch can't silently act on the wrong record.
 
 ## Fallback and graceful degradation
@@ -101,19 +101,19 @@ The system keeps making correct forward progress on a reduced surface rather tha
 
 A model is one component in the harness. The system is explicit about where model judgment is allowed and which model does which job.
 
-- **Judgment vs. determinism is a hard line, not a preference.** Anything that must be exact — id lookups, calendar math, the per-day budget, the lane-fence check, dedupe — is deterministic code. Model judgment is confined to the genuinely fuzzy: reading forty messages and surfacing the three that matter, summarizing a thread to one quote and the ask, ranking a day across competing domains, writing coaching in a human voice. The model proposes; deterministic code disposes of anything irreversible.
+- **Judgment vs. determinism is a hard line, not a preference.** Anything that must be exact - id lookups, calendar math, the per-day budget, the lane-fence check, dedupe - is deterministic code. Model judgment is confined to the genuinely fuzzy: reading forty messages and surfacing the three that matter, summarizing a thread to one quote and the ask, ranking a day across competing domains, writing coaching in a human voice. The model proposes; deterministic code disposes of anything irreversible.
 - **Tiered model routing.** Work is routed to the cheapest model that can do it correctly. Mechanical, high-volume passes (channel capture, formatting, extraction) run on a small fast model; reasoning-heavy passes (triage ranking, reconciliation narrative, end-of-day coaching, weekly error analysis) run on a stronger model. Routing is by task class, declared in the agent's contract, not chosen per call at random.
 - **Model fallback.** If the preferred model is unavailable or rate-limited, the agent falls back to the next tier and records which model produced the run. A capture agent degrades happily to a smaller model; a reasoning agent that can only reach a weaker model marks its output reduced-confidence rather than final. No run blocks solely because one model is down.
-- **The harness owns the model boundary.** Prompts, context assembly, the output contract, and the eval gate sit around the model, so the model is swappable without touching the agents. The reasoning lives in versioned prompts and the harness, not in a fine-tune — which is what makes the model itself a replaceable part.
+- **The harness owns the model boundary.** Prompts, context assembly, the output contract, and the eval gate sit around the model, so the model is swappable without touching the agents. The reasoning lives in versioned prompts and the harness, not in a fine-tune - which is what makes the model itself a replaceable part.
 
 ## Scaling: challenges and techniques
 
-The honest scaling story is that this is a *single point of presence* — one life, low tens of runs a day, a read-to-write ratio around 20:1. There is no QPS problem. The scaling challenges are correctness, coordination, and state growth, and each has a named technique.
+The honest scaling story is that this is a *single point of presence* - one life, low tens of runs a day, a read-to-write ratio around 20:1. There is no QPS problem. The scaling challenges are correctness, coordination, and state growth, and each has a named technique.
 
 | Challenge | Why it bites | Technique |
 |---|---|---|
 | Serial throughput ceiling | Runs are serialized one-at-a-time while the host is awake; more agents lengthen the critical path. | Fan-out *within* a run (the sweeps already use ~11 parallel subagents), batch windows (twice-daily, not continuous), and jittered cron so slots don't collide. |
-| Coordination grows with agents | Naively, every new writer is another chance to clobber shared state — an O(agents²) problem. | Single-writer field fences make coordination O(fields), not O(agents). A new agent adds a row to the ownership table, not a new race. |
+| Coordination grows with agents | Naively, every new writer is another chance to clobber shared state - an O(agents²) problem. | Single-writer field fences make coordination O(fields), not O(agents). A new agent adds a row to the ownership table, not a new race. |
 | State / log growth | All state is Markdown plus an append-only log; grep cost grows with history. | Per-channel archives, log compaction/rotation, and a read-first routing index so a run loads a small map before opening any full file. A local SQLite index behind the same file interface is the planned next step. |
 | Connector rate limits | Five message channels and six calendars, read every cycle, will hit limits if polled naively. | Batched twice-daily reads, dedupe ledgers so an item isn't reprocessed, and surface-aware backoff. |
 | Human-as-bottleneck | A system that surfaces everything recreates the overwhelm it removed. | A per-day budget caps surfaced volume; only the irreversible is gated; auto-park keeps the backlog from metastasizing. |
@@ -123,11 +123,11 @@ The throughline: design correctly for one POP, and the single-writer fence carri
 
 ## Privacy and security
 
-The system runs on the most sensitive data a person has — every message, calendar, and health signal — so privacy and security are architectural, not bolted on.
+The system runs on the most sensitive data a person has - every message, calendar, and health signal - so privacy and security are architectural, not bolted on.
 
 - **Local-first by default.** The knowledge base, the verbatim archives, and the change log live as files on the operator's own device. State is not shipped to a server; it leaves the machine only through the operator's own connectors, into the operator's own accounts.
-- **Least privilege, for agents and connectors.** Each connector is scoped to what its agents need; each agent reads only the files its job requires and — via the single-writer fence — writes exactly one field. The fence is least-privilege for writes: an agent literally cannot touch state it doesn't own, and a violation is caught in CI.
+- **Least privilege, for agents and connectors.** Each connector is scoped to what its agents need; each agent reads only the files its job requires and - via the single-writer fence - writes exactly one field. The fence is least-privilege for writes: an agent literally cannot touch state it doesn't own, and a violation is caught in CI.
 - **The human gate is an exfiltration control.** Every outbound or irreversible action (sending a message, deleting an item) is gated on an explicit human decision. An agent cannot autonomously send data out; the same gate that guards against mistakes guards against exfiltration.
-- **No secrets, no PII in the open.** Credentials are never committed; the public repo is architecture and sanitized patterns only — no personal data, enforced by a pre-publish scan and a `.gitignore` that fences the live system. Public-repo secret scanning is on as a backstop.
-- **Auditability is a security property.** The append-only, source-tagged change log makes every action — by any agent or any human channel — attributable after the fact. You can answer *what touched this, when, and why* with one grep, which is the difference between a system you can secure and one you can only hope about.
+- **No secrets, no PII in the open.** Credentials are never committed; the public repo is architecture and sanitized patterns only - no personal data, enforced by a pre-publish scan and a `.gitignore` that fences the live system. Public-repo secret scanning is on as a backstop.
+- **Auditability is a security property.** The append-only, source-tagged change log makes every action - by any agent or any human channel - attributable after the fact. You can answer *what touched this, when, and why* with one grep, which is the difference between a system you can secure and one you can only hope about.
 - **Data minimization in transit.** Digests summarize; the verbatim stays local. What travels to a phone is a short brief, not the underlying corpus, so the high-sensitivity material has the smallest possible blast radius.
