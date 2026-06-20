@@ -56,6 +56,38 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 <li><strong>changelog receipt</strong> - appends an independent log line on every write, so a diff against the agent's own log reveals a silent drop.</li>
 <li><strong>fence-verify</strong> - the portable fallback: reads the live change log and fails on any violated invariant, for runtimes that do not execute hooks.</li>
 </ul>
+<div id="fencedemo" style="margin:24px 0;border:1px solid rgba(255,255,255,.09);border-radius:16px;background:#0b0f1c;overflow:hidden">
+  <div style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.09)">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#22d3ee;letter-spacing:.05em;text-transform:uppercase">Try it · the fence in action</div>
+    <div style="font-size:13.5px;color:#8995ad;margin-top:4px">A write is judged before it lands. Pick one.</div>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;padding:14px 18px">
+    <button class="fd-btn" data-case="lane">briefing writes priority</button>
+    <button class="fd-btn" data-case="alarm">sweep sets due date, no alarm</button>
+    <button class="fd-btn" data-case="ok">sweep sets due date + alarm</button>
+  </div>
+  <pre id="fd-out" style="margin:0;padding:16px 18px;background:#060a12;border-top:1px solid rgba(255,255,255,.09);font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#8995ad;white-space:pre-wrap;min-height:92px">Click a button to run a write through the hooks.</pre>
+</div>
+<style>#fencedemo .fd-btn{cursor:pointer;font:600 12.5px/1 Inter,sans-serif;color:#f4f7fc;background:#111829;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:9px 13px}#fencedemo .fd-btn:hover{border-color:#8b7bff}</style>
+<script>
+(function(){
+  var cases={
+    lane:{agent:"briefing",input:{action:"update",priority:1},verdict:"BLOCKED",hook:"lane-fence",reason:"priority is owned by triage, not briefing. No agent writes a field it does not own."},
+    alarm:{agent:"sweep",input:{action:"update",dueDate:"2026-06-21"},verdict:"BLOCKED",hook:"alarm-sync",reason:"dueDate set with no matching alarm. Smart lists filter on the alarm, so this would silently read as overdue."},
+    ok:{agent:"sweep",input:{action:"update",dueDate:"2026-06-21",alarms:[{absoluteDate:"2026-06-21"}]},verdict:"ALLOWED",hook:"all fences",reason:"owns the date lane and the alarm matches the due date. The write lands and a changelog line is appended."}
+  };
+  var out=document.getElementById("fd-out");
+  document.querySelectorAll("#fencedemo .fd-btn").forEach(function(b){
+    b.addEventListener("click",function(){
+      var c=cases[b.getAttribute("data-case")], blocked=c.verdict==="BLOCKED", color=blocked?"#ff6b6b":"#5dff9b";
+      out.innerHTML='<span style="color:#8995ad">GANESH_AGENT=</span>'+c.agent+'\n'+
+        '<span style="color:#8995ad">PreToolUse  </span>'+JSON.stringify(c.input)+'\n\n'+
+        '<span style="color:'+color+';font-weight:700">'+(blocked?'✗ '+c.verdict+' by '+c.hook:'✓ '+c.verdict)+'</span>\n'+
+        '<span style="color:#c4cde0">'+c.reason+'</span>';
+    });
+  });
+})();
+</script>
 <p>Verification should shrink as prevention grows. Each hook earns the deletion of a probabilistic check.</p>
 
 <h2>Gather once, fan out from disk</h2>
