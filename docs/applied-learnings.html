@@ -1,0 +1,78 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What a first-principles audit changed · Ganesh OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070a14;--surface:#111829;--line:rgba(255,255,255,.09);--ink:#f4f7fc;--body:#c4cde0;--mut:#8995ad;--brand:#8b7bff;--brand2:#22d3ee;--neon:#5dff9b;--muted:var(--mut);--brand-2:var(--brand2)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 85% -10%,rgba(59,45,143,.35),transparent 60%),radial-gradient(800px 460px at 0% 20%,rgba(14,94,110,.3),transparent 60%),var(--bg);color:var(--body);font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;font-size:16.5px;line-height:1.7;-webkit-font-smoothing:antialiased}
+nav{position:sticky;top:0;z-index:10;background:rgba(8,11,20,.8);backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--line)}
+nav .in{max-width:880px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+nav a.home{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:800;font-size:15px;text-decoration:none}
+nav a.home .g{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 0 18px rgba(139,123,255,.5)}
+nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;text-decoration:none;font-weight:500}nav .links a:hover{color:var(--ink)}
+.crumb{max-width:880px;margin:0 auto;padding:24px 24px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--mut)}
+.crumb a{color:var(--brand2);text-decoration:none}.crumb a:hover{text-decoration:underline}
+.crumb .badge{background:rgba(139,123,255,.12);border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink);font-weight:600;font-size:12px}
+.doc{max-width:880px;margin:0 auto;padding:18px 24px 30px}
+.doc h1{font-size:clamp(28px,4vw,40px);line-height:1.1;letter-spacing:-.02em;margin:0 0 22px;background:linear-gradient(180deg,#fff,#aeb8d4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.doc h2{font-size:25px;margin:42px 0 14px;color:var(--ink);padding-top:14px;border-top:1px solid var(--line)}
+.doc h3{font-size:19px;margin:30px 0 10px;color:var(--ink)}
+.doc h4{font-size:15px;margin:24px 0 8px;color:var(--brand2);font-family:'JetBrains Mono';text-transform:uppercase;letter-spacing:.04em}
+.doc p,.doc li{color:var(--body)}.doc a{color:var(--brand2);text-decoration:none;border-bottom:1px solid rgba(34,211,238,.3)}.doc a:hover{border-color:var(--brand2)}
+.doc strong{color:var(--ink)}.doc code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#e7ecf6}
+.doc pre{background:#060a12;border:1px solid var(--line);border-radius:13px;padding:16px 18px;overflow-x:auto}.doc pre code{background:none;border:none;padding:0;color:var(--neon);font-size:13px;line-height:1.65}
+.doc blockquote{margin:18px 0;padding:12px 18px;border-left:3px solid var(--brand);background:rgba(139,123,255,.06);border-radius:0 10px 10px 0}
+.doc table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px;display:block;overflow-x:auto}
+.doc th,.doc td{border:1px solid var(--line);padding:10px 13px;text-align:left;vertical-align:top}
+.doc th{background:rgba(255,255,255,.04);color:var(--ink);font-family:'JetBrains Mono';font-size:12px;text-transform:uppercase}
+.doc tr:nth-child(even) td{background:rgba(255,255,255,.015)}.doc hr{border:none;border-top:1px solid var(--line);margin:34px 0}
+.prevnext{max-width:880px;margin:0 auto;padding:6px 24px 18px;display:flex;justify-content:space-between;gap:14px}
+.prevnext a{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px 16px;text-decoration:none;transition:transform .15s,border-color .15s;min-width:0}
+.prevnext a:hover{border-color:var(--brand);transform:translateY(-2px)}.prevnext a.next{text-align:right}
+.prevnext .lab{font:600 11px/1 'JetBrains Mono';color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.prevnext .ttl{color:var(--ink);font-weight:700;font-size:14px;margin-top:6px;display:block}
+.prevnext a.disabled{visibility:hidden}
+.backbar{max-width:880px;margin:0 auto;padding:0 24px 70px}
+.backbar a{display:inline-flex;align-items:center;gap:8px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:11px 18px;text-decoration:none;font-weight:600;font-size:14px}
+.backbar a:hover{border-color:var(--brand)}
+</style></head><body>
+<nav><div class="in"><a class="home" href="../index.html"><span class="g"></span> Ganesh OS</a>
+<div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">27 Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
+<div class="crumb"><span class="badge">📚 Learnings</span> <a href="../index.html">Ganesh OS</a> › <a href="learnings.html">Learnings</a> › <span style="color:var(--ink)">What the audit changed</span></div>
+<article class="doc"><h1>What a first-principles audit changed</h1>
+<p>The system was audited against the context ladder on the previous page. It already had the lean CLAUDE.md, the single-writer law, an append-only change log, evals, and a gated self-improvement loop. The finding was not a missing level. It was a divergence between what the architecture documents and what the runtime enforces.</p>
+
+<h2>The through-line: detection where you want prevention</h2>
+<p>The single-writer fence, the alarm-sync rule, and the changelog-on-every-write are laws. They were enforced at runtime by prose instructions plus a final-check subagent that re-reads state after the fact. That is detection, not prevention.</p>
+<p>The proof is the alarm-sync incident. Apple Reminders keeps two date fields, and its smart lists filter on the alarm, not the due date. A sweep updated 62 due dates, every verification read passed, and the items still showed as overdue because the alarms were left untouched. The failure was invisible to the system and caught only by a human glancing at the phone. The fix shipped at the time was another prose rule ("also write the alarm"), still one forgotten field away from recurring.</p>
+<p>A pre-write hook that rejects any due-date change without a matching alarm makes that whole class impossible, at zero context cost, and lets the matching verification check be deleted. That is the principle: <strong>convert the top invariants to prevention, then subtract the checks they retire.</strong></p>
+
+<h2>The determinism layer</h2>
+<p>Four lifecycle hooks plus a runtime-agnostic verifier now express the laws as code rather than instruction. See <a href="../hooks/README.md"><code>hooks/</code></a>.</p>
+<ul>
+<li><strong>alarm-sync</strong> - blocks a due-date write with no matching alarm (the 62-item class).</li>
+<li><strong>lane-fence</strong> - blocks any agent writing a field it does not own, and any non-confirmed delete. This is the format contract, enforced.</li>
+<li><strong>char-sanitize</strong> - blocks em dashes, literal newlines, and over-length titles before they reach a connector.</li>
+<li><strong>changelog receipt</strong> - appends an independent log line on every write, so a diff against the agent's own log reveals a silent drop.</li>
+<li><strong>fence-verify</strong> - the portable fallback: reads the live change log and fails on any violated invariant, for runtimes that do not execute hooks.</li>
+</ul>
+<p>Verification should shrink as prevention grows. Each hook earns the deletion of a probabilistic check.</p>
+
+<h2>Gather once, fan out from disk</h2>
+<p>The same raw sources were read three to five times every cycle by different agents: the sweep, the briefing, and the per-channel digests each re-fetched the same inboxes. Reading each source once into a dated snapshot and letting downstream agents consume the snapshot (with a freshness fallback to a live read) cut morning connector fan-outs from roughly 36 to 19 and removed the briefing's entire re-gather. It is the context-economy principle applied to raw inbound, and it is pure subtraction.</p>
+
+<h2>Subtract as deliberately as you add</h2>
+<p>A self-improvement loop that only ever proposes "one change" grows the system forever. The audit added a standing subtract pass: each cycle must be able to retire or merge a task, a redundant verification check, or a dead code path, with the win condition being fewer moving parts at equal coverage. Complexity has a carrying cost, and an audit that only adds is half an audit.</p>
+
+<h2>Holes worth naming</h2>
+<ul>
+<li><strong>Documented is not enforced.</strong> An invariant written down and eval-gated in the design repo can still run on prose in the live runtime. Keep a conformance table between the two.</li>
+<li><strong>Verification scales badly.</strong> More after-the-fact checks cost tokens and only catch what they already know to look for. Prefer a fence that makes the bad state unreachable.</li>
+<li><strong>Operator-absent mode.</strong> Human-gated items need a default action and a time-to-live, or queues grow silently when the operator goes heads-down.</li>
+<li><strong>Cost has no ceiling.</strong> Many always-on agents fanning out subagents needs a budget tally and a circuit breaker.</li>
+<li><strong>Inbound is untrusted.</strong> Agents that read arbitrary messages and then propose writes should treat message bodies as data, never instructions, with irreversible actions human-gated.</li>
+</ul>
+</article>
+<div class="prevnext"><a class="prev" href="first-principles.html"><span class="lab">← Previous</span><span class="ttl">First principles - the context ladder</span></a><a class="next disabled" href="#"><span class="lab">Next →</span><span class="ttl"></span></a></div>
+<div class="backbar"><a href="../index.html">← Back to Ganesh OS</a></div>
+</body></html>
