@@ -1,0 +1,71 @@
+<!-- @dsCard group="Components" viewport="700x440" name="Forms — Input · Select · Checkbox · Switch · Segmented" subtitle="Dark fields, violet focus ring, pill toggles" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body{margin:0;background:var(--bg);font-family:var(--font-sans);padding:24px;color:var(--body)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .field{margin-bottom:16px}
+  .lbl{font:700 11px/1 var(--font-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:9px;display:block}
+  .stack{display:flex;flex-direction:column;gap:13px}
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  const { Input, Textarea, Select, Checkbox, Switch, SegmentedControl } = window.GaneshOSDesignSystem_462320;
+  function Demo(){
+    const [tier, setTier] = React.useState("week");
+    const [c1, setC1] = React.useState(true);
+    const [s1, setS1] = React.useState(true);
+    return (
+      <div className="grid">
+        <div>
+          <div className="field"><span className="lbl">Input</span>
+            <div className="stack">
+              <Input placeholder="reply: done M51, push V3 to Thu" />
+              <Input prefix="@" placeholder="handle" />
+              <Input invalid defaultValue="not-an-email" />
+            </div>
+          </div>
+          <div className="field"><span className="lbl">Select</span>
+            <Select defaultValue="week">
+              <option value="today">Today</option>
+              <option value="week">This week</option>
+              <option value="later">Later</option>
+            </Select>
+          </div>
+          <div className="field"><span className="lbl">Textarea</span>
+            <Textarea rows={3} placeholder="Draft the reply. Sentence case, no em dashes." />
+          </div>
+        </div>
+        <div>
+          <div className="field"><span className="lbl">SegmentedControl</span>
+            <SegmentedControl options={[{value:"today",label:"Today"},{value:"week",label:"This week"},{value:"later",label:"Later"}]} value={tier} onChange={setTier} />
+          </div>
+          <div className="field"><span className="lbl">Checkbox</span>
+            <div className="stack">
+              <Checkbox checked={c1} onChange={(e)=>setC1(e.target.checked)} label="Exclude recurring rituals from the count" />
+              <Checkbox checked={false} onChange={()=>{}} label="Lower the cap on travel days" />
+            </div>
+          </div>
+          <div className="field"><span className="lbl">Switch</span>
+            <div className="stack">
+              <Switch checked={s1} onChange={(e)=>setS1(e.target.checked)} label="Auto-park overdue items forward" />
+              <Switch checked={false} onChange={()=>{}} label="Require confirmation on every date change" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script>
+</body>
+</html>

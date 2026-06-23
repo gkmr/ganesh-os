@@ -1,7 +1,7 @@
 ![Ganesh OS](assets/hero.svg)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-7c5cff.svg)](LICENSE)
-![agents](https://img.shields.io/badge/agents-27-7c5cff)
+![agents](https://img.shields.io/badge/agents-30%2B-7c5cff)
 ![governance](https://img.shields.io/badge/auditable-yes-22c55e)
 ![personal data](https://img.shields.io/badge/personal%20data-none-22c55e)
 [![evals](https://github.com/gkmr/ganesh-os/actions/workflows/evals.yml/badge.svg)](https://github.com/gkmr/ganesh-os/actions/workflows/evals.yml)
@@ -126,10 +126,11 @@ A system doc that oversells is worthless, so here is the candid version.
 - **State:** plain Markdown files plus one append-only change log. No database.
 - **Memory:** file-based, with "valid from / superseded by" stamps so facts age out instead of being silently overwritten.
 - **Connectors:** Apple Reminders and Calendar, Gmail, Slack, WhatsApp, Granola and Krisp.
+- **Resilience:** a shared contract every agent carries (bounded retry with backoff, degrade-and-queue, a per-run marker, freshness-gated replay) plus a registered external catch-up controller that re-fires a missed run from its marker. New this week; it shortens missed-run recovery from a full cycle to hours, and is still being hardened over real failure cycles.
 
 **Designed but not fully wired yet** (other parts of these docs describe some of this as if it is built; it is not all live):
 - Per-agent tiered model routing. Right now it is mostly one model, not a cheap-model-for-capture, strong-model-for-judgment split.
-- The fuller retry, fallback, and degradation policies. The concurrency guard and auto-park are real; the rest is partly on paper.
+- Zero-miss scheduling. The resilience contract and catch-up controller now recover a missed run after the fact, but a startup failure or a closed host still drops a slot until the next wake or catch-up pass; cutting misses at the source (letting the host wake for scheduled work) is a config note, not done.
 
 **Evals, honestly:**
 - The structural evals (the single-writer fence, ids read fresh before a write) have clean criteria and I trust them.
@@ -141,7 +142,7 @@ A system doc that oversells is worthless, so here is the candid version.
 
 If you live in Claude Code, read `docs/claude-code-map.md` first. It maps this system's vocabulary (harness, `SKILL.md`, change log, fence) to the primitives you know (CLAUDE.md, skills, hooks, subagents, MCP). Then:
 - `CLAUDE.md` - the always-on law and conventions.
-- `skills/morning-brief/SKILL.md` - one agent, in skill form.
+- `skills/` - three agents in skill form: `morning-brief` (owns nothing), `pipeline-triage` (a constrained writer), and `catchup-controller` (the Layer-2 resilience healer).
 - `hooks/` - the determinism layer, the fence as a hook.
 - `evals/lane_fence.py` - the law as deterministic code; `QUICKSTART.md` runs it in a minute.
 
@@ -201,5 +202,9 @@ Open to **board & advisory roles, fractional CPO/CTO engagements, panels & talks
 ## No personal data
 
 Architecture and patterns only, authored in a generalized voice and scanned for PII ([review](docs/SECURITY-SCAN.md)). The live personal system is not included.
+
+## License
+
+MIT (see [`LICENSE`](LICENSE)). The architecture and patterns here are free to use, fork, and build on, including commercially - the only condition is keeping the copyright notice. Two things sit outside that grant because they are not in this repo: the personal data (none is included) and the live system, which runs privately against my own connectors. Patterns stay open; any commercial core stays private. Fork the fence, and if you ship something with it, an issue or a link is welcome.
 
 > If the single-writer-fence idea is useful to you, a ⭐ helps others find it.

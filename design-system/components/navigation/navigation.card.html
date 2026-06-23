@@ -1,4 +1,4 @@
-<!-- @dsCard group="Components" viewport="700x180" name="Navigation — Tabs" subtitle="Underline tab strip in the brand pill style" -->
+<!-- @dsCard group="Components" viewport="700x180" name="Navigation - Tabs" subtitle="Underline tab strip in the brand pill style" -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -22,7 +22,7 @@
     const [tab, setTab] = React.useState("governance");
     return (
       <div>
-        <div className="lbl">Tabs — controlled underline strip</div>
+        <div className="lbl">Tabs - controlled underline strip</div>
         <Tabs tabs={[{value:"story",label:"Story"},{value:"product",label:"Product"},{value:"governance",label:"Governance"},{value:"agents",label:"Agents"}]} value={tab} onChange={setTab} />
         <div className="panel">Active panel: <b style={{color:'var(--ink)'}}>{tab}</b>. Pair with SegmentedControl (in Forms) for a compact pill switch.</div>
       </div>

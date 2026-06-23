@@ -1,4 +1,4 @@
-The signature "four domains" row — a labelled, color-coded flowing track with a mono count. Stack four to show life balance; dim the neglected ones with `quiet`.
+The signature "four domains" row - a labelled, color-coded flowing track with a mono count. Stack four to show life balance; dim the neglected ones with `quiet`.
 
 ```jsx
 <DomainLane name="Work / company" sub="build, GTM, capital" domain="work" count="48 today" />

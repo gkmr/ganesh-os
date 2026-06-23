@@ -1,4 +1,4 @@
-Pill-shaped primary action — violet gradient that lifts and glows on hover; use for the main CTA on any surface.
+Pill-shaped primary action - violet gradient that lifts and glows on hover; use for the main CTA on any surface.
 
 ```jsx
 <Button onClick={watch}>▶ Watch one day decide itself</Button>

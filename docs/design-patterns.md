@@ -18,7 +18,7 @@ The reusable ideas behind Ganesh OS. Each is stated as a problem and the pattern
 
 **Problem.** The source of truth (a reminders store) is awkward to bulk-edit and reason over, but a separate planning doc drifts out of sync.
 
-**Pattern.** Mirror the store into a file where each row carries a stable handle, the item id, and a blank decision cell. The human edits only the decision cell - from the file, from a text message, or in chat. An hourly processor reads the decisions, applies each to the store with read-after-write verification, stamps the row as applied so it never re-fires, and re-mirrors. The store stays canonical; the file is a controlled, idempotent edit channel.
+**Pattern.** Mirror the store into a file where each row carries a stable handle, the item id, and a blank decision cell. The human edits only the decision cell - from the file, from a text message, or in chat. A reply processor (every 30 minutes) reads the decisions, applies each to the store with read-after-write verification, stamps the row as applied so it never re-fires, and re-mirrors. The store stays canonical; the file is a controlled, idempotent edit channel.
 
 ## 4. The manifest and reply contract
 
@@ -54,11 +54,11 @@ The reusable ideas behind Ganesh OS. Each is stated as a problem and the pattern
 
 **Pattern.** Keep a frozen set of binary checks plus behavioral ones derived from real incidents - overdue-zero after a sweep, no day over budget, every list covered. The weekly improvement pass runs them before proposing a change and re-runs the affected ones after an approved change; a change that regresses a check is rolled back from a snapshot, not shipped. Proposals are diagnostic only and capped at one per agent per week; nothing self-deploys.
 
-## 9. Idempotent, degradable scheduled jobs
+## 9. Idempotent, degradable scheduled jobs, with two-layer resilience
 
-**Problem.** Cron jobs on an intermittently awake host double-fire, miss, or run on the wrong surface.
+**Problem.** Cron jobs on an intermittently awake host double-fire, miss, or run on the wrong surface. And a failure has two shapes that need different fixes: an error *inside* a run that started, versus a failure that stops the run from executing at all (a startup error, or the host asleep at the fire time). A job can retry the first; it can do nothing about the second, because its own code never ran.
 
-**Pattern.** Every agent opens with a concurrency guard (a run ledger plus an off-schedule skip) and a surface check (detect present connectors; on a reduced surface, run partially, note the gap, and queue intents for the next full run). A missed or doubled fire degrades to a short delta, never a duplicate or a crash.
+**Pattern.** Every agent opens with a concurrency guard (a run ledger plus an off-schedule skip) and a surface check (detect present connectors; on a reduced surface, run partially, note the gap, and queue intents for the next full run). A missed or doubled fire degrades to a short delta, never a duplicate or a crash. That is layer one, in-run: bounded retry with backoff on a transient error, then degrade-and-queue rather than abort. Layer two is external, because the second failure shape can only be healed from outside the failed run. Every agent writes a run marker on each run via a shared resilience contract, and a separate catch-up controller reads those markers plus the scheduler's last-run times to find missed slots and re-fire the still-useful ones, each by following its own idempotent steps. The controller cannot double-act (the target's own concurrency guard turns a re-fire into a no-op) and every replay is freshness-gated: catch up a high-value daily run hours later, never replay a time-of-day nudge. The key insight is the substrate - a system can only catch up what it can prove it missed, so the run marker is what makes external healing possible.
 
 ## Tradeoffs and alternatives considered
 
@@ -68,4 +68,4 @@ The roads not taken, because seniority shows in what you reject and why.
 - **Markdown files over a real database (SQLite/Postgres).** A database would give queries and constraints. But every agent run is stateless and the human needs to read and hand-edit the state from a phone. Plain Markdown is the lowest-friction store both a model and a person can read and write, it diffs cleanly in the change log, and it needs no migration story. If grep ever stops scaling, a local SQLite index is the planned next step; it has not been needed.
 - **30+ small agents over one orchestrator.** A single mega-agent would avoid coordination entirely. It was rejected for blast radius and observability: a bug in one small agent degrades one function, each agent has its own guard and eval, and the schedule itself is the orchestration. The cost is the coordination layer (the fences, the manifest, the change log) - which is exactly the part worth showing.
 - **Auto-park over wait-for-confirmation.** The original design gated every date change on human confirmation, which was safer but produced a permanent backlog. The shift was to gate only irreversible actions (deletion) and let everything reversible flow. The cost is that an item can be auto-moved without the human's say-so; mitigated by tier-aware destinations, sacred-item exclusions, and a report of every auto-park.
-- **Estimated outcome metrics over instrumented dashboards.** Building real telemetry was deliberately skipped as over-engineering for a single user; honest before/after estimates with a stated method are enough to be truthful and to survive an interview probe.
+- **Estimated outcome metrics over instrumented dashboards.** Building real telemetry was deliberately skipped as over-engineering for a single user; honest before/after estimates with a stated method are enough to be truthful and to survive an expert probe.

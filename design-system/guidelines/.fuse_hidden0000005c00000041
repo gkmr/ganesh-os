@@ -1,0 +1,42 @@
+<!-- @dsCard group="Content" viewport="700x150" name="Channels & handles" subtitle="Bracket source tags and namespaced repliable handles" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body{margin:0;background:var(--bg);font-family:var(--font-mono);padding:20px;color:var(--body)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .lbl{font:700 11px/1 var(--font-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--brand-2);margin-bottom:11px}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:7px}
+  .bt{font-size:11.5px;font-weight:600;border:1px solid var(--line);border-radius:var(--r-sm);padding:3px 7px;background:rgba(255,255,255,.03)}
+  .h{font-size:12px;font-weight:700;border-radius:var(--r-sm);padding:2px 7px;background:rgba(255,255,255,.04)}
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div>
+      <div class="lbl">Channel bracket tags</div>
+      <div class="row">
+        <span class="bt" style="color:var(--brand-2)">[gmail]</span>
+        <span class="bt" style="color:var(--growth)">[slack]</span>
+        <span class="bt" style="color:var(--health)">[imessage]</span>
+        <span class="bt" style="color:var(--pass)">[whatsapp]</span>
+        <span class="bt" style="color:var(--people)">[voice]</span>
+        <span class="bt" style="color:var(--work)">[intake]</span>
+      </div>
+    </div>
+    <div>
+      <div class="lbl">Handle namespaces</div>
+      <div class="row">
+        <span class="h" style="color:var(--brand-2);border:1px solid var(--brand-2)">W# M# K#</span>
+        <span class="h" style="color:var(--people);border:1px solid var(--people)">V#</span>
+        <span class="h" style="color:var(--health);border:1px solid var(--health)">E#</span>
+        <span class="h" style="color:var(--work);border:1px solid var(--work)">I# J#</span>
+        <span class="h" style="color:var(--growth);border:1px solid var(--growth)">P#</span>
+        <span class="h" style="color:var(--fail);border:1px solid var(--fail)">PR#</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
