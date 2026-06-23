@@ -1,0 +1,25 @@
+<!-- @dsCard group="Spacing" viewport="700x160" name="Shadow & glow" subtitle="Stacked dark shadows + the signature violet glow" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body{margin:0;background:var(--bg);font-family:var(--font-sans);padding:26px}
+  .row{display:flex;gap:22px;flex-wrap:wrap}
+  .b{flex:1;min-width:150px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:16px;min-height:80px}
+  .b .n{font:var(--text-mono-label);color:var(--brand-2)}
+  .b .v{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:5px;line-height:1.5}
+  .s1{box-shadow:var(--shadow-sm)}
+  .s2{box-shadow:var(--shadow-lg)}
+  .g{box-shadow:var(--glow);border-color:transparent}
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="b s1"><div class="n">--shadow-sm</div><div class="v">card resting</div></div>
+    <div class="b s2"><div class="n">--shadow-lg</div><div class="v">floating panel</div></div>
+    <div class="b g"><div class="n">--glow</div><div class="v">hover / focus accent</div></div>
+  </div>
+</body>
+</html>

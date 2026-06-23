@@ -1,4 +1,4 @@
-The default dark surface — hairline border, 18px radius, soft shadow. Add a domain accent edge and `interactive` for the hover lift + violet glow. Ships with `CardEyebrow` (mono uppercase label) and `CardOwner` (the "owns: …" pill).
+The default dark surface - hairline border, 18px radius, soft shadow. Add a domain accent edge and `interactive` for the hover lift + violet glow. Ships with `CardEyebrow` (mono uppercase label) and `CardOwner` (the "owns: …" pill).
 
 ```jsx
 <Card accent="health" interactive>

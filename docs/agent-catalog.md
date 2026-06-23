@@ -29,13 +29,14 @@ Both are constrained writers: they set the priority field and tags only, never d
 
 | Agent | Cadence | Owns | Output |
 |---|---|---|---|
-| Morning sweep | 6:04a | dates, dedupe, conflicts, auto-park | reconciles reminders against six calendars; advances recurring items; auto-parks overdue by tier; enforces the daily budget; publishes the morning calendar event |
+| Morning sweep | 6:00a | dates, dedupe, conflicts, auto-park | reconciles reminders against six calendars; advances recurring items; auto-parks overdue by tier; enforces the daily budget; publishes the morning calendar event |
 | Evening sweep | 6:45p | same | mirror of the morning; runs the weekly deep reconciliation on Sundays |
 | Morning briefing | 7:10a | nothing (read-only + its calendar event) | the ranked day: most-important-task plus a cross-domain top three; four-surface delivery (chat, vault file, phone calendar event, SMS) |
 | Evening briefing | 8:15p | nothing | evening wrap plus tomorrow's setup |
-| Weekday catch-up | 11:00a | nothing | runs the morning brief only if it is still missing |
+| Weekday catch-up | retired | - | folded into the catch-up controller; previously re-ran the morning brief only if it was still missing |
+| Catch-up controller | ~10a/3p/9p (user-local) | nothing (re-fires others) | Layer-2 resilience backstop: detects today's missed slots - both *never-fired* and *fired-but-no-output* (a run that stamped a last-run time but produced no output marker) - by cross-checking run markers against the scheduler's last-run times; re-fires only the still-fresh misses idempotently by running each agent's own prompt; freshness-gated, silent unless it backfills; absorbed the former weekday catch-up |
 | Tomorrow plan | 7:20p | nothing | the time-ordered master shortlist for the next day, fusing calendar blocks, reminders due, and tiers |
-| Reply processor | hourly, 6a–11p | lifecycle (create / complete / reschedule) | applies the human's decisions, whether typed into a canvas file or sent as a text; mirrors reminders back to a file; two-way sync |
+| Reply processor | every 30 min, 6a–11:59p | lifecycle (create / complete / reschedule) | applies the human's decisions, whether typed into a canvas file or sent as a text; mirrors reminders back to a file; two-way sync |
 | Weekly status | weekly | nothing | a tiered weekly accountability summary assembled from the week's artifacts |
 
 ## Layer 4 - Wellbeing coaching

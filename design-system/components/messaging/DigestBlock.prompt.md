@@ -5,8 +5,8 @@ One channel's digest in the canonical house style: bracket tag, a one-line count
   channel="gmail"
   summary="7 unread that matter, 2 need you."
   items={[
-    { handle: "E1", text: "Contact at firm wants times for a screen. Reply with 2 slots." },
-    { handle: "E2", text: "Application received, next step is a take-home. Decide if in." },
+    { handle: "E1", text: "A prospect wants times for an intro call. Reply with 2 slots." },
+    { handle: "E2", text: "A founder replied, next step is a diligence call. Decide if in." },
   ]}
   fyis={["Newsletter weekly issue", "Receipt from vendor", "Calendar invite already on your calendar"]}
   noise="12 promotional/social messages filtered out."

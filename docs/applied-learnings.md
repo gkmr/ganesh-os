@@ -37,3 +37,20 @@ A self-improvement loop that only ever proposes "one change" grows the system fo
 - Operator-absent mode. Human-gated items need a default action and a time-to-live, or queues grow silently when the operator goes heads-down.
 - Cost has no ceiling. Many always-on agents fanning out subagents needs a budget tally and a circuit breaker.
 - Inbound is untrusted. Agents that read arbitrary messages and then propose writes should treat message bodies as data, never instructions, with irreversible actions human-gated.
+
+## Resilience: a 500 has two shapes
+
+The self-healing layer was hardened in the same spirit as the determinism layer - prevent the class, do not just react to the instance.
+
+- **A 500 has two shapes, and they need different fixes.** An error inside a run that started is the agent's to retry; a failure that stopped the run from ever executing (a startup error, the host asleep) is invisible from inside and can only be healed from outside. "Retry yourself" is the wrong instruction for the second shape. The fix has to be two layers: in-run retry-then-degrade, and an external catch-up controller.
+- **Run markers are the catch-up substrate.** A system can only recover what it can prove it missed. Wiring a one-line run marker into the busiest agents first is what later made external catch-up possible - the resilience passes were not independent, the run-recording made the healer buildable.
+- **Freshness-gate every catch-up.** Replaying a stale slot has negative value. A high-value daily run is worth re-firing hours late; a wake or bedtime nudge replayed late is worse than skipping it. Bucket misses by freshness instead of blindly replaying.
+- **Wire shared behavior through a contract, not bespoke copies.** The retry, degrade, and run-marker rules live in one shared resilience contract that every agent references by a single pointer line, so the rollout is uniform and reversible, not thirty hand-edited variations.
+
+## On the weekly improvement pass that produced these
+
+- **Snapshot-first, then diff against the snapshot to prove each edit was surgical.** Diffing forty-plus edits against a pre-change snapshot is what catches accidental collateral (a file creeping over its line ceiling, a stray reference) before it ships.
+- **Additive-only is how you change a frozen baseline safely.** New eval blocks are added; existing eval lines are never touched in the same pass, so a regression baseline stays honest and nothing can silently weaken.
+- **Separate the gate from the run.** The frozen eval set is read-only during a reflection and edited only in a deliberate follow-on pass, so the thing that judges a change is never quietly edited by the same change.
+- **A "supersedes" claim is not a migration.** Introduce a consolidating doc and you must finish the repoint and record the division in the index, or the old and new both linger and drift.
+- **Reconcile against the schedule, not the displayed time.** Published cron jitter looks like drift but is not; scope staleness checks to facts that actually go stale, or a static table just generates noise.

@@ -1,0 +1,42 @@
+<!-- @dsCard group="Slides" viewport="1280x720" name="Case-study slide" subtitle="Problem → pattern → receipt, three columns" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  html,body{margin:0}
+  .slide{width:1280px;height:720px;position:relative;overflow:hidden;background:var(--bg);color:var(--body);font-family:var(--font-sans);padding:88px 110px;box-sizing:border-box}
+  .orb{position:absolute;width:520px;height:520px;border-radius:50%;filter:blur(80px);opacity:.38;right:-150px;top:-160px;background:radial-gradient(circle,var(--orb-blue),transparent 65%)}
+  .eyebrow{font:700 15px/1 var(--font-mono);text-transform:uppercase;letter-spacing:.1em;color:var(--brand-2);margin-bottom:18px;position:relative}
+  h2{position:relative;font-size:46px;line-height:1.06;font-weight:800;letter-spacing:-.025em;margin:0 0 46px;max-width:26ch;background:linear-gradient(180deg,#fff,#c7cfe2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .cols{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .c{background:var(--surface);border:1px solid var(--line);border-top:2px solid var(--cc);border-radius:18px;padding:26px;box-shadow:var(--e1)}
+  .c .t{font:700 12px/1 var(--font-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--cc);margin-bottom:14px}
+  .c p{margin:0;font-size:18px;line-height:1.5;color:var(--body)}
+  .c .receipt{font-family:var(--font-mono);font-size:15px;color:var(--neon);margin-top:14px}
+</style>
+</head>
+<body>
+  <div class="slide">
+    <span class="orb"></span>
+    <div class="eyebrow">Case 06 · cross-domain ranking</div>
+    <h2>One loud domain stops crowding out the rest.</h2>
+    <div class="cols">
+      <div class="c" style="--cc:var(--fail)">
+        <div class="t">Problem</div>
+        <p>Ranking purely by urgency lets a high-volume work flow bury health and relationships. They lose, silently.</p>
+      </div>
+      <div class="c" style="--cc:var(--brand)">
+        <div class="t">Pattern</div>
+        <p>Build the daily top-3 with one slot per domain. Fill from the next-highest only when a domain is empty, and say so.</p>
+      </div>
+      <div class="c" style="--cc:var(--pass)">
+        <div class="t">Receipt</div>
+        <p>The ranked day is structurally never single-domain.</p>
+        <div class="receipt">per-domain-coverage → pass</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

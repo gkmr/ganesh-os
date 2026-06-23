@@ -8,11 +8,11 @@ The harness is the runtime plus the conventions layered on top of it that turn a
 
 | Layer | Responsibility | Why it matters |
 |---|---|---|
-| **Scheduler** | Fires each agent as a cron'd prompt in local time, only while the host is awake, serialized one at a time. | A concurrency guard + run-ledger makes a missed or doubled fire a no-op, never a duplicate. Time is the orchestrator. |
+| **Scheduler** | Fires each agent as a cron'd prompt in local time, only while the host is awake, serialized one at a time. | A concurrency guard + run-ledger makes a missed or doubled fire a no-op, never a duplicate. Time is the orchestrator, and a separate catch-up controller re-fires the runs the host slept through, so an off hour never silently drops a slot. |
 | **Context assembly** | Rebuilds each run's world from disk: a read-first routing index, then only the canvases, manifest, and memory the run needs. | Every run is stateless; the harness is what re-hydrates it. This forces external state and clean reloads. |
 | **Tools & connectors** | File tools, a sandboxed shell, and connectors (Reminders, Calendar ×6, Slack, Gmail, WhatsApp, iMessage). | A surface check degrades gracefully when a connector is down and queues write-intents for the next full run. |
 | **Format contract** | The shared house style: handle namespaces, the decision vocabulary, and the single field each agent may write. | This is where the single-writer fence is actually enforced. Uniform behavior across all agents. |
-| **Change log** | Every write from any agent appends one source-tagged line to a single append-only file. | The audit spine, the input to the evals, and the thing that makes 27 autonomous writers reconstructable. |
+| **Change log** | Every write from any agent appends one source-tagged line to a single append-only file. | The audit spine, the input to the evals, and the thing that makes 30+ autonomous writers reconstructable. |
 | **Evals** | Frozen + behavioral checks read the change log and block a run that breaks an invariant. | The harness can refuse its own agents. This is the property that makes unattended operation safe. |
 
 ## How agents, skills, and memory relate to the harness

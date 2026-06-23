@@ -1,4 +1,4 @@
-Compact status / eyebrow marker — a cyan kicker pill (with optional live pulse), a mono uppercase tag, or a pass/fail status chip.
+Compact status / eyebrow marker - a cyan kicker pill (with optional live pulse), a mono uppercase tag, or a pass/fail status chip.
 
 ```jsx
 <Badge variant="kicker" pulse>A personal AI operating system, run at the scale of one life</Badge>

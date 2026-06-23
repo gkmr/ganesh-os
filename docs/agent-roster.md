@@ -25,13 +25,13 @@ Two agents decide what matters most. They set priority and tags - never dates, c
 
 Eight agents reconcile everything against the calendars and produce the day I actually see.
 
-10. **Morning sweep** (`6:04a`) - Reconciles reminders against six calendars, advances recurring items, auto-parks overdue by tier, enforces the daily budget, and publishes the morning calendar event. Owns: **dates, dedupe, conflicts, auto-park**.
+10. **Morning sweep** (`6:00a`) - Reconciles reminders against six calendars, advances recurring items, auto-parks overdue by tier, enforces the daily budget, and publishes the morning calendar event. Owns: **dates, dedupe, conflicts, auto-park**.
 11. **Evening sweep** (`6:45p`) - A mirror of the morning sweep; runs the weekly deep reconciliation on Sundays. Owns: **same as morning sweep**.
 12. **Morning briefing** (`7:10a`) - The ranked day: one most-important task plus a cross-domain top three, delivered four ways - chat, vault file, phone calendar event, and SMS. Owns: **nothing** (read-only + its calendar event).
 13. **Evening briefing** (`8:15p`) - The evening wrap plus tomorrow's setup. Owns: **nothing**.
-14. **Weekday catch-up** (`11:00a`) - Re-runs the morning brief only if it is still missing. Owns: **nothing**.
+14. **Catch-up controller** (`10a · 3p · 9p`) - The resilience backstop (replaces the retired weekday catch-up). Detects today's missed runs - both never-fired and fired-but-no-output (a run that stamped a last-run time but produced no output) - by cross-checking run markers against the scheduler's last-run times, then re-fires only the still-fresh ones by running each agent's own prompt, idempotently. Freshness-gated, silent unless it backfills. Owns: **nothing** (re-fires others).
 15. **Tomorrow plan** (`7:20p`) - The time-ordered master shortlist for the next day, fusing calendar blocks, reminders due, and tiers. Owns: **nothing**.
-16. **Reply processor** (`hourly · 6a–11p`) - Applies my decisions - whether typed into a canvas file or sent as a text - and mirrors reminders back to a file for two-way sync. Owns: **lifecycle** (create / complete / reschedule).
+16. **Reply processor** (`every 30m · 6a–11:59p`) - Applies my decisions - whether typed into a canvas file or sent as a text - and mirrors reminders back to a file for two-way sync. Owns: **lifecycle** (create / complete / reschedule).
 17. **Weekly status** (`weekly`) - A tiered weekly accountability summary assembled from the week's artifacts. Owns: **nothing**.
 
 ## Layer 4 - Wellbeing coaching (health, energy, recovery)

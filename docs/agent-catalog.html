@@ -136,7 +136,7 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 <tbody>
 <tr>
 <td>Morning sweep</td>
-<td>6:04a</td>
+<td>6:00a</td>
 <td>dates, dedupe, conflicts, auto-park</td>
 <td>reconciles reminders against six calendars; advances recurring items; auto-parks overdue by tier; enforces the daily budget; publishes the morning calendar event</td>
 </tr>
@@ -160,9 +160,15 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 </tr>
 <tr>
 <td>Weekday catch-up</td>
-<td>11:00a</td>
-<td>nothing</td>
-<td>runs the morning brief only if it is still missing</td>
+<td>retired</td>
+<td> - </td>
+<td>folded into the catch-up controller; previously re-ran the morning brief only if it was still missing</td>
+</tr>
+<tr>
+<td>Catch-up controller</td>
+<td>~10a/3p/9p (user-local)</td>
+<td>nothing (re-fires others)</td>
+<td>Layer-2 resilience backstop: detects today's missed slots - both <em>never-fired</em> and <em>fired-but-no-output</em> (a run that stamped a last-run time but produced no output marker) - by cross-checking run markers against the scheduler's last-run times; re-fires only the still-fresh misses idempotently by running each agent's own prompt; freshness-gated, silent unless it backfills; absorbed the former weekday catch-up</td>
 </tr>
 <tr>
 <td>Tomorrow plan</td>
@@ -172,7 +178,7 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 </tr>
 <tr>
 <td>Reply processor</td>
-<td>hourly, 6a–11p</td>
+<td>every 30 min, 6a–11:59p</td>
 <td>lifecycle (create / complete / reschedule)</td>
 <td>applies the human's decisions, whether typed into a canvas file or sent as a text; mirrors reminders back to a file; two-way sync</td>
 </tr>

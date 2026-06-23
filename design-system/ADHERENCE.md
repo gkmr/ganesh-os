@@ -6,9 +6,9 @@ _Generated 2026-06-18. Subject: the Ganesh OS website (`index.html`, `demo.html`
 
 The website is the source these tokens were extracted from, so visual conformance is effectively total. Confirmed 1:1 against `design-system/tokens/`:
 
-- **Color** — identical palette, including the exact `--line: rgba(255,255,255,.085)`, the four domain colors (work amber, health teal, people orange, growth violet), brand violet `#8b7bff` + cyan `#22d3ee`, the status colors, and the decorative orb colors.
-- **Type** — Inter + JetBrains Mono; 17px body at 1.62 line-height; -.022em display tracking; uppercase mono eyebrows at .1em.
-- **Spacing, shape, depth** — 84px section rhythm, the radius scale, the exact stacked shadow strings, and the violet `--glow`.
+- **Color** - identical palette, including the exact `--line: rgba(255,255,255,.085)`, the four domain colors (work amber, health teal, people orange, growth violet), brand violet `#8b7bff` + cyan `#22d3ee`, the status colors, and the decorative orb colors.
+- **Type** - Inter + JetBrains Mono; 17px body at 1.62 line-height; -.022em display tracking; uppercase mono eyebrows at .1em.
+- **Spacing, shape, depth** - 84px section rhythm, the radius scale, the exact stacked shadow strings, and the violet `--glow`.
 - The homepage runs ~390 token lookups.
 
 ## Naming bridge (applied)

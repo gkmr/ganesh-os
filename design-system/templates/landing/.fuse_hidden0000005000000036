@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Ganesh OS landing" description="Dark hero with kicker, gradient headline, CTAs, four-domain lanes panel and metric row — built from the Ganesh OS design system." -->
+<helmet>
+<script src="./ds-base.js"></script>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0}
+  @keyframes tpl-pulse{0%,100%{opacity:1}50%{opacity:.3}}
+</style>
+</helmet>
+<div style="position:relative;min-height:100vh;background:#070a14;color:#c4cde0;font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;overflow:hidden;-webkit-font-smoothing:antialiased">
+
+  <!-- background field -->
+  <div style="position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none">
+    <span style="position:absolute;width:620px;height:620px;left:-160px;top:-120px;border-radius:50%;filter:blur(70px);opacity:.5;background:radial-gradient(circle,#3b2d8f,transparent 65%)"></span>
+    <span style="position:absolute;width:560px;height:560px;right:-140px;top:200px;border-radius:50%;filter:blur(70px);opacity:.5;background:radial-gradient(circle,#0e5e6e,transparent 65%)"></span>
+    <span style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000,transparent 75%);mask-image:radial-gradient(ellipse at 50% 0%,#000,transparent 75%)"></span>
+  </div>
+
+  <!-- nav -->
+  <nav style="position:sticky;top:0;z-index:10;background:rgba(8,11,20,.72);backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid rgba(255,255,255,.085)">
+    <div style="max-width:1140px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+      <div style="display:flex;align-items:center;gap:11px;font-weight:800;color:#f4f7fc;font-size:16px">
+        <span style="width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#8b7bff,#22d3ee);box-shadow:0 0 22px rgba(139,123,255,.6)"></span>
+        Ganesh OS
+      </div>
+      <div style="display:flex;gap:20px;color:#8995ad;font-size:13.5px;font-weight:600">
+        <span>Product</span><span>Governance</span><span>Architecture</span><span>Operator</span>
+      </div>
+      <x-import component-from-global-scope="GaneshOSDesignSystem_462320.Button" hint-size="120px,38px">▶ Watch</x-import>
+    </div>
+  </nav>
+
+  <!-- hero -->
+  <header style="position:relative;z-index:2;max-width:1140px;margin:0 auto;padding:78px 24px 60px">
+    <x-import component-from-global-scope="GaneshOSDesignSystem_462320.Badge" variant="kicker" pulse="{{ true }}" hint-size="420px,32px">A personal AI operating system, run at the scale of one life</x-import>
+
+    <h1 style="font-size:clamp(34px,5.4vw,62px);line-height:1.03;font-weight:900;margin:24px 0 22px;max-width:17ch;letter-spacing:-.03em;background:linear-gradient(180deg,#fff 30%,#aeb8d4);-webkit-background-clip:text;background-clip:text;color:transparent">One loud domain was quietly eating my whole life.</h1>
+
+    <p style="font-size:clamp(18px,2.1vw,21px);color:#c4cde0;max-width:62ch;margin:0 0 16px"><b style="color:#f4f7fc">Work shouts. Everything that matters whispers.</b> Your body, the people who love you, the person you're becoming — none of them send a push notification. So the loudest thing wins every day, and you call the wreckage "focus."</p>
+
+    <p style="font-weight:700;color:#f4f7fc;font-size:clamp(19px,2.2vw,22px);max-width:62ch;margin:0">The dread is gone. Not because there's less to carry. Because nothing I love slips in silence anymore.</p>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:26px">
+      <x-import component-from-global-scope="GaneshOSDesignSystem_462320.Button" hint-size="240px,40px">▶ Watch one day decide itself</x-import>
+      <x-import component-from-global-scope="GaneshOSDesignSystem_462320.Button" variant="ghost" hint-size="190px,40px">The four disciplines ↓</x-import>
+    </div>
+
+    <!-- lanes panel -->
+    <div style="margin-top:44px;background:linear-gradient(180deg,#111829,#0d1322);border:1px solid rgba(255,255,255,.085);border-radius:20px;padding:24px 26px;box-shadow:0 2px 10px rgba(0,0,0,.5),0 30px 70px rgba(0,0,0,.55)">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;gap:12px;flex-wrap:wrap">
+        <h4 style="margin:0;color:#fff;font-size:14px;font-weight:700">Four domains, one of them far too loud</h4>
+        <p style="margin:0;color:#8995ad;font-size:12.5px;font-family:'JetBrains Mono',monospace">before: work floods, the rest go dim</p>
+      </div>
+      <x-import component-from-global-scope="GaneshOSDesignSystem_462320.DomainLane" name="Work / company" sub="build, GTM, capital" domain="work" count="48 today" hint-size="100%,38px"></x-import>
+      <x-import component-from-global-scope="GaneshOSDesignSystem_462320.DomainLane" name="Health" sub="lift, cardio, PT" domain="health" count="11d since PT" quiet="{{ true }}" delay="{{ 0.6 }}" hint-size="100%,38px"></x-import>
+      <x-import component-from-global-scope="GaneshOSDesignSystem_462320.DomainLane" name="People" sub="date night, family" domain="people" count="3 owed calls" quiet="{{ true }}" delay="{{ 1.1 }}" hint-size="100%,38px"></x-import>
+      <x-import component-from-global-scope="GaneshOSDesignSystem_462320.DomainLane" name="Growth" sub="panels, mentoring" domain="growth" count="on hold" quiet="{{ true }}" delay="{{ 1.6 }}" hint-size="100%,38px"></x-import>
+    </div>
+
+    <!-- metrics -->
+    <div style="display:flex;gap:32px;flex-wrap:wrap;margin-top:32px;padding-top:26px;border-top:1px solid rgba(255,255,255,.085)">
+      <x-import component-from-global-scope="GaneshOSDesignSystem_462320.StatTile" value="99 → 0" label="overdue, held at zero" boxed="{{ false }}" size="sm" hint-size="150px,60px"></x-import>
+      <x-import component-from-global-scope="GaneshOSDesignSystem_462320.StatTile" value="27" label="coordinated agents" boxed="{{ false }}" size="sm" hint-size="150px,60px"></x-import>
+      <x-import component-from-global-scope="GaneshOSDesignSystem_462320.StatTile" value="1 rule" label="every field, one owner" boxed="{{ false }}" size="sm" hint-size="150px,60px"></x-import>
+      <x-import component-from-global-scope="GaneshOSDesignSystem_462320.StatTile" value="0" label="cross-lane writes, in CI" boxed="{{ false }}" size="sm" hint-size="150px,60px"></x-import>
+    </div>
+  </header>
+</div>
+</x-dc>
+</body>
+</html>

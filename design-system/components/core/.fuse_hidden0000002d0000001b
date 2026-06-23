@@ -1,0 +1,89 @@
+<!-- @dsCard group="Components" viewport="700x470" name="Core — Button · IconButton · Badge · Tag · Card" subtitle="Pill + icon buttons, badges, tags, domain cards" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body{margin:0;background:var(--bg);font-family:var(--font-sans);padding:24px;color:var(--body)}
+  .sec{margin-bottom:22px}
+  .lbl{font:700 11px/1 var(--font-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  const { Button, IconButton, Badge, Tag, Card, CardEyebrow, CardOwner } = window.GaneshOSDesignSystem_462320;
+  function Demo(){
+    return (
+      <div>
+        <div className="sec">
+          <div className="lbl">Button</div>
+          <div className="row">
+            <Button>▶ Watch one day</Button>
+            <Button variant="ghost" as="a" href="#">The four disciplines ↓</Button>
+            <Button variant="soft" size="sm">Replay</Button>
+            <Button size="lg">Get started →</Button>
+            <Button disabled>Disabled</Button>
+          </div>
+        </div>
+        <div className="sec">
+          <div className="lbl">IconButton &nbsp;·&nbsp; Tag</div>
+          <div className="row">
+            <IconButton label="Play">▶</IconButton>
+            <IconButton variant="solid" round label="Next">→</IconButton>
+            <IconButton variant="soft" label="Down">↓</IconButton>
+            <IconButton size="sm" label="Dismiss">✕</IconButton>
+            <span style={{width:1,height:24,background:'var(--line)',margin:'0 4px'}}></span>
+            <Tag domain="work">Work</Tag>
+            <Tag domain="health">Health</Tag>
+            <Tag domain="people" onRemove={()=>{}}>Date night</Tag>
+            <Tag size="sm">later</Tag>
+          </div>
+        </div>
+        <div className="sec">
+          <div className="lbl">Badge</div>
+          <div className="row">
+            <Badge variant="kicker" pulse>A personal AI operating system, at the scale of one life</Badge>
+            <Badge variant="tag" tone="brand">▶ live</Badge>
+            <Badge variant="square" tone="pass">PASS</Badge>
+            <Badge variant="square" tone="fail">CROSS-LANE</Badge>
+            <Badge variant="tag" tone="violet">CASE 01</Badge>
+          </div>
+        </div>
+        <div className="sec">
+          <div className="lbl">Card</div>
+          <div className="cards">
+            <Card accent="work" interactive>
+              <CardEyebrow accent="work">Work</CardEyebrow>
+              <h3 style={{color:'var(--ink)',fontSize:15.5,margin:'9px 0 5px'}}>The company</h3>
+              <p style={{margin:0,fontSize:13,color:'var(--muted)'}}>The loud lane — fenced so it can't eat the others.</p>
+              <CardOwner style={{marginTop:11}}>owns: pipeline priority</CardOwner>
+            </Card>
+            <Card accent="health" interactive>
+              <CardEyebrow accent="health">Health</CardEyebrow>
+              <h3 style={{color:'var(--ink)',fontSize:15.5,margin:'9px 0 5px'}}>Strength</h3>
+              <p style={{margin:0,fontSize:13,color:'var(--muted)'}}>The 6 p.m. lift is protected. No sweep can bump it.</p>
+              <CardOwner style={{marginTop:11}}>held: streak-aware</CardOwner>
+            </Card>
+            <Card accent="people" interactive>
+              <CardEyebrow accent="people">People</CardEyebrow>
+              <h3 style={{color:'var(--ink)',fontSize:15.5,margin:'9px 0 5px'}}>Date night</h3>
+              <p style={{margin:0,fontSize:13,color:'var(--muted)'}}>A protected block, not a suggestion.</p>
+              <CardOwner style={{marginTop:11}}>sacred: never auto-moved</CardOwner>
+            </Card>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script>
+</body>
+</html>
