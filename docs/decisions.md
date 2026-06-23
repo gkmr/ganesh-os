@@ -87,7 +87,7 @@ Format: **Context → Options → Decision → Consequences.**
 
 **Decision.** Language models read forty messages and surface the three real ones, summarize a thread to one quote and the ask, and rank a day across competing domains. Deterministic code does calendar math, the per-day budget, id lookups, and the lane-fence. On-device / classical methods stay where latency and exactness matter.
 
-**Consequences.** The system can be trusted to act on its own, because the parts that must be exact never depend on a sample. The line is defensible in an interview and visible in the code. The cost: two implementation styles to maintain and a boundary to police.
+**Consequences.** The system can be trusted to act on its own, because the parts that must be exact never depend on a sample. The line is defensible under expert review and visible in the code. The cost: two implementation styles to maintain and a boundary to police.
 
 ---
 
@@ -138,7 +138,7 @@ Format: **Context → Options → Decision → Consequences.**
 
 **Decision.** Backlog and item counts are reported exactly (99→0, the 48-item day); time figures are stated as before/after estimates, not instrumented metrics.
 
-**Consequences.** Truthful and defensible under an interview probe without building a telemetry stack one person doesn't need. The cost: time-savings figures are estimates, and labeled as such.
+**Consequences.** Truthful and defensible under an expert probe without building a telemetry stack one person doesn't need. The cost: time-savings figures are estimates, and labeled as such.
 
 ---
 
@@ -173,3 +173,20 @@ Format: **Context → Options → Decision → Consequences.**
 **Decision.** The gather wave publishes per-source snapshots; read-only agents consume the snapshot; write-bearing agents keep fresh reads for the items they mutate.
 
 **Consequences.** Morning connector fan-outs roughly halve (about 36 to 19) and the briefing's re-gather disappears, with graceful degradation when a snapshot is missing or stale. The cost: a snapshot can be up to one cycle old, acceptable for summaries but not for a mutated item. Pure subtraction.
+
+---
+
+## ADR-11 - Two-class failure and an external catch-up controller
+
+**Status:** Accepted · 2026-06-22.
+
+**Context.** "Retry on a 500" hid two different failures. A 500 (or timeout, or rate-limit) *inside* a run that started can be retried in-run. But a failure at startup, or the host asleep at the fire time, means the agent's own code never executed - nothing inside that task can save it. The existing concurrency guard and auto-park covered double-fires and backlog, but a whole-run miss on a quiet day was only healed by chance at the next scheduled slot.
+
+**Options.**
+- Tell each agent to "retry itself" - useless for a run that never started.
+- An always-on supervisor process - infrastructure beyond a single host.
+- **A two-layer contract: bounded in-run retry-then-degrade for the first class, plus a separate scheduled catch-up controller that heals the second class from outside.**
+
+**Decision.** A shared resilience contract makes every agent write a run marker each run and retry-then-degrade on transient errors. A separate catch-up controller (a scheduled task, a few times a day) reads the markers and the scheduler's last-run times, finds missed slots, and re-fires the still-useful ones by following each task's own idempotent steps. Replays are freshness-gated into catch-up-always, same-half-day-only, and never; the controller stays silent unless it actually backfills.
+
+**Consequences.** A missed run on a quiet day is recovered within hours instead of waiting a full cycle, with no per-task catch-up logic (the target's own idempotency does the work) and no risk of double-action. The honest residual: a missed startup still drops a slot until the next wake or catch-up pass, so this shrinks missed work rather than eliminating it; cutting misses at the source is a host power-setting, left as a note, not automated. The keystone dependency: external catch-up only works because every agent now leaves a run marker - the system can only recover what it can prove it missed. See [`../docs/applied-learnings.md`](applied-learnings.md).

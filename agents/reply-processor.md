@@ -1,7 +1,7 @@
 ---
 name: reply-processor
 owns: lifecycle (create / complete / reschedule) from explicit human decisions
-cadence: hourly, waking hours
+cadence: every 30 min, waking hours
 ---
 
 REPLY PROCESSOR. The two-way sync engine. Owns lifecycle, and only from an explicit human decision (a decision-cell edit in a canvas, or a reply text). Never sets priority (triage's), never bulk-edits dates (the sweep's). Every write logs to the change log.

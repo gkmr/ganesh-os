@@ -10,8 +10,8 @@ Every reminder or calendar change, from any source, appends one channel-tagged l
 - CREATE reminder "Intake: <company> <signal>" | list Pipeline | undated backlog | id <id> | handle JS3. Tier-1; surfaced + SMS.
 
 ## <date> - reply processor (channel sms)
-- COMPLETE id <id> (handle J02) from text reply "done J02". Verified completed. Row stamped applied.
-- RESCHEDULE id <id> (handle J07) to Fri 9am + matching alarm, from "push J07 to Fri 9a".
+- COMPLETE id <id> (handle I02) from text reply "done I02". Verified completed. Row stamped applied.
+- RESCHEDULE id <id> (handle I07) to Fri 9am + matching alarm, from "push I07 to Fri 9a".
 
 ## <date> - triage decisions (channel cowork-chat)
 - Re-tiered 36 pipeline items; spread a single overloaded day across the week; priorities preserved by the next sweep.

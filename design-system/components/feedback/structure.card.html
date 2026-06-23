@@ -1,4 +1,4 @@
-<!-- @dsCard group="Components" viewport="700x420" name="Structure — Tabs · Table · Tooltip · Dialog · Toast" subtitle="Navigation, tabular data, and feedback primitives" -->
+<!-- @dsCard group="Components" viewport="700x420" name="Structure - Tabs · Table · Tooltip · Dialog · Toast" subtitle="Navigation, tabular data, and feedback primitives" -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -53,7 +53,7 @@
               <Button variant="ghost" size="sm" onClick={()=>setOpen(true)}>Confirm prune</Button>
             </div>
             <Dialog open={open} onClose={()=>setOpen(false)} title="Confirm prune">
-              <p style={{color:'var(--body)', margin:0, fontSize:14, lineHeight:1.55}}>Drop PR2 (stale lead, posting closed)? This is irreversible, so it needs you.</p>
+              <p style={{color:'var(--body)', margin:0, fontSize:14, lineHeight:1.55}}>Drop PR2 (stale lead, no longer active)? This is irreversible, so it needs you.</p>
               <div style={{display:'flex', gap:10, justifyContent:'flex-end', marginTop:18}}>
                 <Button variant="ghost" size="sm" onClick={()=>setOpen(false)}>Keep</Button>
                 <Button size="sm" onClick={()=>setOpen(false)}>Drop it</Button>

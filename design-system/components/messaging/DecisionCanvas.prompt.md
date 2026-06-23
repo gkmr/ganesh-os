@@ -1,12 +1,12 @@
-The human's edit channel. Triage writes the rows and priority; the human fills only the DECISION cell (here or by texting the handle); the hourly processor applies each decision and stamps it `applied` so it never re-fires.
+The human's edit channel. Triage writes the rows and priority; the human fills only the DECISION cell (here or by texting the handle); the reply processor (every 30 min) applies each decision and stamps it `applied` so it never re-fires.
 
 ```jsx
 <DecisionCanvas
-  title="T1 — apply now"
+  title="T1 - act now"
   rows={[
-    { handle: "J01", list: "Pipeline", title: "Intro: founder intro", due: "today 4pm", tag: "act", decision: "" },
-    { handle: "J02", list: "Pipeline", title: "Referral ask at company", due: "today 10am", tag: "warm", decision: "done", applied: true },
-    { handle: "P02", list: "Pipeline", title: "Stale lead, posting closed", due: "overdue", tag: "prune-review", decision: "drop" },
+    { handle: "I01", list: "Pipeline", title: "Intro: founder intro", due: "today 4pm", tag: "act", decision: "" },
+    { handle: "I02", list: "Pipeline", title: "Intro ask: a partner at a firm", due: "today 10am", tag: "warm", decision: "done", applied: true },
+    { handle: "P02", list: "Pipeline", title: "Stale lead, no longer active", due: "overdue", tag: "prune-review", decision: "drop" },
   ]}
 />
 ```

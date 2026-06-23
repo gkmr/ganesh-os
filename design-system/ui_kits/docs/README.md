@@ -1,4 +1,4 @@
-# UI Kit — Docs site
+# UI Kit - Docs site
 
 A reading layout for the Ganesh OS documentation (`docs/*.html` in the repo). Three columns: route nav, prose, on-page TOC. Renders the real `docs/design-patterns.md` content faithfully.
 
@@ -6,7 +6,7 @@ A reading layout for the Ganesh OS documentation (`docs/*.html` in the repo). Th
 Open `index.html`. Links `styles.css`, loads `_ds_bundle.js`, mounts `DocsApp`.
 
 ## Surfaces
-- `DocsApp.jsx` — left route nav grouped Start / System / Proof; a prose column using the brand heading system (mono eyebrow, gradient h1, numbered h2s, problem/pattern voice); a right on-page TOC; and a `CodeBlock` eval-gate callout.
+- `DocsApp.jsx` - left route nav grouped Start / System / Proof; a prose column using the brand heading system (mono eyebrow, gradient h1, numbered h2s, problem/pattern voice); a right on-page TOC; and a `CodeBlock` eval-gate callout.
 
 ## Components composed
 Badge, CodeBlock (+ syntax spans).

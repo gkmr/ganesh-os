@@ -1,4 +1,4 @@
-The bracket source tag that leads every outbound agent message, per the house-style format contract.
+The bracket source tag that leads every outbound agent message, per the format contract.
 
 ```jsx
 <ChannelTag channel="gmail" /> 4 items, 1 needs you.

@@ -55,7 +55,7 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 <tr>
 <td><strong>Scheduler</strong></td>
 <td>Fires each agent as a cron'd prompt in local time, only while the host is awake, serialized one at a time.</td>
-<td>A concurrency guard + run-ledger makes a missed or doubled fire a no-op, never a duplicate. Time is the orchestrator.</td>
+<td>A concurrency guard + run-ledger makes a missed or doubled fire a no-op, never a duplicate. Time is the orchestrator, and a separate catch-up controller re-fires the runs the host slept through, so an off hour never silently drops a slot.</td>
 </tr>
 <tr>
 <td><strong>Context assembly</strong></td>
@@ -75,7 +75,7 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 <tr>
 <td><strong>Change log</strong></td>
 <td>Every write from any agent appends one source-tagged line to a single append-only file.</td>
-<td>The audit spine, the input to the evals, and the thing that makes 27 autonomous writers reconstructable.</td>
+<td>The audit spine, the input to the evals, and the thing that makes 30+ autonomous writers reconstructable.</td>
 </tr>
 <tr>
 <td><strong>Evals</strong></td>

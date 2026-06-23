@@ -525,7 +525,7 @@
 
     <div class="metrics-row reveal">
       <div><b id="m1">99</b><span>overdue, then held at zero</span></div>
-      <div><b>27</b><span>coordinated agents</span></div>
+      <div><b>30+</b><span>coordinated agents</span></div>
       <div><b>1 rule</b><span>every field, one owner</span></div>
       <div><b>0</b><span>cross-lane writes, enforced in CI</span></div>
     </div>
@@ -781,10 +781,10 @@ OWNER = {
       <div class="gate" id="gate">
         <div class="col">
           <h4>change log · this run</h4>
-          <div class="wrow ok"><span>pipeline-triage → priority(J04)</span><span class="verdict">OK</span></div>
+          <div class="wrow ok"><span>pipeline-triage → priority(I04)</span><span class="verdict">OK</span></div>
           <div class="wrow ok"><span>morning-sweep → due_date(M51)</span><span class="verdict">OK</span></div>
-          <div class="wrow ok"><span>reply-processor → lifecycle(J02)</span><span class="verdict">OK</span></div>
-          <div class="wrow" id="badrow"><span>reply-processor → <b>priority(J04)</b></span><span class="verdict" id="badverdict">…</span></div>
+          <div class="wrow ok"><span>reply-processor → lifecycle(I02)</span><span class="verdict">OK</span></div>
+          <div class="wrow" id="badrow"><span>reply-processor → <b>priority(I04)</b></span><span class="verdict" id="badverdict">…</span></div>
         </div>
         <div class="col">
           <h4>$ pytest evals/lane_fence.py</h4>
@@ -807,7 +807,7 @@ OWNER = {
       <div class="panelhead">
         <p class="eyebrow">System &amp; decisions · the whole machine, and why it's shaped this way</p>
         <h2>A model is the engine. The harness is the rest of the car.</h2>
-        <p class="sub">An LLM call is one component. Everything that makes 27 of them run unattended, safely, every day is harness engineering: the scheduler, the context a run assembles from disk, the tools it may touch, the contract its output obeys, the spine that records it, and the evals that can veto it. Agents, skills, and memory all plug into this harness.</p>
+        <p class="sub">An LLM call is one component. Everything that makes 30+ of them run unattended, safely, every day is harness engineering: the scheduler, the context a run assembles from disk, the tools it may touch, the contract its output obeys, the spine that records it, and the evals that can veto it. Agents, skills, and memory all plug into this harness.</p>
       </div>
       <div class="subnav">
         <span class="sl">In this section:</span>
@@ -857,13 +857,13 @@ OWNER = {
         <div class="agroup" style="--c:var(--date)">
           <div class="gl"><span class="gc"></span>Layer 3 · Reconcile &amp; surface</div>
           <div class="agrid">
-            <div class="acard"><div class="an">Morning sweep</div><div class="ao">owns: <b>dates</b> · auto-park · budget</div><div class="af">6:04a</div></div>
+            <div class="acard"><div class="an">Morning sweep</div><div class="ao">owns: <b>dates</b> · auto-park · budget</div><div class="af">6:00a</div></div>
             <div class="acard"><div class="an">Evening sweep</div><div class="ao">owns: <b>dates</b> · Sun deep recon</div><div class="af">6:45p</div></div>
             <div class="acard"><div class="an">Morning briefing</div><div class="ao">owns: <b>its cal event</b> · ranks day</div><div class="af">7:10a</div></div>
             <div class="acard"><div class="an">Evening briefing</div><div class="ao">owns: <b>nothing</b> · wrap + setup</div><div class="af">8:15p</div></div>
-            <div class="acard"><div class="an">Weekday catch-up</div><div class="ao">owns: <b>nothing</b> · brief if missing</div><div class="af">11:00a</div></div>
+            <div class="acard"><div class="an">Catch-up controller</div><div class="ao">owns: <b>nothing</b> · re-fires missed runs</div><div class="af">10a · 3p · 9p</div></div>
             <div class="acard"><div class="an">Tomorrow plan</div><div class="ao">owns: <b>nothing</b> · time-ordered list</div><div class="af">7:20p</div></div>
-            <div class="acard"><div class="an">Reply processor</div><div class="ao">owns: <b>lifecycle</b> · read-after-write</div><div class="af">hourly · 6a–11p</div></div>
+            <div class="acard"><div class="an">Reply processor</div><div class="ao">owns: <b>lifecycle</b> · read-after-write</div><div class="af">every 30m · 6a–11:59p</div></div>
             <div class="acard"><div class="an">Weekly status</div><div class="ao">owns: <b>nothing</b> · accountability</div><div class="af">weekly</div></div>
           </div>
         </div>
@@ -905,7 +905,7 @@ OWNER = {
       <div class="steplabel">Step 2 · Scale estimates</div>
       <div class="stats">
         <div class="stat"><b>1</b><div class="k">operator - the "single POP." Design for one life; the pattern scales to many.</div></div>
-        <div class="stat"><b>~27</b><div class="k">agents × a few runs/day = low tens of runs daily. No QPS problem; the hard part is correctness.</div></div>
+        <div class="stat"><b>30+</b><div class="k">agents × a few runs/day = low tens of runs daily. No QPS problem; the hard part is correctness.</div></div>
         <div class="stat"><b>~12</b><div class="k">reminder lists + 6 calendars + 5 message channels reconciled every cycle.</div></div>
         <div class="stat"><b>read‑heavy</b><div class="k">most runs read-and-surface; writes are few, gated, verified. Why Markdown + a change log is enough.</div></div>
       </div>
@@ -914,7 +914,7 @@ OWNER = {
       <div class="steplabel">Step 3 · Interface &amp; data</div>
       <div class="code">
         <div class="cbar"><span class="d" style="background:#ff5f56"></span><span class="d" style="background:#ffbd2e"></span><span class="d" style="background:#27c93f"></span><span class="t">manifest line - the reply contract</span></div>
-        <pre>{ <span class="s">"handle"</span>: <span class="s">"j04"</span>, <span class="s">"source"</span>: <span class="s">"gmail"</span>, <span class="s">"summary"</span>: <span class="s">"IC memo - gates the vote"</span>,
+        <pre>{ <span class="s">"handle"</span>: <span class="s">"i04"</span>, <span class="s">"source"</span>: <span class="s">"gmail"</span>, <span class="s">"summary"</span>: <span class="s">"IC memo - gates the vote"</span>,
   <span class="s">"suggested_list"</span>: <span class="s">"pipeline"</span>, <span class="s">"suggested_due"</span>: <span class="s">"today"</span>, <span class="s">"id"</span>: <span class="s">"M-5193"</span> }
 <span class="c"># the human "calls the API" by replying:  </span><span class="g">done 1</span><span class="c">   or   </span><span class="g">push 2 to Thu</span></pre>
       </div>
@@ -1043,11 +1043,11 @@ OWNER = {
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px;margin-top:24px">
       <div style="background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--pass);border-radius:14px;padding:18px 20px">
         <div style="font:700 12px/1 'JetBrains Mono',monospace;color:var(--pass);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Running today</div>
-        <p style="margin:0;color:var(--body);font-size:15px;line-height:1.6">One workhorse Claude model across the agents. Cron-fired SKILL.md prompts, one run at a time, behind a concurrency guard. Plain Markdown plus an append-only change log, no database. File-based memory with valid-from and superseded-by stamps. The single-writer fence and fresh-id writes are real and enforced in CI.</p>
+        <p style="margin:0;color:var(--body);font-size:15px;line-height:1.6">One workhorse Claude model across the agents. Cron-fired SKILL.md prompts, one run at a time, behind a concurrency guard. Plain Markdown plus an append-only change log, no database. File-based memory with valid-from and superseded-by stamps. The single-writer fence and fresh-id writes are real and enforced in CI. Resilience is wired too: a shared contract (bounded retry, degrade-and-queue, a per-run marker) plus an external catch-up controller that re-fires a missed run - new this week, still being hardened.</p>
       </div>
       <div style="background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--work);border-radius:14px;padding:18px 20px">
         <div style="font:700 12px/1 'JetBrains Mono',monospace;color:var(--work);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Designed, not all wired yet</div>
-        <p style="margin:0;color:var(--body);font-size:15px;line-height:1.6">Per-agent tiered model routing is mostly aspirational right now; it is one model, not cheap-for-capture and strong-for-judgment. The retry and fallback policies past the concurrency guard and auto-park are partly on paper. Per-agent cost is not instrumented yet; aggregate is low, tens of runs a day.</p>
+        <p style="margin:0;color:var(--body);font-size:15px;line-height:1.6">Per-agent tiered model routing is mostly aspirational right now; it is one model, not cheap-for-capture and strong-for-judgment. Zero-miss scheduling is not solved: the new catch-up controller recovers a missed run after the fact, but a startup failure or a closed host still drops a slot until the next wake. Per-agent cost is not instrumented yet; aggregate is low, tens of runs a day.</p>
       </div>
     </div>
     <p class="sub" style="margin-top:18px">On evals, the part worth being honest about: the structural checks (the fence, fresh ids) have clean criteria and I trust them. The judgment checks, did the morning brief rank the right thing, is the coaching any good, are where the criteria are still soft and the golden set is thin. I am hand-labeling and still finding gaps. Setting up evals is easy. Getting the criteria right is the hard part, and that is the part I am still working.</p>
@@ -1104,7 +1104,7 @@ OWNER = {
       <div class="cases">
         <div class="case"><div class="cnum">CASE 01</div><h3>The overdue collapse: 99 → 0, held there</h3><p class="arc">A polite system that waited forever vs. a loop that has to advance.</p><div class="ln sym"><b>Symptom</b><div>99 in "today and overdue," a 63-item pile that grew no matter how often it was triaged.</div></div><div class="ln"><b>Root cause</b><div>Agents waited for a confirmation before moving any date, so nothing moved. A snapshot silently skipped two lists.</div></div><div class="ln fix"><b>Fix</b><div>Auto-park re-dates the undecided by tier; triage now enumerates every list dynamically.</div></div><div class="lesson">Gate the irreversible; let the reversible flow.</div></div>
         <div class="case"><div class="cnum">CASE 02</div><h3>The single-day pileup</h3><p class="arc">Correct tiers, wrong shape - a pile by another name.</p><div class="ln sym"><b>Symptom</b><div>After a bulk re-tier, one day held ~48 tasks while neighbors sat empty.</div></div><div class="ln"><b>Root cause</b><div>No per-day capacity; recurring rituals counted as tasks; ranked purely by urgency.</div></div><div class="ln fix"><b>Fix</b><div>A per-day budget, a spread mandate, and one top-three slot per domain.</div></div><div class="lesson">Prioritization without distribution is just a different pile.</div></div>
-        <div class="case"><div class="cnum">CASE 03</div><h3>From stream to action surface</h3><p class="arc">Awareness without throughput is a louder badge.</p><div class="ln sym"><b>Symptom</b><div>Five channels produced "you have an unread thing." Each still meant switching apps.</div></div><div class="ln"><b>Root cause</b><div>Digests summarized well but dead-ended. No path to "done" without leaving the phone.</div></div><div class="ln fix"><b>Fix</b><div>A manifest handle per item; reply "done 3" and an hourly processor applies it with read-after-write verify.</div></div><div class="lesson">A notification is only useful if the reply path is as cheap as the alert.</div></div>
+        <div class="case"><div class="cnum">CASE 03</div><h3>From stream to action surface</h3><p class="arc">Awareness without throughput is a louder badge.</p><div class="ln sym"><b>Symptom</b><div>Five channels produced "you have an unread thing." Each still meant switching apps.</div></div><div class="ln"><b>Root cause</b><div>Digests summarized well but dead-ended. No path to "done" without leaving the phone.</div></div><div class="ln fix"><b>Fix</b><div>A manifest handle per item; reply "done 3" and a reply processor (every 30 minutes) applies it with read-after-write verify.</div></div><div class="lesson">A notification is only useful if the reply path is as cheap as the alert.</div></div>
         <div class="case"><div class="cnum">CASE 04</div><h3>The stale id: a silent write that did nothing</h3><p class="arc">The difference between a demo and a system you trust with a life.</p><div class="ln sym"><b>Symptom</b><div>Writes failed with record-not-found. A handful of "completes" silently did nothing.</div></div><div class="ln"><b>Root cause</b><div>An id reproduced from memory across steps pointed at nothing.</div></div><div class="ln fix"><b>Fix</b><div>Read every id fresh before a write; verify by id; a not-found id is a hard error, fenced by CI. CLOSED.</div></div><div class="lesson">Silent failure is the only unforgivable one. Make it loud, then fence it.</div></div>
       </div>
       <p class="sub" style="margin-top:24px"><a href="docs/case-studies.html">The full case studies, end to end →</a></p>

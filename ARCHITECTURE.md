@@ -42,11 +42,11 @@ A lane-fence regression check verifies that each agent writes only its owned fie
 ```
 5:45a  pipeline triage      -> sets pipeline priority      -> writes pipeline-triage canvas
 5:50a  to-do triage    -> sets other priority  -> writes to-do canvas (every list)
-6:04a  morning sweep   -> reconciles dates, auto-parks overdue, budgets today
+6:00a  morning sweep   -> reconciles dates, auto-parks overdue, budgets today
 7:10a  morning brief   -> reads canvases + cal + msgs -> MIT + cross-domain Top 3
                           delivered to chat, vault file, phone calendar event, SMS
 8:40a  meetings briefer    -> Granola+Krisp pre/post-brief -> proposed actions (gated)
-hourly reply processor -> applies decisions (text or file) -> Reminders; mirrors back
+reply processor (every 30 min) -> applies decisions (text or file) -> Reminders; mirrors back
 7:20p  tomorrow plan   -> time-ordered master shortlist for the next day
 6:45p  evening sweep   -> mirror of morning
 8:15p  evening brief   -> wrap + tomorrow setup
@@ -73,9 +73,9 @@ Sun 4p self-improvement -> error analysis + lint + evals -> proposals (no deploy
 The interesting engineering is in the unhappy paths. Each reliability property above maps to a concrete failure the system is designed to survive:
 
 - **Ambiguous human reply → refuse, don't guess.** A free-text reply ("push 2") can collide if two daily manifests are live or a handle is reused. The reply processor resolves strictly against the manifest by namespaced handle and id; on an ambiguous or not-found match it re-surfaces the item for clarification rather than mutating the wrong record. A write to a not-found id is a hard error, never a silent skip.
-- **Concurrent edits between sweeps → single-writer plus last-writer-by-source.** If the same item is touched from two sources between reconciliations, the field-ownership fence already prevents the dangerous case (two agents writing the same field). For the human-vs-human case (a phone edit and a file edit), the hourly processor applies in manifest order and stamps each row applied, so a decision is acted on exactly once and the mirror reflects the final state.
+- **Concurrent edits between sweeps → single-writer plus last-writer-by-source.** If the same item is touched from two sources between reconciliations, the field-ownership fence already prevents the dangerous case (two agents writing the same field). For the human-vs-human case (a phone edit and a file edit), the reply processor (every 30 min) applies in manifest order and stamps each row applied, so a decision is acted on exactly once and the mirror reflects the final state.
 - **Id transcription slip → fresh-read discipline.** A real incident: ids reproduced from memory across steps caused failed writes. The fix is a rule, now enforced, that ids are read fresh from source immediately before any write, and the triage canvases are the canonical handle-to-id map.
-- **Host asleep at cron time → idempotent catch-up.** A missed fire runs on next wake but degrades to a short delta if the window has passed; a doubled fire is caught by the run-ledger and concurrency guard and becomes a no-op.
+- **Host asleep at cron time → idempotent catch-up, in-run and external.** A missed fire runs on next wake but degrades to a short delta if the window has passed; a doubled fire is caught by the run-ledger and concurrency guard and becomes a no-op. For a whole-run miss on a quiet stretch (the agent's own code never ran), a separate catch-up controller reads run markers and the scheduler's last-run times and re-fires the still-useful, freshness-passing slots from outside.
 - **A connector is down → partial surface, queued intent.** The surface check detects the missing connector; the agent runs with what it has, labels the output "partial surface," and queues the write-intent for the next full run instead of failing or fabricating.
 - **A self-improvement change regresses → snapshot rollback.** Proposed changes are snapshot-first; if an affected eval regresses after an approved change, the system rolls back from the snapshot and reports rather than shipping.
 
@@ -87,6 +87,8 @@ Nothing here uses blind retries. A blind retry on a system that mutates shared s
 - **Retry vs. re-fire.** Within a run, a failed connector call is retried a bounded number of times with backoff; if it still fails the run does not abort - it degrades (below) and records the gap. Across runs, the schedule itself is the retry: the next slot re-derives the world from disk and closes whatever the last run left open. There is no retry queue to corrupt.
 - **Writes are verified, not assumed.** Every write is read-after-write checked by id, and ids are read fresh from source immediately before the write. A write to a not-found id is a hard error that re-surfaces the item, never a silent skip - which is exactly what makes a re-run safe: a half-applied change is detectable on the next pass.
 - **Ambiguity refuses rather than guesses.** A retry must never resolve an ambiguous instruction differently than the first attempt would. The reply processor matches strictly by namespaced handle and id; an ambiguous or stale match is re-surfaced for clarification, so retrying a batch can't silently act on the wrong record.
+- **Two failure classes, two layers.** An error inside a run that started (500, timeout, rate-limit) is handled in-run: bounded retry with backoff, then degrade-and-queue. A failure that stops the run from executing at all (startup error, host asleep) is handled out-of-run by a separate catch-up controller that reads run markers plus last-run times, finds missed slots, and re-fires the still-useful ones via each task's own idempotent steps. Every replay is freshness-gated (a high-value daily run catches up; a time-of-day nudge does not), and the controller can't double-act because the target's own concurrency guard absorbs the re-fire. The system can only recover what it can prove it missed, which is why every agent writes a run marker.
+- **Schedules fire in the host timezone; the gates resolve to the operator's.** Cron hours are evaluated in the host's timezone, so the fleet is tuned to fire at the operator's local times, and the host-to-operator offset is re-derived from the scheduler's next-run time rather than hardcoded. The quiet-hours and freshness gates read the operator's current timezone from a one-line override file (home timezone by default; one line to edit when traveling), so a late-night nudge never fires in local quiet hours, even on the road.
 
 ## Fallback and graceful degradation
 
