@@ -5,6 +5,10 @@
 .DS_Store
 Thumbs.db
 
+# FUSE filesystem orphans (created when a mounted file is rewritten while open).
+# These got committed once by accident; never track them.
+.fuse_hidden*
+
 # Editors
 .vscode/
 .idea/
