@@ -1,0 +1,38 @@
+<!-- @dsCard group="Colors" viewport="700x140" name="Text & status" subtitle="Text ramp and pass / fail / neon signals" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body{margin:0;background:var(--bg);font-family:var(--font-sans);padding:20px}
+  .grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px}
+  .lab{font:var(--text-mono-label);color:var(--muted);text-transform:uppercase;letter-spacing:var(--ls-mono);margin-bottom:10px}
+  .ink{color:var(--ink);font-weight:800;font-size:17px}
+  .body{color:var(--body);font-size:14px}
+  .mut{color:var(--muted);font-size:13px}
+  .faint{color:var(--faint);font-size:12px}
+  .stat{display:flex;align-items:center;gap:9px;font-family:var(--font-mono);font-size:13px;margin:7px 0}
+  .stat .dot{width:10px;height:10px;border-radius:3px}
+  .pass{color:var(--pass)}.fail{color:var(--fail)}.neon{color:var(--neon)}
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="panel">
+      <div class="lab">Text ramp</div>
+      <div class="ink">Ink — headings & key numbers</div>
+      <div class="body">Body — paragraph copy</div>
+      <div class="mut">Muted — captions & secondary</div>
+      <div class="faint">Faint — sub-labels & tertiary</div>
+    </div>
+    <div class="panel">
+      <div class="lab">Status</div>
+      <div class="stat"><span class="dot" style="background:var(--pass)"></span><span class="pass">PASS · #34d399</span></div>
+      <div class="stat"><span class="dot" style="background:var(--fail)"></span><span class="fail">FAIL · #f87171</span></div>
+      <div class="stat"><span class="dot" style="background:var(--neon)"></span><span class="neon">NEON · #5dff9b</span></div>
+    </div>
+  </div>
+</body>
+</html>

@@ -48,3 +48,11 @@ One intentional change in posture, recorded here for transparency: the new Opera
 ## Re-scan after the world-class upgrade (2026-06-16)
 
 The repo was rebuilt (new `index.html`, `demo.html`, `evals/lane_fence.py`, reframed `README.md`, added failure-modes and tradeoffs sections, case studies, samples) and re-scanned in full. Result unchanged: 0 phone numbers, 0 emails (only the literal `name@domain.tld` placeholder in this file), 0 personal/family/contact names, 0 medical details or IDs, 0 home address, 0 named target companies. The `evals/lane_fence.py` agent names ("pipeline-triage," "morning-sweep," etc.) are generic role labels, not personal data. The only external dependency is a Google Fonts link in `index.html` for typography, which degrades gracefully to system fonts offline and transmits no personal data.
+
+## Re-scan after the Learnings section (2026-06-20)
+
+A Learnings section was added (`docs/learnings`, `docs/first-principles`, `docs/applied-learnings`), along with five enforcement hooks in `hooks/` and `evals/test_hooks.py`. All were authored in the same no-PII voice. Re-scanned: 0 phone numbers, 0 emails, 0 personal/family/contact names, 0 medical details or IDs, 0 home address, 0 named target companies. The figure "62 reminders" and the connector names (Apple Reminders, Calendar) are platform-tool references, not personal data, consistent with the standing posture above.
+
+## Re-scan after the resilience + voice pass (2026-06-23)
+
+Two posture-relevant cleanups, recorded for transparency. (1) The design-system samples and the handle taxonomy were genericized so the public repo's privacy posture is uniform: the job-role handle was folded into the neutral intake/opportunity handle, and sample content was rewritten from interview/application phrasing to neutral pipeline examples (intro calls, diligence calls, partner intros). Nothing about a private job search is surfaced anywhere public. (2) An internal design brief that pointed at now-removed private docs was moved out of the public repo into `private/`. The em-dash ban was enforced repo-wide in the same pass, and the agent count reconciled to "30+" everywhere. Re-scan result unchanged: 0 phone numbers, 0 emails, 0 personal/family/contact names, 0 medical details or IDs, 0 home address, 0 named target companies.

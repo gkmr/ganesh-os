@@ -157,10 +157,10 @@
   <div class="democode">
     <div class="bar"><span class="d" style="background:#ff5f56"></span><span class="d" style="background:#ffbd2e"></span><span class="d" style="background:#27c93f"></span>&nbsp;change-log · today · verified in CI</div>
     <pre><span class="c"># every write, one owner, source-tagged - the audit spine</span>
-<span class="g">05:48</span>  pipeline-triage  → priority(J04)      OK
-<span class="g">06:04</span>  morning-sweep    → due_date(M51)      OK
-<span class="g">06:04</span>  morning-sweep    → auto-park ×63       OK   <span class="c"># overdue → 0</span>
-<span class="g">13:40</span>  reply-processor  → lifecycle(J02)     OK   <span class="c"># read-after-write ✓</span>
+<span class="g">05:48</span>  pipeline-triage  → priority(I04)      OK
+<span class="g">06:00</span>  morning-sweep    → due_date(M51)      OK
+<span class="g">06:00</span>  morning-sweep    → auto-park ×63       OK   <span class="c"># overdue → 0</span>
+<span class="g">13:40</span>  reply-processor  → lifecycle(I02)     OK   <span class="c"># read-after-write ✓</span>
 <span class="c">$ pytest evals/  →</span>  <span class="g">5 passed</span>   <span class="c"># lane-fence clean · 0 cross-lane writes</span></pre>
   </div>
 

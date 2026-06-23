@@ -33,11 +33,12 @@ The agents never call each other. They coordinate through two shared surfaces:
 
 ## Task + calendar engine (Layers 2–3)
 
-- **Two EA sweeps** (6:04a, 6:52p) are the primary writers of reminders + calendar: reconcile against six calendars, dedupe, auto-park overdue by tier, enforce a per-day budget. Each chains into the briefing at the end of its run.
+- **Two EA sweeps** (6:00a, 6:45p) are the primary writers of reminders + calendar: reconcile against six calendars, dedupe, auto-park overdue by tier, enforce a per-day budget. Each chains into the briefing at the end of its run.
 - **Triage** (5:45a pipeline, 5:50a every other list) sets priority and tags only - never dates, completion, or deletion.
 - **Two-way sync** runs every 30 minutes: mirrors reminders to a file, captures manual edits, and applies the human's approved replies and file decisions back into reminders/calendar, read-after-write verified.
 - **Tomorrow-plan** (7:20p) writes a DECISION column the sync applies.
-- **Briefings** (7:10a, 8:15p, plus an 11a weekday catch-up backstop) read the triage canvases + calendar + messages and produce the ranked day, delivered four ways.
+- **Briefings** (7:10a, 8:15p) read the triage canvases + calendar + messages and produce the ranked day, delivered four ways.
+- **A catch-up controller** (about 10a, 3p, 9p, user-local) is the Layer-2 resilience backstop: it cross-checks run markers against the scheduler's last-run times to find runs that missed their slot (host asleep, or a startup failure that stamped a last-run time but produced no output) and re-fires only the still-fresh ones idempotently, freshness-gated and silent unless it backfills. It absorbed the former 11a weekday brief catch-up.
 
 ## Capture (Layer 1)
 

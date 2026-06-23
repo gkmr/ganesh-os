@@ -1,0 +1,39 @@
+<!-- @dsCard group="Slides" viewport="1280x720" name="Fence slide" subtitle="The single-writer rule as an ownership table" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  html,body{margin:0}
+  .slide{width:1280px;height:720px;position:relative;overflow:hidden;background:var(--bg);color:var(--body);font-family:var(--font-sans);padding:88px 110px;box-sizing:border-box}
+  .orb{position:absolute;width:560px;height:560px;border-radius:50%;filter:blur(80px);opacity:.4;left:-160px;bottom:-200px;background:radial-gradient(circle,var(--orb-magenta),transparent 65%)}
+  .eyebrow{font:700 15px/1 var(--font-mono);text-transform:uppercase;letter-spacing:.1em;color:var(--brand-2);margin-bottom:18px;position:relative}
+  h2{position:relative;font-size:50px;line-height:1.05;font-weight:800;letter-spacing:-.025em;margin:0 0 12px;max-width:24ch;background:linear-gradient(180deg,#fff,#c7cfe2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{position:relative;font-size:21px;color:var(--body);max-width:60ch;margin:0 0 40px}
+  .fence{position:relative;background:var(--surface-2);border:1px solid var(--line);border-radius:22px;box-shadow:var(--e3);overflow:hidden}
+  .r{display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:center;padding:20px 28px;border-top:1px solid var(--line)}
+  .r:first-child{border-top:none}
+  .r .f{display:flex;align-items:center;gap:14px}
+  .r .f .d{width:13px;height:13px;border-radius:4px;flex:none}
+  .r .f b{font-family:var(--font-mono);font-size:21px;color:#fff;font-weight:600}
+  .r .f span{display:block;color:var(--muted);font-size:14.5px;margin-top:2px}
+  .r .o{text-align:right;font-size:18px;color:var(--ink);font-weight:600}
+  .r .o small{display:block;color:var(--faint);font-weight:400;font-size:13.5px;margin-top:3px}
+</style>
+</head>
+<body>
+  <div class="slide">
+    <span class="orb"></span>
+    <div class="eyebrow">Under the hood · a governance layer</div>
+    <h2>One rule keeps a fleet of writers safe.</h2>
+    <p class="sub">Every mutable field has exactly one owning agent. An agent literally cannot write a field it does not own. Enforced in CI, not asserted in a slide.</p>
+    <div class="fence">
+      <div class="r"><div class="f"><span class="d" style="background:var(--field-priority)"></span><div><b>priority</b><span>now / this-week / later / prune</span></div></div><div class="o">triage agents<small>pipeline-triage · todo-triage</small></div></div>
+      <div class="r"><div class="f"><span class="d" style="background:var(--field-date)"></span><div><b>due_date</b><span>calendar reconcile + auto-park</span></div></div><div class="o">the sweeps<small>morning-sweep · evening-sweep</small></div></div>
+      <div class="r"><div class="f"><span class="d" style="background:var(--field-sync)"></span><div><b>lifecycle</b><span>create / complete / reschedule</span></div></div><div class="o">reply-processor</div></div>
+      <div class="r"><div class="f"><span class="d" style="background:var(--fail)"></span><div><b>delete</b><span>irreversible, human-gated</span></div></div><div class="o">nobody<small>you approve</small></div></div>
+    </div>
+  </div>
+</body>
+</html>
