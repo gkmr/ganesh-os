@@ -96,13 +96,11 @@ This is the same discipline at the scale of one life that it is at the scale of 
 
 ## The memory is the moat
 
-Longitudinal context only helps if it is stored without rot and recalled without lying. Three ideas, made to run:
+Longitudinal context only helps if it is stored without rot and recalled without lying. The mental model is a diary the system never erases: when a fact changes, the old line stays and gets stamped "true until today," the new one goes underneath, so it always knows what was true and when. A fact is born when an agent reads a message (a weigh-in reply, an email, a calendar event), pulls the values out, and writes each with a "valid from" stamp, a source tag, and a change-log line. Nothing is overwritten; a stale value is superseded, not replaced, so every fact traces back to where it came from. The raw messages are only receipts; the real knowledge is a compiled layer above them, including an "about me" profile the system rewrites weekly from what my messages show, not just what I claim. The honest limit: it is time-stamped notes plus a profile, not an entity-and-relation knowledge graph.
 
-- **MemPalace** - a verbatim store that is never edited, plus **temporal validity windows**: a fact carries an "as of" and a "superseded by" stamp instead of being silently overwritten.
-- **The Karpathy LLM-wiki substrate** (a file-layout convention from AI researcher Andrej Karpathy, adapted here for agent memory) - a `raw / wiki / index / log` layout with a read-first index, so an agent loads a small routing map before opening any full file, with explicit `ingest / query / lint` passes.
-- **gbrain** - the second-brain layer the agents share through files; a memory-OS pattern where a weekly lint flags any fact older than its validity window for re-verification, so the system compounds instead of drifting.
+Two things sit on top: a read-first index, so an agent loads a small routing map before any full file, and a weekly lint that flags facts past their validity window for re-check. The ideas are borrowed and named honestly: versioning a fact in time instead of mutating it is an old database move (bitemporal); the index-before-you-read layout is Karpathy's "LLM wiki"; the shared cross-agent memory is second-brain / PKM thinking. "MemPalace" and "gbrain" are those ideas with a name on them. The line the whole design defends: language-model judgment where nuance lives, deterministic code where correctness lives.
 
-This sits on the same line the whole design defends: **language-model judgment where nuance lives, deterministic code where correctness lives.** Full depth in **[docs/ai-depth.md](docs/ai-depth.md)**.
+Storing memory is mostly solved; recalling the right thing at the right moment is the part still being hardened. Full walk-through in **[docs/ai-depth.md](docs/ai-depth.md)**.
 
 ## Three judgment calls
 
@@ -136,7 +134,7 @@ A system doc that oversells is worthless, so here is the candid version.
 - The structural evals (the single-writer fence, ids read fresh before a write) have clean criteria and I trust them.
 - The judgment evals (did the morning brief rank the right thing, is the coaching any good) are where the criteria are still soft and the golden set is thin. I am hand-labeling and still finding gaps. That part is not solved.
 
-**Cost:** not yet instrumented per agent. Aggregate is low, tens of runs a day, read-heavy, a handful of writes. Per-role telemetry in the change log is on the list.
+**Cost:** it runs on a $200/month Claude Max plan and has not hit the usage limits. Per-agent cost is not instrumented yet (tens of runs a day, read-heavy, a handful of writes); per-role telemetry in the change log is on the list.
 
 ## For engineers, start here
 
