@@ -49,7 +49,7 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 <li>No markdown links, no em dashes; bare URLs and numbers only.</li>
 </ul>
 <h2>Handle namespaces</h2>
-<p>Each repliable item gets a short, stable, namespaced handle: <code>W#</code> chat A, <code>M#</code> chat B, <code>K#</code> chat C, <code>V#</code> voice, <code>E#</code> email, <code>I#</code> intake-or-opportunity, <code>P#</code> day-plan, <code>PR#</code> prune-confirmation. The handle goes in both the message and the manifest.</p>
+<p>Each repliable item gets a short, stable, namespaced handle: <code>W#</code> chat A, <code>M#</code> chat B, <code>K#</code> chat C, <code>V#</code> voice, <code>E#</code> email, <code>D#</code> USPS mail-or-package (Informed Delivery), <code>I#</code> intake-or-opportunity, <code>P#</code> day-plan, <code>PR#</code> prune-confirmation. The handle goes in both the message and the manifest.</p>
 <h2>The manifest</h2>
 <p>One JSON line per repliable item (see <code>manifest.schema.json</code>). The reply processor reads it to turn a reply into the right store action.</p>
 <h2>Decision vocabulary (canvas cell or reply text)</h2>

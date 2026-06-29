@@ -40,11 +40,12 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 <div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">30+ Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
 <div class="crumb"><span class="badge">Systems &amp; AI depth</span> <a href="../index.html">Ganesh OS</a> › <a href="../index.html#agents">back to this on the site</a> › <span style="color:var(--ink)">Example agents (sanitized)</span></div>
 <article class="doc"><h1>Example agents (sanitized)</h1>
-<p>Three of the 30+ agents, generalized to remove personal data, plus the shared manifest schema and the format contract every agent obeys. They illustrate the single-writer fence in practice: each agent's prompt names exactly the one field it is allowed to write. The live prompts and the personal system are not included.</p>
+<p>Four of the 30+ agents, generalized to remove personal data, plus the shared manifest schema and the format contract every agent obeys. They illustrate the single-writer fence in practice: each agent's prompt names exactly the one field it is allowed to write. The live prompts and the personal system are not included.</p>
 <ul>
 <li><code>pipeline-triage.md</code> - owns <strong>priority</strong> on the pipeline (writes nothing else).</li>
 <li><code>morning-sweep.md</code> - owns <strong>dates</strong> (reconcile, dedupe, auto-park, budget); never touches priority.</li>
 <li><code>reply-processor.md</code> - owns <strong>lifecycle</strong> (create / complete / reschedule) from explicit human decisions.</li>
+<li><code>usps-mail-digest.md</code> - owns <strong>nothing</strong> in the shared store (a Layer-1 capture agent): OCRs the USPS Informed Delivery scans, leads with the fraud/identity and deadline watch-outs, and conservatively suppresses ad mailers.</li>
 <li><code>manifest.schema.json</code> - the JSON contract for a surfaced, repliable item.</li>
 <li><code>format-contract.md</code> - the house style, handle namespaces, and decision vocabulary shared by all agents.</li>
 </ul></article>
