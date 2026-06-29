@@ -9,7 +9,7 @@ One contract, one behavior. Every agent that surfaces or syncs obeys it.
 - No markdown links, no em dashes; bare URLs and numbers only.
 
 ## Handle namespaces
-Each repliable item gets a short, stable, namespaced handle: `W#` chat A, `M#` chat B, `K#` chat C, `V#` voice, `E#` email, `I#` intake-or-opportunity, `P#` day-plan, `PR#` prune-confirmation. The handle goes in both the message and the manifest.
+Each repliable item gets a short, stable, namespaced handle: `W#` chat A, `M#` chat B, `K#` chat C, `V#` voice, `E#` email, `D#` USPS mail-or-package (Informed Delivery), `I#` intake-or-opportunity, `P#` day-plan, `PR#` prune-confirmation. The handle goes in both the message and the manifest.
 
 ## The manifest
 One JSON line per repliable item (see `manifest.schema.json`). The reply processor reads it to turn a reply into the right store action.
