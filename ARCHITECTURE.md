@@ -23,6 +23,25 @@ Each scheduled run starts fresh with no memory of prior runs. All continuity liv
 
 **5. Reflect.** An end-of-day agent diffs the morning plan against what actually happened and grades the day with coaching. A weekly agent runs error analysis across the logs, lints the knowledge base for rot, runs the regression checks, and proposes at most one change per agent - diagnostic only, never self-deploying.
 
+## Monitoring and delivery
+
+The five layers above produce. A sixth, cross-cutting layer watches them and standardizes how they reach the human, so a silent failure cannot hide and every run proves it happened.
+
+**Three system watchdogs.** A small `sys-` cohort sits above the producing fleet, none of it owning a domain field:
+
+- **`sys-fleet-health`** (8:48a / 1:48p / 9:48p) reads every task's completion marker and classifies the fleet: missed slot, degraded run, mid-run crash (a run that stamped a start but left no completion), and connector outage. On the morning pass it sends one all-clear `N/N ran clean` heartbeat so a clean day still produces positive proof-of-life; the midday and evening passes stay silent unless something is missed or degraded.
+- **`sys-catchup-controller`** (7a / 12p / 6p) re-fires the slots a closed laptop missed, re-anchored to now, freshness-gated so a stale slot is summarized-or-skipped rather than replayed. It is the external half of the two-class resilience contract: a run that never executed cannot heal itself, so something outside it must.
+- **`sys-overdue-watchdog`** (8:37a) verifies the morning sweep actually drove overdue to zero and alerts only on an unexpected survivor, so the sweep's core promise is checked, not assumed.
+
+**The delivery and notification contract.** Every producer obeys one uniform contract instead of each inventing its own delivery and alerting:
+
+- **Three surfaces.** A substantive artifact (brief, digest, scoreboard, plan, careers-diff, dashboard) is delivered as chat, a Markdown file in the vault, and a self-contained light-mode HTML file. Pure one-line coaching prompts (the weigh-in, food, sleep, and workout nudges) are SMS-only by nature and exempt from the file surfaces.
+- **A uniform run marker.** Every task, producer or prompt, writes one completion row to a single fleet-wide log on success, skip, or degrade. That one file is the substrate the watchdogs read; a task that also keeps a per-domain log writes the fleet marker too, so a mid-run crash is always detectable.
+- **A success ping and a loud failure ping.** Success is the task's own tagged SMS (or a terse one-liner where it has none). The new path is failure: if a task's primary output fails, or a step still fails after the in-run retries, it sends a loud failure iMessage in addition to the central detection. The test is whether the task can still keep its core promise this run: if yes it degrades quietly with a "partial surface" note, if no it pings loudly.
+- **The central heartbeat as the floor.** Above all the per-task pings, `sys-fleet-health`'s daily all-clear is the single proof that the whole fleet ran, so even a task that is silent by design is covered.
+
+This layer is what turns "the agents ran" from a hope into a checked, delivered fact.
+
 ## Single-writer fences
 
 The core invariant. Each mutable field has exactly one owner:
@@ -40,20 +59,26 @@ A lane-fence regression check verifies that each agent writes only its owned fie
 ## The daily data flow
 
 ```
-5:45a  pipeline triage      -> sets pipeline priority      -> writes pipeline-triage canvas
-5:50a  to-do triage    -> sets other priority  -> writes to-do canvas (every list)
-6:00a  morning sweep   -> reconciles dates, auto-parks overdue, budgets today
-7:10a  morning brief   -> reads canvases + cal + msgs -> MIT + cross-domain Top 3
-                          delivered to chat, vault file, phone calendar event, SMS
-8:40a  meetings briefer    -> Granola+Krisp pre/post-brief -> proposed actions (gated)
-reply processor (every 30 min) -> applies decisions (text or file) -> Reminders; mirrors back
-7:20p  tomorrow plan   -> time-ordered master shortlist for the next day
-6:45p  evening sweep   -> mirror of morning
-8:15p  evening brief   -> wrap + tomorrow setup
-8:50p  food logger     -> food + workout + health stats -> coaching SMS
-9:35p  end-of-day      -> diff plan vs actual -> grade + coaching -> log, note, SMS
-Sun 4p self-improvement -> error analysis + lint + evals -> proposals (no deploy)
+5:45a  job-reminders-triage   -> sets pipeline priority      -> writes pipeline-triage canvas
+5:50a  ea-todo-triage    -> sets other priority  -> writes to-do canvas (every list)
+6:00a  ea-morning-sweep  -> reconciles dates, auto-parks overdue, budgets today
+7:02a  brief-morning-digest -> reads canvases + cal + msgs -> MIT + cross-domain Top 3
+                             delivered to chat, vault md + html, phone calendar event, SMS
+8:37a  sys-overdue-watchdog -> verifies the sweep cleared overdue; alerts only on a survivor
+8:40a  mtg-briefer       -> Granola+Krisp pre/post-brief -> proposed actions (gated)
+8:48a  sys-fleet-health  -> scans run markers; daily N/N all-clear heartbeat (morning)
+ea-reminders-sync (every 30 min) -> applies decisions (text or file) -> Reminders; mirrors back
+7a/12p/6p sys-catchup-controller -> re-fires fresh slots a closed laptop missed
+7:20p  ea-tomorrow-plan  -> time-ordered master shortlist for the next day
+6:45p  ea-evening-sweep  -> mirror of morning
+8:18p  brief-evening-digest -> wrap + tomorrow setup
+8:47p  health-food-logger -> food + workout + health stats -> coaching SMS
+9:10p  health-metrics-dashboard -> trends + adaptive-TDEE -> regenerates the dashboard (silent)
+9:35p  review-end-of-day -> diff plan vs actual -> grade + coaching -> log, note, SMS
+Sun 4p review-weekly-self-improvement -> error analysis + lint + evals -> proposals (no deploy)
 ```
+
+Task ids carry a project prefix - `job-`, `health-`, `ea-`, `inbox-`, `brief-`, `mtg-`, `review-`, `write-`, `sys-` - so a name says which life domain a run serves. The fleet was renamed to this scheme on 2026-06-24; catch-up and health coverage key off each task's description and cron, not a hard-coded id list, so a rename never drops coverage.
 
 ## Where the master views live
 

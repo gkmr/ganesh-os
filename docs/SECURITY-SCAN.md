@@ -1,6 +1,6 @@
 # Security and PII scan
 
-Reviewed: 2026-06-16. Scope: every file in this repository.
+Reviewed: 2026-06-29 (latest re-scan). Scope: every file in this repository.
 
 ## Method
 
@@ -56,3 +56,7 @@ A Learnings section was added (`docs/learnings`, `docs/first-principles`, `docs/
 ## Re-scan after the resilience + voice pass (2026-06-23)
 
 Two posture-relevant cleanups, recorded for transparency. (1) The design-system samples and the handle taxonomy were genericized so the public repo's privacy posture is uniform: the job-role handle was folded into the neutral intake/opportunity handle, and sample content was rewritten from interview/application phrasing to neutral pipeline examples (intro calls, diligence calls, partner intros). Nothing about a private job search is surfaced anywhere public. (2) An internal design brief that pointed at now-removed private docs was moved out of the public repo into `private/`. The em-dash ban was enforced repo-wide in the same pass, and the agent count reconciled to "30+" everywhere. Re-scan result unchanged: 0 phone numbers, 0 emails, 0 personal/family/contact names, 0 medical details or IDs, 0 home address, 0 named target companies.
+
+## Re-scan after the taxonomy + monitoring/delivery pass (2026-06-29)
+
+The docs were updated to match the live system after three changes: the fleet was renamed to project-prefixed task ids (`job-`, `health-`, `ea-`, `inbox-`, `brief-`, `mtg-`, `review-`, `write-`, `sys-`), a `sys-` monitoring layer (fleet-health, catch-up controller, overdue watchdog) was documented, and a shared delivery + notification contract was added across `ARCHITECTURE.md`, `docs/governance.md`, `docs/design-patterns.md`, the three roster docs, `README.md`, `docs/decisions.md` (new ADR-12), and `docs/harness.md`. Re-scanned in full. Result unchanged: 0 phone numbers, 0 emails, 0 personal/family/contact names, 0 medical details or IDs, 0 home address, 0 named target companies. Two posture notes for transparency: (1) the new prefixed task ids are generic domain/role labels (`brief-morning-digest`, `health-food-logger`, `sys-fleet-health`), not personal data, consistent with the standing posture on agent names; the `job-` prefix names a domain, never an employer, and the careers-diff / opportunity-scan internals remain generalized and out of the public catalog. (2) `README.md` and `docs/harness.md` now list Apple Notes and Google Voice in the connectors set; like the existing Apple Reminders / Calendar / Gmail entries these are platform-tool references, not personal data. The public agent count remains reconciled to "30+" everywhere (the live fleet is ~40 enabled tasks; the public figure is deliberately the rounded floor, and the lone CSS comment in `index.html` that still read "22-agent" was corrected to "30+" in this pass).
