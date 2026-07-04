@@ -178,7 +178,7 @@ Format: **Context → Options → Decision → Consequences.**
 
 ## ADR-11 - Two-class failure and an external catch-up controller
 
-**Status:** Accepted · 2026-06-22.
+**Status:** Accepted · 2026-06-22 · extended by [ADR-12](#adr-12---taxonomy-rename-the-delivery--notification-contract-and-fleet-health-hardening).
 
 **Context.** "Retry on a 500" hid two different failures. A 500 (or timeout, or rate-limit) *inside* a run that started can be retried in-run. But a failure at startup, or the host asleep at the fire time, means the agent's own code never executed - nothing inside that task can save it. The existing concurrency guard and auto-park covered double-fires and backlog, but a whole-run miss on a quiet day was only healed by chance at the next scheduled slot.
 
@@ -190,3 +190,23 @@ Format: **Context → Options → Decision → Consequences.**
 **Decision.** A shared resilience contract makes every agent write a run marker each run and retry-then-degrade on transient errors. A separate catch-up controller (a scheduled task, a few times a day) reads the markers and the scheduler's last-run times, finds missed slots, and re-fires the still-useful ones by following each task's own idempotent steps. Replays are freshness-gated into catch-up-always, same-half-day-only, and never; the controller stays silent unless it actually backfills.
 
 **Consequences.** A missed run on a quiet day is recovered within hours instead of waiting a full cycle, with no per-task catch-up logic (the target's own idempotency does the work) and no risk of double-action. The honest residual: a missed startup still drops a slot until the next wake or catch-up pass, so this shrinks missed work rather than eliminating it; cutting misses at the source is a host power-setting, left as a note, not automated. The keystone dependency: external catch-up only works because every agent now leaves a run marker - the system can only recover what it can prove it missed. See [`../docs/applied-learnings.md`](applied-learnings.md).
+
+---
+
+## ADR-12 - Taxonomy rename, the delivery + notification contract, and fleet-health hardening
+
+**Status:** Accepted · 2026-06-24 to 2026-06-29 · extends [ADR-11](#adr-11---two-class-failure-and-an-external-catch-up-controller).
+
+**Context.** ADR-11 made a missed run *recoverable*, but three gaps remained once the fleet grew past 30 agents. (1) Task ids were ad-hoc and time-stamped (`morning-briefing-7am`, `reminders-triage-545am`), so a name said when a task ran, not which life domain it served, and the catch-up controller leaned on hard-coded id lists that a rename would silently break. (2) A run could still fail *silently*: ADR-11 could re-fire a miss, but nothing proved on a clean day that the fleet had actually run, and a mid-run crash that stamped a start but produced no output was invisible. (3) Each producer invented its own delivery and alerting, so monitoring was per-agent guesswork rather than one checkable rule.
+
+**Options.**
+- Leave ids as-is and keep extending the controller's id lists - brittle, and every rename risks dropping coverage.
+- Add monitoring per agent (each task self-reports health) - inconsistent, and a dead task cannot report that it is dead.
+- **Rename the whole fleet to project-prefixed ids, derive catch-up/health coverage from each task's description + cron instead of id lists, add a central fleet-health watchdog above the fleet, and make delivery + notification one shared contract every producer obeys.**
+
+**Decision.** Three coupled changes, treated as one decision because they share a substrate (the run marker):
+1. **Taxonomy.** Every task was renamed on 2026-06-24 to a project prefix - `job-`, `health-`, `ea-`, `inbox-`, `brief-`, `mtg-`, `review-`, `write-`, `sys-` - so an id declares its domain. Catch-up class and health tolerance are now derived from each task's description (a `cu:` token) and cron (multi-slot = self-healing), not a hard-coded id list, so a rename can never again drop coverage.
+2. **Monitoring layer.** A `sys-` cohort sits above the producing fleet: `sys-fleet-health` (3x daily) reads every run marker and classifies missed / degraded / mid-run-crash / connector-outage, and sends one daily `N/N ran clean` heartbeat so a clean day has positive proof-of-life; `sys-catchup-controller` (the ADR-11 controller, renamed) re-fires fresh missed slots; `sys-overdue-watchdog` checks the sweep cleared overdue.
+3. **Delivery + notification contract.** Every producer emits chat + md + html, writes one completion row to a single fleet-wide log (the substrate the watchdog reads), and pings on both paths: a quiet success ping (its own tagged SMS) plus a loud failure iMessage the moment its primary output fails or a step still fails after the in-run retries. Pure one-line coaching prompts are SMS-only and exempt from the file surfaces.
+
+**Consequences.** A silent failure is now structurally hard: every run leaves a marker, one watchdog reads them all, and a clean day is confirmed rather than merely quiet. Delivery and alerting are uniform, so a new agent inherits both by reference instead of reinventing them, and the contract is one source of truth rather than thirty copies. The taxonomy makes the fleet self-documenting and rename-proof. The costs: the rename was a one-time migration with a window where stale id references had to be scrubbed, the loud-failure path adds one more place a bug could page the operator (mitigated by the reversibility-of-impact test: degrade quietly when the core promise still holds, ping loudly only when it does not), and the heartbeat is one more daily message to keep terse. Adopted incrementally 2026-06-24 through 2026-06-29. See [`design-patterns.md`](design-patterns.md) pattern 10 and the [agent catalog](agent-catalog.md) `sys-` layer.

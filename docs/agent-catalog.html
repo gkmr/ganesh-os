@@ -40,7 +40,7 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 <div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">30+ Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
 <div class="crumb"><span class="badge">Systems &amp; AI depth</span> <a href="../index.html">Ganesh OS</a> › <a href="../index.html#agents">back to this on the site</a> › <span style="color:var(--ink)">Agent catalog</span></div>
 <article class="doc"><h1>Agent catalog</h1>
-<p>30+ scheduled agents, grouped by layer. Each is a self-contained <code>SKILL.md</code> prompt fired by cron in local time. "Owns" names the single field the agent is allowed to mutate; everything else it treats as read-only.</p>
+<p>30+ scheduled agents, grouped by layer. Each is a self-contained <code>SKILL.md</code> prompt fired by cron in local time. "Owns" names the single field the agent is allowed to mutate; everything else it treats as read-only. Task ids carry a project prefix - <code>job-</code>, <code>health-</code>, <code>ea-</code>, <code>inbox-</code>, <code>brief-</code>, <code>mtg-</code>, <code>review-</code>, <code>write-</code>, <code>sys-</code> - so an id says which life domain a run serves.</p>
 <h2>Layer 1 - Capture and digest (read-only, surfacing)</h2>
 <table>
 <thead>
@@ -53,50 +53,50 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 </thead>
 <tbody>
 <tr>
-<td>WhatsApp digest</td>
+<td><code>inbox-whatsapp</code></td>
 <td>7:30a, 8:30p</td>
 <td>nothing (read-only)</td>
 <td>every unread chat, summarized with a key quote, verbatim archived; one SMS</td>
 </tr>
 <tr>
-<td>iMessage digest</td>
+<td><code>inbox-imessage</code></td>
 <td>7:30a, 8:30p</td>
 <td>nothing</td>
 <td>unread threads summarized; phishing-link flag; one SMS</td>
 </tr>
 <tr>
-<td>Slack digest</td>
+<td><code>inbox-slack</code></td>
 <td>7:30a, 8:30p</td>
 <td>nothing</td>
 <td>unread DMs, mentions, threads waiting on the user; one SMS</td>
 </tr>
 <tr>
-<td>Google Voice digest</td>
+<td><code>inbox-googlevoice</code></td>
 <td>7:30a, 8:30p</td>
 <td>nothing</td>
 <td>unread texts and voicemails via email; one SMS</td>
 </tr>
 <tr>
-<td>Gmail digest</td>
+<td><code>inbox-gmail</code></td>
 <td>7:30a, 8:30p</td>
 <td>nothing</td>
 <td>signal-vs-noise inbox triage with a key quote; one SMS</td>
 </tr>
 <tr>
-<td>USPS mail + package digest</td>
+<td><code>inbox-usps</code></td>
 <td>8:45a</td>
 <td>nothing (read-only; own junk-sender memory)</td>
 <td>reads the Informed Delivery email, OCRs the mailpiece scan images, surfaces watch-outs first (fraud/identity, mail-theft gap, money/government/legal/medical/deadline, package anomalies), suppresses ad mailers conservatively; one SMS</td>
 </tr>
 <tr>
-<td>Meetings briefer</td>
+<td><code>mtg-briefer</code></td>
 <td>8:40a, 1:40p, 6:40p, 8:40p</td>
 <td>nothing</td>
 <td>pre-briefs upcoming meetings and post-briefs finished ones across Granola + Krisp; the 8:40p run is an end-of-day rollup of still-open next steps; proposes calendar/reminder/draft actions, gated on reply</td>
 </tr>
 <tr>
-<td>Meeting reconciliation</td>
-<td>before each brief</td>
+<td><code>mtg-reconciliation</code></td>
+<td>10 min before each briefer</td>
 <td>a local crosswalk</td>
 <td>matches Krisp transcripts (which lack calendar access) to Granola's calendar-true metadata; corrects title, attendees, and stream</td>
 </tr>
@@ -115,13 +115,13 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 </thead>
 <tbody>
 <tr>
-<td>Pipeline triage</td>
+<td><code>job-reminders-triage</code></td>
 <td>5:45a</td>
 <td>priority on the pipeline</td>
-<td>four-tier re-tiering by deadline, freshness, company priority, warm-path strength; writes the pipeline decision canvas</td>
+<td>four-tier re-tiering by deadline, freshness, company priority, warm-path strength; writes the pipeline decision canvas; runs before the morning sweep</td>
 </tr>
 <tr>
-<td>To-do triage</td>
+<td><code>ea-todo-triage</code></td>
 <td>5:50a</td>
 <td>priority on every other list</td>
 <td>same four tiers across all other lists, including the default and inbox lists; writes the to-do decision canvas</td>
@@ -141,56 +141,56 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 </thead>
 <tbody>
 <tr>
-<td>Morning sweep</td>
+<td><code>ea-morning-sweep</code></td>
 <td>6:00a</td>
 <td>dates, dedupe, conflicts, auto-park</td>
-<td>reconciles reminders against six calendars; advances recurring items; auto-parks overdue by tier; enforces the daily budget; publishes the morning calendar event</td>
+<td>reconciles reminders against six calendars; advances recurring items; auto-parks overdue by tier; enforces the daily budget; publishes the morning calendar event; chains into the morning brief</td>
 </tr>
 <tr>
-<td>Evening sweep</td>
+<td><code>ea-evening-sweep</code></td>
 <td>6:45p</td>
 <td>same</td>
-<td>mirror of the morning; runs the weekly deep reconciliation on Sundays</td>
+<td>mirror of the morning; runs the weekly deep reconciliation on Sundays; chains into the evening brief</td>
 </tr>
 <tr>
-<td>Morning briefing</td>
-<td>7:10a</td>
+<td><code>brief-morning-digest</code></td>
+<td>7:02a</td>
 <td>nothing (read-only + its calendar event)</td>
-<td>the ranked day: most-important-task plus a cross-domain top three; four-surface delivery (chat, vault file, phone calendar event, SMS)</td>
+<td>the ranked day: most-important-task plus a cross-domain top three; delivered as chat, a vault md + html file, a phone calendar event, and an SMS</td>
 </tr>
 <tr>
-<td>Evening briefing</td>
-<td>8:15p</td>
+<td><code>brief-evening-digest</code></td>
+<td>8:18p</td>
 <td>nothing</td>
-<td>evening wrap plus tomorrow's setup</td>
+<td>evening wrap plus tomorrow's setup; same four-surface delivery</td>
 </tr>
 <tr>
-<td>Weekday catch-up</td>
-<td>retired</td>
-<td> - </td>
-<td>folded into the catch-up controller; previously re-ran the morning brief only if it was still missing</td>
-</tr>
-<tr>
-<td>Catch-up controller</td>
-<td>~10a/3p/9p (user-local)</td>
-<td>nothing (re-fires others)</td>
-<td>Layer-2 resilience backstop: detects today's missed slots - both <em>never-fired</em> and <em>fired-but-no-output</em> (a run that stamped a last-run time but produced no output marker) - by cross-checking run markers against the scheduler's last-run times; re-fires only the still-fresh misses idempotently by running each agent's own prompt; freshness-gated, silent unless it backfills; absorbed the former weekday catch-up</td>
-</tr>
-<tr>
-<td>Tomorrow plan</td>
+<td><code>ea-tomorrow-plan</code></td>
 <td>7:20p</td>
 <td>nothing</td>
-<td>the time-ordered master shortlist for the next day, fusing calendar blocks, reminders due, and tiers</td>
+<td>the time-ordered master shortlist for the next day, fusing calendar blocks, reminders due, and tiers; writes a DECISION column the sync applies</td>
 </tr>
 <tr>
-<td>Reply processor</td>
+<td><code>ea-reminders-sync</code></td>
 <td>every 30 min, 6a–11:59p</td>
 <td>lifecycle (create / complete / reschedule)</td>
 <td>applies the human's decisions, whether typed into a canvas file or sent as a text; mirrors reminders back to a file; two-way sync</td>
 </tr>
 <tr>
-<td>Weekly status</td>
-<td>weekly</td>
+<td><code>ea-reminders-changelog-am</code></td>
+<td>8:53a</td>
+<td>a reply-able changelog</td>
+<td>a <code>[rem-log]</code> SMS of the automation's reminder edits since the last watermark, repliable to undo or adjust</td>
+</tr>
+<tr>
+<td><code>ea-reminders-changelog-pm</code></td>
+<td>7:47p</td>
+<td>same (shared watermark)</td>
+<td>the evening companion; shares the AM watermark so an edit is never double-reported</td>
+</tr>
+<tr>
+<td><code>job-weekly-status</code></td>
+<td>Fri 9:07a</td>
 <td>nothing</td>
 <td>a tiered weekly accountability summary assembled from the week's artifacts</td>
 </tr>
@@ -208,44 +208,44 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 </thead>
 <tbody>
 <tr>
-<td>Morning weigh-in</td>
+<td><code>health-weighin-7am</code></td>
 <td>7:00a</td>
 <td>nothing (capture)</td>
 <td>prompts weight, body-fat, sleep, and how the body feels; the reply feeds the metrics brain</td>
 </tr>
 <tr>
-<td>Readiness + energy</td>
+<td><code>health-readiness</code></td>
 <td>6:50a</td>
 <td>nothing (advisory)</td>
 <td>reads last night's recovery, scores readiness, recommends an energy-timed day to a text + the dashboard; never writes dates</td>
 </tr>
 <tr>
-<td>Meal coaching</td>
+<td><code>health-food-prompt</code></td>
 <td>9a, 1p, 7p</td>
 <td>nothing</td>
-<td>context-aware meal prompts that read the last 48-72h and carry a goal-tied coaching line; the evening one also asks workout + feeling</td>
+<td>context-aware meal prompts that read the last 48-72h and carry a goal-tied coaching line; the 7p one also asks workout + feeling</td>
 </tr>
 <tr>
-<td>Food + macro logger</td>
-<td>8:50p</td>
+<td><code>health-food-logger</code></td>
+<td>8:47p</td>
 <td>a daily health log file</td>
 <td>logs food, macros, workout, and health stats vs goals; an adaptive-TDEE loop calibrates the calorie target against the actual weight trend; coaching SMS</td>
 </tr>
 <tr>
-<td>Workout coach</td>
-<td>preview + pre-session</td>
+<td><code>health-workout-coach</code></td>
+<td>7:00a preview + pre-session</td>
 <td>its own state file</td>
-<td>previews the day's training and nudges ~45 min before each session, joint-aware</td>
+<td>previews the day's training and nudges ~60 min before each session, joint-aware</td>
 </tr>
 <tr>
-<td>Sleep coach</td>
+<td><code>health-sleep-coach</code></td>
 <td>10:15p</td>
 <td>nothing</td>
-<td>wind-down, recovery framing, names tomorrow's first move; sleep-apnea-aware</td>
+<td>wind-down, recovery framing, names tomorrow's first move; sleep-quality-aware</td>
 </tr>
 <tr>
-<td>Metrics brain + dashboard</td>
-<td>9:05p</td>
+<td><code>health-metrics-dashboard</code></td>
+<td>9:10p</td>
 <td>the metrics file + the dashboard</td>
 <td>silent: captures weigh-in/sleep/feeling + device stats + ritual adherence, tracks all trends, regenerates the holistic dashboard</td>
 </tr>
@@ -263,27 +263,60 @@ nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;
 </thead>
 <tbody>
 <tr>
-<td>End-of-day review</td>
+<td><code>review-end-of-day</code></td>
 <td>9:35p</td>
 <td>a daily scorecard file and a note</td>
 <td>diffs the morning plan against what actually happened; grades the day; coaching and motivation SMS</td>
 </tr>
 <tr>
-<td>Weekly self-improvement</td>
+<td><code>review-weekly-self-improvement</code></td>
 <td>Sun 4p</td>
 <td>a proposal report only</td>
 <td>error analysis across the logs, a lint of the knowledge base, the regression checks, and at most one proposed change per agent - never self-deploying</td>
 </tr>
 <tr>
-<td>Goal review</td>
+<td><code>review-goal-weekly</code></td>
 <td>Sun 8a</td>
 <td>the goals file</td>
 <td>reads the week's signals, updates each goal's state and next action, runs the goal evals, flags stalls with one gated tactic change</td>
 </tr>
 </tbody>
 </table>
+<h2>Monitoring and delivery (the <code>sys-</code> layer)</h2>
+<p>A small system cohort sits above the producing fleet. None of it owns a domain field; its job is to make a silent failure impossible and standardize how every run is proven.</p>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Cadence</th>
+<th>Owns</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sys-fleet-health</code></td>
+<td>8:48a, 1:48p, 9:48p</td>
+<td>nothing (watchdog)</td>
+<td>reads every task's run marker and classifies the fleet: missed slot, degraded run, mid-run crash (a started run with no completion marker), connector outage. The morning pass sends one all-clear <code>N/N ran clean</code> heartbeat; the later passes stay silent unless something is missed or degraded</td>
+</tr>
+<tr>
+<td><code>sys-catchup-controller</code></td>
+<td>7a, 12p, 6p</td>
+<td>nothing (re-fires others)</td>
+<td>detects today's missed slots from run markers + the scheduler's last-run times and re-fires the still-fresh ones idempotently by running each agent's own prompt; freshness-gated, silent unless it backfills; absorbed the former weekday catch-up</td>
+</tr>
+<tr>
+<td><code>sys-overdue-watchdog</code></td>
+<td>8:37a</td>
+<td>nothing (watchdog)</td>
+<td>verifies the morning sweep actually drove overdue to zero; alerts only on an unexpected non-recurring, non-sacred survivor</td>
+</tr>
+</tbody>
+</table>
+<p>Every producing agent obeys one delivery and notification contract instead of inventing its own. A substantive artifact is delivered three ways (chat, a vault Markdown file, a self-contained HTML file); pure one-line coaching prompts are SMS-only and exempt. Every task writes one completion row to a single fleet-wide log on success, skip, or degrade. That one log is the substrate <code>sys-fleet-health</code> reads. Notification has two paths: a quiet success ping (the task's own tagged SMS) when the core promise was kept, and a loud failure iMessage the moment the primary output fails or a step still fails after the in-run retries. Above all of it, the daily heartbeat is the floor that covers even a silent-by-design task.</p>
 <h2>Interoperation</h2>
-<p>The agents never call each other. They coordinate through three shared surfaces: the decision canvases (triage writes, the human edits, the reply processor applies), the manifest (digests write, the reply processor reads), and the single append-only change log (everyone writes, the weekly pass reads). Priority flows from triage to the sweep, which preserves it, to the brief, which ranks by it. One human decision in a canvas propagates through the whole chain by the next morning.</p></article>
+<p>The agents never call each other. They coordinate through three shared surfaces: the decision canvases (triage writes, the human edits, the sync applies), the manifest (digests write, the sync reads), and the single append-only change log (everyone writes, the weekly pass reads). Priority flows from triage to the sweep, which preserves it, to the brief, which ranks by it. One human decision in a canvas propagates through the whole chain by the next morning. A set of private intake agents (opportunity scanning) and the relationship-pulse cohort run on the same engine and contract but are intentionally generalized or kept out of this public catalog.</p></article>
 <div class="prevnext"><a class="prev" href="agent-roster.html"><span class="lab">← Previous</span><span class="ttl">The 30+ agents, in plain language</span></a><a class="next" href="../agents/README.html"><span class="lab">Next →</span><span class="ttl">Example agents (sanitized)</span></a></div>
 <div class="backbar"><a href="../index.html">← Back to Ganesh OS</a></div>
 </body></html>
