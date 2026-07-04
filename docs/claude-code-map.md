@@ -26,6 +26,11 @@ Every design choice here answers the Claude Code question of what to load and wh
 - The append-only change log is the durable memory that survives once a session closes, which is the fix for convention drift.
 - Skills keep heavy reference out of the always-on window until they are invoked.
 
+## Each agent prompt is a /goal
+Every agent's `SKILL.md` is written as a finish line, not a vague instruction, so a run knows when it is done and an evaluator can confirm it. Nine sections, in order: Background, Guard rails, Start here (the STEP 0 guard), How to work (numbered steps), Report back (`[DONE]` / `[BLOCKED]`), **Finish line** (verifiable end conditions), **Prove it** (the evidence to print), **Show me** (the human handoff), and **Safety net** (idempotent, a turn cap, stop after the same step fails three times, degrade rather than crash).
+
+The loop closes itself: before the handoff, a cheap evaluator subagent re-reads the Prove-it evidence against the Finish line and fixes only the unmet item. That, plus the catch-up controller re-firing a missed run, is what lets the fleet run unattended instead of waiting on a human to say "keep going." Two rules keep it honest: a finish line must be verifiable from the printed evidence (no "improve" or "tidy"), and one task owns one finish line (a compound goal is split into sequential ones).
+
 ## The standard ladder, where each rung shows up here
 1. Raw prompting - the agents are prompts at the core.
 2. CLAUDE.md and rules - `CLAUDE.md` plus the format contract.

@@ -60,6 +60,18 @@ The reusable ideas behind Ganesh OS. Each is stated as a problem and the pattern
 
 **Pattern.** Every agent opens with a concurrency guard (a run ledger plus an off-schedule skip) and a surface check (detect present connectors; on a reduced surface, run partially, note the gap, and queue intents for the next full run). A missed or doubled fire degrades to a short delta, never a duplicate or a crash. That is layer one, in-run: bounded retry with backoff on a transient error, then degrade-and-queue rather than abort. Layer two is external, because the second failure shape can only be healed from outside the failed run. Every agent writes a run marker on each run via a shared resilience contract, and a separate catch-up controller reads those markers plus the scheduler's last-run times to find missed slots and re-fire the still-useful ones, each by following its own idempotent steps. The controller cannot double-act (the target's own concurrency guard turns a re-fire into a no-op) and every replay is freshness-gated: catch up a high-value daily run hours later, never replay a time-of-day nudge. The key insight is the substrate - a system can only catch up what it can prove it missed, so the run marker is what makes external healing possible.
 
+## 10. The delivery and notification contract
+
+**Problem.** Once a fleet of agents runs unattended, two failures hide in plain sight. A run can fail silently, with nobody the wiser until something downstream is wrong, and each agent left to invent its own output and alerting drifts into inconsistency, so monitoring becomes per-agent guesswork rather than one checkable rule.
+
+**Pattern.** Make delivery and notification a single contract every producer obeys, so the fleet is observable by construction:
+- **Three delivery surfaces.** A substantive artifact ships as chat, a Markdown file, and a self-contained HTML file - the same content in the channel you read on a phone, the channel you grep, and the channel you share. Pure one-line coaching prompts are SMS-only by nature and exempt.
+- **One uniform run marker.** Every task, producer or prompt, writes a completion row to a single fleet-wide log on success, skip, or degrade. That one file is the substrate the monitor reads, which is why a per-domain log is never enough on its own.
+- **A success ping and a loud failure ping.** Success is the task's own tagged text (or a terse one-liner where it has none). Failure of the primary output, or a step that still fails after the in-run retries, sends a loud failure message. The decision rule is reversibility-of-impact: if the task can still keep its core promise this run, degrade quietly with a "partial surface" note; if it cannot, ping loudly.
+- **A central heartbeat as the floor.** Above the per-task pings, one watchdog reads all the markers and sends a daily all-clear `N/N ran clean`, so a clean day produces positive proof-of-life and even a silent-by-design task is covered.
+
+The throughline with pattern 9: resilience keeps a run alive, and this contract makes the outcome of every run visible. A task adopts both by reference rather than restating them, so the contract is one source of truth, not thirty copies.
+
 ## Tradeoffs and alternatives considered
 
 The roads not taken, because seniority shows in what you reject and why.
