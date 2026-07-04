@@ -123,12 +123,12 @@ A system doc that oversells is worthless, so here is the candid version.
 - **Harness:** a scheduled-agent runtime. Each agent is a `SKILL.md` prompt fired by cron, one run at a time, with a concurrency guard so a missed or doubled fire is a no-op.
 - **State:** plain Markdown files plus one append-only change log. No database.
 - **Memory:** file-based, with "valid from / superseded by" stamps so facts age out instead of being silently overwritten.
-- **Connectors:** Apple Reminders and Calendar, Gmail, Slack, WhatsApp, Granola and Krisp.
-- **Resilience:** a shared contract every agent carries (bounded retry with backoff, degrade-and-queue, a per-run marker, freshness-gated replay) plus a registered external catch-up controller that re-fires a missed run from its marker. New this week; it shortens missed-run recovery from a full cycle to hours, and is still being hardened over real failure cycles.
+- **Connectors:** Apple Reminders, Calendar, and Notes, Gmail, Slack, WhatsApp, Google Voice, iMessage, and Granola + Krisp.
+- **Resilience and monitoring:** a shared contract every agent carries (bounded retry with backoff, degrade-and-queue, a per-run marker, freshness-gated replay), a registered external catch-up controller that re-fires a missed run from its marker, and a central fleet-health watchdog that reads every marker, classifies missed / degraded / crashed / connector-out runs, and sends a daily `N/N ran clean` heartbeat. Every producer also follows one delivery + notification contract: chat + md + html, a uniform completion marker, a quiet success ping, and a loud failure iMessage. Now a mature layer, hardened over real failure cycles rather than newly added.
 
 **Designed but not fully wired yet** (other parts of these docs describe some of this as if it is built; it is not all live):
 - Per-agent tiered model routing. Right now it is mostly one model, not a cheap-model-for-capture, strong-model-for-judgment split.
-- Zero-miss scheduling. The resilience contract and catch-up controller now recover a missed run after the fact, but a startup failure or a closed host still drops a slot until the next wake or catch-up pass; cutting misses at the source (letting the host wake for scheduled work) is a config note, not done.
+- Zero-miss scheduling. The resilience contract, catch-up controller, and fleet-health watchdog now recover and surface a missed run after the fact, and the host is set to wake for its early slots, so misses are cut at the source too. The honest residual: a startup failure or a fully closed host can still drop a slot until the next wake or catch-up pass, so this shrinks missed work rather than eliminating it.
 
 **Evals, honestly:**
 - The structural evals (the single-writer fence, ids read fresh before a write) have clean criteria and I trust them.
