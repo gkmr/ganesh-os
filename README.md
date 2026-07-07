@@ -189,6 +189,7 @@ Open to **board & advisory roles, fractional CPO/CTO engagements, panels & talks
 | [`docs/craft.md`](docs/craft.md) | The PM/eng craft: PRD, wireframe, prototype, tests, PR review, system-design tradeoffs |
 | [`docs/governance.md`](docs/governance.md) | The six governance properties, in depth |
 | [`docs/decisions.md`](docs/decisions.md) | Architecture decision records - context, options, verdict, consequences |
+| [`docs/adr-13-channel-strategy.md`](docs/adr-13-channel-strategy.md) | ADR-13: official-API-first channels, mirrored delivery, outbox daemons, dual-store state, the concurrent-edit protocol, the HITL board |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Layers, fences, daily data flow, failure modes |
 | [`docs/harness.md`](docs/harness.md) | Harness engineering: scheduler, context, tools, contract, log, evals - and how agents/skills/memory plug in |
 | [`docs/case-studies.md`](docs/case-studies.md) | Three governance decisions, end to end |
