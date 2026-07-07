@@ -195,7 +195,7 @@ Format: **Context → Options → Decision → Consequences.**
 
 ## ADR-12 - Taxonomy rename, the delivery + notification contract, and fleet-health hardening
 
-**Status:** Accepted · 2026-06-24 to 2026-06-29 · extends [ADR-11](#adr-11---two-class-failure-and-an-external-catch-up-controller).
+**Status:** Accepted · 2026-06-24 to 2026-06-29 · extends [ADR-11](#adr-11---two-class-failure-and-an-external-catch-up-controller) · extended by [ADR-13](adr-13-channel-strategy.md) (channel strategy v2 and the week's companion patterns, in its own file).
 
 **Context.** ADR-11 made a missed run *recoverable*, but three gaps remained once the fleet grew past 30 agents. (1) Task ids were ad-hoc and time-stamped (`morning-briefing-7am`, `reminders-triage-545am`), so a name said when a task ran, not which life domain it served, and the catch-up controller leaned on hard-coded id lists that a rename would silently break. (2) A run could still fail *silently*: ADR-11 could re-fire a miss, but nothing proved on a clean day that the fleet had actually run, and a mid-run crash that stamped a start but produced no output was invisible. (3) Each producer invented its own delivery and alerting, so monitoring was per-agent guesswork rather than one checkable rule.
 
