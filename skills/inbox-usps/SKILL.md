@@ -1,5 +1,5 @@
 ---
-name: usps-mail-digest
+name: inbox-usps
 description: Read the USPS Informed Delivery daily digest - the structured mailpiece and package list plus the grayscale scan images - OCR every scan, classify each piece signal-vs-noise, and surface one ranked text of what is arriving today with the watch-out items first. A Layer-1 capture agent. Fires once each morning after the digest lands. Read-only; owns nothing in the shared store, keeps its own junk-sender memory.
 ---
 

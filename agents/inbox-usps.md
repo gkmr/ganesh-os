@@ -1,5 +1,5 @@
 ---
-name: usps-mail-digest
+name: inbox-usps
 owns: nothing in the shared store (read-only); keeps its own junk-sender memory file
 cadence: daily, mid-morning, after the Informed Delivery digest lands
 ---

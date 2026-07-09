@@ -1,6 +1,6 @@
 {
   "agent": "inbox-usps",
-  "skill": "skills/usps-mail-digest/SKILL.md",
+  "skill": "skills/inbox-usps/SKILL.md",
   "cron": "45 8 * * *",
   "timezone": "operator-local",
   "catchup": "half-day",
