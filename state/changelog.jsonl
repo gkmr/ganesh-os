@@ -1,0 +1,3 @@
+{"ts": "2026-07-09T05:45:12-07:00", "agent": "job-reminders-triage", "field": "priority", "id": "job-1042", "before": "low", "after": "high", "reason": "due today + hot warm-path with a priority counterparty"}
+{"ts": "2026-07-09T06:00:07-07:00", "agent": "ea-morning-sweep", "field": "due_date", "id": "job-1042", "before": "2026-07-08", "after": "2026-07-09", "reason": "auto-park overdue by tier (urgent to today)"}
+{"ts": "2026-07-09T08:45:31-07:00", "agent": "inbox-usps", "field": "junk_sender", "id": "junk-VALPAK", "before": null, "after": "suppress", "reason": "operator replied drop on D3; add sender to junk memory"}
