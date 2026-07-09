@@ -1,0 +1,12 @@
+{
+  "agent": "inbox-usps",
+  "skill": "skills/usps-mail-digest/SKILL.md",
+  "cron": "45 8 * * *",
+  "timezone": "operator-local",
+  "catchup": "half-day",
+  "runtime": "routine",
+  "connectors": ["gmail:read"],
+  "owns": "nothing in the shared store; own junk-sender memory",
+  "delivery": ["chat", "sms", "vault-file"],
+  "notes": "Fires daily after the USPS Informed Delivery digest lands. Path-B pilot: Gmail read-only and no device dependency, so it runs unattended in a managed cloud routine (no laptop). The SKILL's concurrency + freshness guard makes a no-digest-yet run a silent no-op; sys-catchup-controller retries a missed slot only within the same half-day."
+}

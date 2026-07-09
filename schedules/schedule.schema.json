@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gkmr/ganesh-os/schedules/schedule.schema.json",
+  "title": "Agent schedule entry",
+  "description": "One entry per scheduled agent. Declares the fire time and the deployment facts that decide where it can run. The catalog is the human view of the same cadence; this is the executable view the harness consumes.",
+  "type": "object",
+  "required": ["agent", "cron", "catchup", "runtime"],
+  "additionalProperties": false,
+  "properties": {
+    "agent":      {"type": "string", "description": "The agent's run id, matching the catalog, e.g. inbox-usps."},
+    "skill":      {"type": "string", "description": "Repo-relative path to the SKILL.md the run executes."},
+    "cron":       {"type": "string", "description": "Five-field cron in operator-local time: minute hour day-of-month month day-of-week. Multiple fire times are separate entries or a comma list per field."},
+    "timezone":   {"type": "string", "default": "operator-local", "description": "Resolved from the operator's local timezone override, not the host clock, so travel never shifts a fire."},
+    "catchup":    {"type": "string", "enum": ["always", "half-day", "never"], "description": "The freshness bucket sys-catchup-controller uses to decide whether a missed slot is worth re-firing."},
+    "runtime":    {"type": "string", "enum": ["routine", "desktop-task", "device-box", "ci-cron", "gateway"], "description": "Which deployment lane fires it. routine = managed cloud (no laptop); desktop-task / device-box = must run on the device the data lives on; ci-cron = CI schedule; gateway = self-hosted 24/7 gateway."},
+    "connectors": {"type": "array", "items": {"type": "string"}, "description": "Scope-tagged data the run touches, e.g. gmail:read. Decides cloud-ready vs device-bound."},
+    "owns":       {"type": "string", "description": "The single field the agent may write, or nothing. Mirrors the catalog's Owns column and the lane fence."},
+    "delivery":   {"type": "array", "items": {"type": "string"}, "description": "Where the run's output goes, e.g. chat, sms, vault-file, calendar-event."},
+    "notes":      {"type": "string"}
+  }
+}
