@@ -17,13 +17,13 @@ Nothing in the shared store. It is read-only over Gmail, the calendar, and the t
 - Read-only context for relevance: the calendar and reminder lists (is a bill, appointment, or shipment already tracked?), so a piece can be marked "already on your list" instead of re-surfaced.
 
 ## Steps
-1. CONCURRENCY + FRESHNESS GUARD. Resolve the operator's local date/time. Read the run marker; if today's digest was already processed, post a short delta or stop. If no Informed Delivery email has arrived yet today, exit silently and let the catch-up controller retry - never fabricate a digest.
+1. CONCURRENCY + FRESHNESS GUARD. Resolve the operator's local date/time. Read the run marker; if today's digest was already processed, post a short delta or stop. If no Informed Delivery email has arrived yet today, defer to the catch-up controller for a later retry; only if none has arrived by the end of the catch-up window, send the single "no USPS digest today" daily line (see Notification, delivery, and readability) so the operator still gets one predictable message a day. Never fabricate a digest.
 2. PARSE the structured layer first: the mailpiece `FROM:` lines, the mailpiece count, the package rows (carrier, status, tracking tail), and the "you may have more than shown" caveat.
 3. OCR the scan layer. For each mailpiece image, run vision/OCR to read the return address, sender, and any printed text the structured `FROM:` line omits (postage class and indicia, "Or Current Resident", account-fragment windows, deadline language, government seals). Record an OCR-confidence per piece; a low-confidence read is flagged, never silently trusted. Cross-check the OCR sender against the structured `FROM:` - a mismatch is itself worth a note.
 4. CLASSIFY each piece signal-vs-noise (see Spam suppression) and tag the watch-outs (see Watch-outs). Reconcile packages: expected (matches an order or a tracked shipment) vs unexpected.
 5. RANK by importance times goal-fit, the same lens the morning brief uses. Watch-out items sort to the top regardless of volume; then time-sensitive bills and appointments; then routine FYIs; ad mailers never rank, they collapse to one tail line.
 6. COMPOSE one message per the format contract: the source tag, a one-line count summary, the watch-outs and action items first each with a stable `D#` handle, FYIs compressed, ad mailers on one line at the end. Write a manifest line for every repliable piece so a reply can turn it into a reminder.
-7. DELIVER: chat, one SMS, and the vault file. Append run health to the ledger. Update the junk-sender memory only from confirmed signals (see the learning loop), never speculatively.
+7. DELIVER one daily notification across all rails: chat, the vault file, one SMS, and one Telegram message (the SMS terse, the Telegram grouped - see Notification, delivery, and readability). Append run health to the ledger. Update the junk-sender memory only from confirmed signals (see the learning loop), never speculatively.
 
 ## Watch-outs (surfaced first, every run)
 The point of the agent is to catch the few pieces that matter inside the daily flow. Flag and lead with:
@@ -39,15 +39,18 @@ The failure mode to avoid is two-sided: do not bury a real bill in the junk pile
 - THE RULE: suppress only when junk indicators are present AND no signal indicator fires. When it is genuinely ambiguous - a "pre-approved" piece that is also personally addressed from a real bank - SURFACE it, do not suppress. A surfaced circular costs one glance; a suppressed bill costs a late fee. Suppressed pieces are not dropped - they are counted on one tail line ("plus N ad mailers, hidden - reply 'show junk' to see them"), so suppression is always reversible and auditable.
 - LEARNING LOOP. When the operator replies `drop` / `junk` on a `D#` item, the reply processor logs it; this agent reads that log and adds the sender to the junk-sender memory for next time. The memory only ever raises a junk score, never forces a suppression on its own - a known advertiser that suddenly sends a personally addressed, first-class piece still surfaces.
 
-## Output contract
-- A leading `[usps]` tag, then line 1: counts and "N need you", e.g. `[usps] 6 mailpieces, 1 package arriving - 2 need you`.
-- Watch-outs and action items first, each with a `D#` handle and, where useful, the OCR-read sender and a one-line why. FYIs (routine recognized bills already on a list) compressed. Ad mailers on one tail line.
-- Every repliable piece gets a manifest line (`source: usps`, the `D#` handle, sender, summary, suggested_list / suggested_due where obvious) so the reply processor can act on a text reply.
-- Every surfaced line traceable to a parsed field or an OCR read; OCR-derived claims marked when confidence is low.
+## Notification, delivery, and readability
+- ONE daily notification, always. Like the other inbox digests, the operator gets exactly one message a day - even a quiet day sends a single "nothing needs you today" line, so the digest is a dependable daily signal, never silence. If no Informed Delivery email has arrived by the end of the catch-up window, send one terse "no USPS digest today" note and no more.
+- TWO renderings of the same content, tuned per channel (same digest, different density):
+  - SMS (terse, plain text, thumb-readable): line 1 plus only the single highest-ranked item and a pointer. Example: `[usps] Thu 7/9 - 3 mail, 1 pkg - 2 need you. Top: D1 verify an address-change you may not have made. Full digest in Telegram.`
+  - Telegram (scannable, grouped like an inbox): the full digest under short bold section headers so the eye lands on what matters - `WATCH-OUTS` first, then `MAIL` (action items with `D#` handles, then compressed FYIs), then `PACKAGES`, then one hidden-ad-mailers line. One line per item, bare URLs and numbers only.
+- Line 1 everywhere is the same: the `[usps]` tag, the date, the counts, and "N need you", e.g. `[usps] Thu 7/9 - 6 mailpieces, 1 package - 2 need you`.
+- Chat and the vault file carry the full digest. Every repliable piece also gets a manifest line (`source: usps`, the `D#` handle, sender, summary, suggested_list / suggested_due where obvious) so a reply from any channel - SMS or Telegram - resolves to the right store action.
+- Readability rules: lead with the count line, group by section, one line per item, watch-outs first and bolded, no wall of text, no markdown links, no em dashes. Every surfaced line stays traceable to a parsed field or an OCR read; low-confidence OCR is marked.
 
 ## Guardrails
 - Read-only on the shared store and on the mailbox. Never deletes or archives the email, never sets priority/dates/lifecycle, never auto-tracks a package or creates a reminder - it proposes, the human disposes, the reply processor writes.
 - OCR is advisory. Low-confidence reads are labelled, never asserted as fact; a sender mismatch between OCR and the structured `FROM:` is surfaced, not silently resolved.
-- Privacy: the verbatim OCR text and the scan images stay in the channel archive; the SMS and digest carry only a summary and the sender, never full account fragments.
+- Privacy: the verbatim OCR text and the scan images stay in the channel archive; the SMS, the Telegram message, and the digest carry only a summary and the sender, never full account fragments.
 - Partial surface: if the digest has not arrived, or images fail to load, run on the structured layer alone, label the output "partial surface (no scans)," and let the next run fill in. Never block, never fabricate a piece.
 - No em dashes in any delivered text. Use `" - "`.

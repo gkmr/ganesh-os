@@ -10,6 +10,7 @@ BLUF: the first agent to leave the laptop. `inbox-usps` is the ideal pilot - Gma
 ## Prerequisites
 1. **Authorize Gmail once** at `claude.ai/customize/connectors` (read scope). Hosted connectors auth on claude.ai and are then available to cloud routines automatically.
 2. **Create the private state repo** (ADR-16) and seed it from `state/` here (the read-first index, an empty `changelog.jsonl`, and `inbox-usps/junk-senders.json`). Set `GANESH_STATE_REPO` to it.
+3. **Wire the delivery rails.** SMS works with the existing text rail. For the Telegram rail, provision a Telegram bot token and a pinned operator chat id (the same inbound-auth gate the channel strategy already uses - a public bot executes and delivers only for the pinned chat id). SMS is the fallback if Telegram is not yet wired; the digest degrades to SMS-only rather than blocking.
 
 ## Stand it up
 The schedule entry `schedules/inbox-usps.schedule.json` is the source of truth: `cron: "45 8 * * *"`, `runtime: routine`, `connectors: [gmail:read]`, `catchup: half-day`.
