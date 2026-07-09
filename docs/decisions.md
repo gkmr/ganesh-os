@@ -25,7 +25,7 @@ Format: **Context → Options → Decision → Consequences.**
 
 ## ADR-02 - State store
 
-**Status:** Accepted.
+**Status:** Accepted · extended by [ADR-16](#adr-16---state-store-for-unattended-mobile-first-operation).
 
 **Context.** Every agent run is stateless and reloads context from disk. The human must be able to read and hand-edit the state from a phone.
 
@@ -235,3 +235,20 @@ Format: **Context → Options → Decision → Consequences.**
 8. **Catch-up controller marker-table regeneration** (2026-07-09) - the controller's freshness table is keyed on task id, so a rename must regenerate the table in the same change or the renamed task's misses are masked as already covered under its old id. The table rebuild is now a checked step of any rename, not a manual follow-up.
 
 **Consequences.** The week converges to one dated record instead of scattering across files with no index. The two-engine law turns "swap the engine" from a standing risk into a named, repeatable procedure with a rollback line, ready ahead of the next migration instead of improvised during it. The marker-table fix closes a specific blind spot: a catch-up controller is only as good as its freshness table, and a table that does not track renames can silently report a miss as covered. The cost, named: this entry is now the map for two other documents, so it goes stale if either is renamed without a matching edit here - the same discipline item 8 states for the marker table, applied to this index itself.
+
+---
+
+## ADR-16 - State store for unattended, mobile-first operation
+
+**Status:** Accepted · 2026-07-09 · extends [ADR-02](#adr-02---state-store).
+
+**Context.** Moving the fleet to unattended, no-laptop operation (managed cloud routines) and relaxing the hard attachment to Markdown for mobile, on-the-go use reopened ADR-02. Two forces: a cloud run is ephemeral, so state must live somewhere durable it can reload each run; and the operator wants to read and act from a phone without a laptop. The reframe that settles it: the single-writer fence plus the append-only, source-tagged change log is the law, and the file format is only the substrate - the two are separable, so the store can change without touching the guarantee. See [`unattended-deployment.md`](unattended-deployment.md).
+
+**Options.**
+- **Git-backed Markdown** - keep the `.md` files and the jsonl change log; a private state repo is the persistence and sync layer, cloned at run start and pushed at run end.
+- Local-first synced SQLite (Turso / libSQL) - an embedded DB edge-replicated to mobile, no server.
+- Managed Postgres (Supabase) + an append-only audit table - real-time, most capable, most infra.
+
+**Decision.** Git-backed Markdown, as the starting store. A cloud run clones the state repo (the existing `session-start.sh` already rebuilds world-from-disk), writes through the change log, and pushes at the end; the lane-fence eval runs unchanged because the change log is unchanged. A DB substrate stays the documented migration target for when mobile write throughput becomes the real bottleneck - at which point the fence moves to a write constraint plus an append-only audit table the same eval reads.
+
+**Consequences.** Zero new infrastructure, the eval and the whole determinism layer carry across untouched, state is auditable by git history as well as the change log, and it unblocks the routine-lane pilot today. It is reversible - the store can move to SQLite or Postgres later without re-deciding the law. The costs, named: mobile editing is clunky and writes are not real-time (acceptable because writes are single-writer and one-run-at-a-time, and the mobile-heavy health lane is interactive-in-app anyway, not a store write); concurrent-write conflict is bounded by the one-run-at-a-time guard, not by the store; and a future DB migration is a real project, not free - deferred on purpose until a bottleneck forces it. This is ADR-02's "if grep stops scaling, a local SQLite index is the next step" made concrete for the unattended era: the store stays Markdown, git becomes its durability and sync, and the DB remains the named next step rather than a now step.
