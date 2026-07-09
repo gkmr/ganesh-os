@@ -1,0 +1,119 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Running the fleet unattended · Ganesh OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070a14;--surface:#111829;--line:rgba(255,255,255,.09);--ink:#f4f7fc;--body:#c4cde0;--mut:#8995ad;--brand:#8b7bff;--brand2:#22d3ee;--neon:#5dff9b;--muted:var(--mut);--brand-2:var(--brand2)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 85% -10%,rgba(59,45,143,.35),transparent 60%),radial-gradient(800px 460px at 0% 20%,rgba(14,94,110,.3),transparent 60%),var(--bg);color:var(--body);font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;font-size:16.5px;line-height:1.7;-webkit-font-smoothing:antialiased}
+nav{position:sticky;top:0;z-index:10;background:rgba(8,11,20,.8);backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--line)}
+nav .in{max-width:880px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+nav a.home{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:800;font-size:15px;text-decoration:none}
+nav a.home .g{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 0 18px rgba(139,123,255,.5)}
+nav .links{display:flex;gap:18px}nav .links a{color:var(--mut);font-size:13.5px;text-decoration:none;font-weight:500}nav .links a:hover{color:var(--ink)}
+.crumb{max-width:880px;margin:0 auto;padding:24px 24px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--mut)}
+.crumb a{color:var(--brand2);text-decoration:none}.crumb a:hover{text-decoration:underline}
+.crumb .badge{background:rgba(139,123,255,.12);border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink);font-weight:600;font-size:12px}
+.doc{max-width:880px;margin:0 auto;padding:18px 24px 30px}
+.doc h1{font-size:clamp(28px,4vw,40px);line-height:1.1;letter-spacing:-.02em;margin:0 0 22px;background:linear-gradient(180deg,#fff,#aeb8d4);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.doc h2{font-size:25px;margin:42px 0 14px;color:var(--ink);padding-top:14px;border-top:1px solid var(--line)}
+.doc h3{font-size:19px;margin:30px 0 10px;color:var(--ink)}
+.doc h4{font-size:15px;margin:24px 0 8px;color:var(--brand2);font-family:'JetBrains Mono';text-transform:uppercase;letter-spacing:.04em}
+.doc p,.doc li{color:var(--body)}.doc a{color:var(--brand2);text-decoration:none;border-bottom:1px solid rgba(34,211,238,.3)}.doc a:hover{border-color:var(--brand2)}
+.doc strong{color:var(--ink)}.doc code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#e7ecf6}
+.doc pre{background:#060a12;border:1px solid var(--line);border-radius:13px;padding:16px 18px;overflow-x:auto}.doc pre code{background:none;border:none;padding:0;color:var(--neon);font-size:13px;line-height:1.65}
+.doc blockquote{margin:18px 0;padding:12px 18px;border-left:3px solid var(--brand);background:rgba(139,123,255,.06);border-radius:0 10px 10px 0}
+.doc table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px;display:block;overflow-x:auto}
+.doc th,.doc td{border:1px solid var(--line);padding:10px 13px;text-align:left;vertical-align:top}
+.doc th{background:rgba(255,255,255,.04);color:var(--ink);font-family:'JetBrains Mono';font-size:12px;text-transform:uppercase}
+.doc tr:nth-child(even) td{background:rgba(255,255,255,.015)}.doc hr{border:none;border-top:1px solid var(--line);margin:34px 0}
+.prevnext{max-width:880px;margin:0 auto;padding:6px 24px 18px;display:flex;justify-content:space-between;gap:14px}
+.prevnext a{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px 16px;text-decoration:none;transition:transform .15s,border-color .15s;min-width:0}
+.prevnext a:hover{border-color:var(--brand);transform:translateY(-2px)}.prevnext a.next{text-align:right}
+.prevnext .lab{font:600 11px/1 'JetBrains Mono';color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.prevnext .ttl{color:var(--ink);font-weight:700;font-size:14px;margin-top:6px;display:block}
+.prevnext a.disabled{visibility:hidden}
+.backbar{max-width:880px;margin:0 auto;padding:0 24px 70px}
+.backbar a{display:inline-flex;align-items:center;gap:8px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:11px 18px;text-decoration:none;font-weight:600;font-size:14px}
+.backbar a:hover{border-color:var(--brand)}
+</style></head><body>
+<nav><div class="in"><a class="home" href="../index.html"><span class="g"></span> Ganesh OS</a>
+<div class="links"><a href="../index.html">Home</a><a href="../demo.html">▶ Demo</a><a href="../index.html#system">Architecture</a><a href="../index.html#agents">30+ Agents</a><a href="../index.html#operator">Operator</a></div></div></nav>
+<div class="crumb"><span class="badge">Systems &amp; AI depth</span> <a href="../index.html">Ganesh OS</a> › <a href="../index.html#system">back to this on the site</a> › <span style="color:var(--ink)">Running the fleet unattended</span></div>
+<article class="doc"><h1>Running the fleet unattended - a deployment assessment</h1>
+<p><strong>BLUF:</strong> moving a cron fleet of single-writer agents off a laptop is not a scheduler choice, it is a data-locality and auth choice. Every cloud runtime hits the same wall - it cannot reach data that lives on a personal device (a phone's health store, a Mac's reminders and message threads). So decide the data architecture first, and the runtime falls out. This doc audits the options against what the fleet actually needs, separates the one law that must survive from the file format that need not, and gives a staged path.</p>
+<h2>The reframe: the runtime is not the blocker</h2>
+<p>The instinct is to compare schedulers - managed cloud routines vs CI cron vs a self-hosted gateway. That comparison matters, but it is second order. The first-order fact is where each agent's data lives:</p>
+<ul>
+<li>Data behind a <strong>cloud OAuth/token connector</strong> (mail, calendar, chat) is reachable from any unattended runner once authorized.</li>
+<li>Data that lives <strong>on a personal device</strong> (on-device health, a desktop-local task store, a device-paired messenger) is reachable only by something running on that device.</li>
+</ul>
+<p>No orchestrator changes that second line. Picking a different scheduler does not teleport a cloud VM onto your phone or your Mac. So the audit below sorts agents by data locality, not by schedule.</p>
+<h2>Connector audit - the three buckets</h2>
+<p>Sort every agent by the connector it depends on:</p>
+<ul>
+<li><strong>Cloud-ready</strong> - the connector is a hosted OAuth/token MCP (mail, calendar, team chat). Authorize once, then any unattended runner can use it. Roughly the capture digests and anything file-only.</li>
+<li><strong>Token-with-work</strong> - a third-party MCP that accepts a static token or refresh token (meeting tools, vendor device APIs). Ports, but you own the token plumbing and its expiry.</li>
+<li><strong>Device-bound</strong> - the data lives on a personal device with no headless path: a desktop-local task/reminders store, a device-paired messenger, on-device health. These do not move to the cloud without re-platforming the underlying store.</li>
+</ul>
+<p>A useful sub-finding: the agents that are pure file-or-compute (the resilience controller, the weekly reviews, the end-of-day grade) are trivially cloud-ready - they touch no external connector at all. The blockers cluster entirely in the device-bound bucket.</p>
+<h2>The runtime matrix</h2>
+<p>Audited against the requirements that matter for an unattended single-writer fleet:</p>
+<table>
+<thead>
+<tr><th>Runtime</th><th>Laptop can be off</th><th>Recurring schedule</th><th>Cloud OAuth connectors</th><th>Device-bound data</th><th>Who hosts</th></tr>
+</thead>
+<tbody>
+<tr><td>Managed cloud routines</td><td>yes</td><td>yes (plus an API fire trigger)</td><td>yes, authorize-once</td><td>no - no device in the cloud</td><td>the vendor</td></tr>
+<tr><td>Interactive cloud session (one-shot)</td><td>yes</td><td>no - manual, single task</td><td>yes</td><td>no</td><td>the vendor</td></tr>
+<tr><td>Phone-to-desktop remote control</td><td><strong>no - needs the desktop awake</strong></td><td>no - interactive</td><td>local</td><td>yes (the local machine)</td><td>you</td></tr>
+<tr><td>Desktop scheduled tasks</td><td><strong>no - needs the machine awake</strong></td><td>yes</td><td>local</td><td>yes (if on the right device)</td><td>you</td></tr>
+<tr><td>CI cron (e.g. Actions) + headless CLI</td><td>yes</td><td>yes</td><td>static token only</td><td>no</td><td>the CI vendor</td></tr>
+<tr><td>Agent SDK / managed agents</td><td>yes</td><td>yes (schedule or webhook)</td><td>token-passed</td><td>no</td><td>the vendor</td></tr>
+<tr><td>Self-hosted VM + CLI cron</td><td>yes</td><td>yes</td><td>refresh-token</td><td>no - unless the VM is that device</td><td>you</td></tr>
+<tr><td>Always-on device (the right OS) + native scheduler</td><td>yes - the device is the server</td><td>yes</td><td>yes</td><td><strong>yes</strong></td><td>you</td></tr>
+<tr><td>Self-hosted agent gateway (OpenClaw, Hermes, etc.)</td><td>yes - gateway runs 24/7</td><td>yes, with a run-lock</td><td>yes, persisted-token</td><td>only if the gateway runs on that device</td><td>you</td></tr>
+</tbody>
+</table>
+<p>Read the device-bound column top to bottom. It is "no" for everything that is not physically the device the data lives on. That single column is the whole decision.</p>
+<p>Two runtimes are disqualified for an unattended goal outright, because they need a machine awake: phone-to-desktop remote control (this is interactive remote control, not scheduling) and desktop scheduled tasks.</p>
+<h2>Two paths</h2>
+<p>The fork is not which scheduler. It is what you do about the device-bound bucket.</p>
+<ul>
+<li><strong>Path A - keep the device stack.</strong> Run the device-bound agents on an always-on instance of the right device (a small always-on machine of that OS). The "runtime" choice then collapses to which scheduler runs on that box - the native task scheduler is simplest; a self-hosted gateway buys consumer-channel routing and persisted-token MCP if you need them. Cloud routines cannot help these agents. One piece of hardware keeps the system whole.</li>
+<li><strong>Path B - re-platform the store and the bus.</strong> Move the task store off the desktop-local app to a cloud-native store, and move the notification bus off the device-paired messenger to a token-auth channel. Now every agent is cloud-ready and managed routines win outright - no hardware, fire by schedule or API, state in a synced store. More upfront work, zero hardware at the end.</li>
+</ul>
+<p>Most real answers are hybrid: Path B for the cloud-ready majority now, Path A on one always-on box for the device-bound holdouts until they are re-platformed too.</p>
+<h2>Three lanes for the next generation</h2>
+<p>Splitting by interaction model, not just by schedule, is cleaner than forcing everything into cron:</p>
+<ol>
+<li><strong>Push - scheduled and unattended.</strong> The capture digests and file-only reviews. These run on a managed cloud routine, no laptop, fire by schedule. This is the bulk of the fleet and the easy lane.</li>
+<li><strong>Pull - interactive and mobile.</strong> Anything whose data lives on the phone and is best answered on demand - notably <strong>on-device health</strong>. The phone's on-device health store is read-only and, by design, is never exported to the cloud, so reading it is interactive-only - it cannot be made to run in a headless routine. That is a fixed architectural constraint (on-device privacy), not a feature gap to wait out. Treat these agents as things you invoke on the go in the mobile app, not as cron jobs. Two practical consequences. First, a real simplification: vendor devices (scale, ring, watch) that sync into the single on-device store are all readable through that one connector, so you read one store instead of integrating each vendor API separately - the individual vendor APIs become optional enrichment, not blockers to launch. Second, the only headless health path is a separate server-side clinical-records connector, which is a different data class (medical records, not day-to-day fitness) - reach for it only if an agent genuinely needs clinical data unattended. The scheduled piece of these agents shrinks to a nudge ("log this now") that you answer in-app where the data is.</li>
+<li><strong>Holdout - device-bound until re-platformed.</strong> The desktop-local task store and the device-paired messenger. Path A (always-on box) or Path B (re-platform). Pick per agent.</li>
+</ol>
+<h2>Law versus substrate - keep the fence, the markdown is optional</h2>
+<p>A natural objection to several runtimes and to mobile-first operation is "but my state is plain markdown." Separate the two ideas:</p>
+<ul>
+<li><strong>The law is the single-writer fence plus the append-only, source-tagged change log</strong>, enforced by an eval. This is the asset. It is what makes many autonomous writers safe and auditable.</li>
+<li><strong>The substrate is the file format.</strong> Plain markdown was a convenient substrate, not the guarantee.</li>
+</ul>
+<p>These are independent. You can drop plain-<code>.md</code> files for a mobile-syncable store and keep every bit of the guarantee by making the change log an <strong>append-only audit table</strong> that the same eval reads. Field ownership becomes a write constraint; the lane-fence check runs against the table instead of the file. Drop the format if mobile, laptop-free use needs it - but do not drop the discipline with it, or you have traded away the only thing that made the fleet trustworthy.</p>
+<p>This also resolves the build-vs-adopt question below: once the substrate is negotiable, a database-backed runtime is no longer disqualified on a state-format mismatch. It is judged on its merits.</p>
+<h2>Build versus adopt</h2>
+<p>Self-hosted agent gateways exist that bundle exactly the gaps an unattended fleet feels: a 24/7 scheduler with a concurrency lock, persisted-token MCP auth, and consumer-channel routing. Two notes on adopting one wholesale:</p>
+<ul>
+<li>The genuine win is narrow and real - <strong>headless MCP/OAuth token persistence on an always-on host</strong> is precisely the plumbing you would otherwise write yourself. Borrowing that primitive is sensible.</li>
+<li>The genuine risk is the <strong>autonomy posture</strong>. A gateway whose agents self-modify their own skills is at odds with a deterministic, single-writer, human-gated-on-irreversible design. Adopt the plumbing as a reference primitive; do not hand the fleet's governance to a runtime whose defaults contradict the fence.</li>
+</ul>
+<p>Net: keep the architecture, treat external gateways as reference implementations of the cron-plus-MCP-auth layer, and keep the fence and change log as your own.</p>
+<h2>Recommended sequence</h2>
+<ol>
+<li><strong>Authorize the cloud connectors once</strong> (mail, calendar, chat). This unblocks the entire push lane on a managed routine.</li>
+<li><strong>Pilot one cloud-ready, read-only agent</strong> end to end on the managed routine plus a synced state store - prove the loop with the lowest blast radius before touching the rest.</li>
+<li><strong>Move the push lane</strong> (capture digests, file-only reviews) onto routines in a batch.</li>
+<li><strong>Stand up the pull lane</strong> for on-device data (health) as mobile-interactive, reading the single on-device store that vendor devices sync into. No vendor-API integration required to start, and no reason to wait on one - the interactive-only constraint is fixed, so design for it rather than around it.</li>
+<li><strong>Decide Path A vs B per holdout</strong> for the device-bound store and bus. Re-platform where the cloud payoff is worth it; keep an always-on box for the rest.</li>
+<li><strong>Carry the fence across</strong> whatever substrate you land on - the append-only audit and the lane-fence eval are the invariant, the file format is not.</li>
+</ol></article>
+<div class="prevnext"><a class="prev" href="harness.html"><span class="lab">← Previous</span><span class="ttl">Harness engineering</span></a><a class="next" href="decisions.html"><span class="lab">Next →</span><span class="ttl">Decisions</span></a></div>
+<div class="backbar"><a href="../index.html">← Back to Ganesh OS</a></div>
+</body></html>
