@@ -14,7 +14,7 @@ BLUF: the first agent to leave the laptop. `inbox-usps` is the ideal pilot - Gma
 ## Stand it up
 The schedule entry `schedules/inbox-usps.schedule.json` is the source of truth: `cron: "45 8 * * *"`, `runtime: routine`, `connectors: [gmail:read]`, `catchup: half-day`.
 
-1. Create a routine that fires `skills/usps-mail-digest/SKILL.md` on that cron in operator-local time.
+1. Create a routine that fires `skills/inbox-usps/SKILL.md` on that cron in operator-local time.
 2. Point the run at the state repo via `schedules/run-agent.sh inbox-usps` (pull at start, run, commit + push at end), or map the routine's own environment to clone the state repo on start and push on finish.
 3. Scope the routine to the Gmail connector only - nothing else.
 
