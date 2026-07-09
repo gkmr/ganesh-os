@@ -11,7 +11,7 @@
 | `inbox-slack` | 7:30a, 8:30p | nothing | unread DMs, mentions, threads waiting on the user; one SMS |
 | `inbox-googlevoice` | 7:30a, 8:30p | nothing | unread texts and voicemails via email; one SMS |
 | `inbox-gmail` | 7:30a, 8:30p | nothing | signal-vs-noise inbox triage with a key quote; one SMS |
-| `inbox-usps` | 8:45a | nothing (read-only; own junk-sender memory) | reads the Informed Delivery email, OCRs the mailpiece scan images, surfaces watch-outs first (fraud/identity, mail-theft gap, money/government/legal/medical/deadline, package anomalies), suppresses ad mailers conservatively; one SMS |
+| `inbox-usps` | 8:45a | nothing (read-only; own junk-sender memory) | reads the Informed Delivery email, OCRs the mailpiece scan images, surfaces watch-outs first (fraud/identity, mail-theft gap, money/government/legal/medical/deadline, package anomalies), suppresses ad mailers conservatively; one daily SMS + Telegram, grouped for readability |
 | `mtg-briefer` | 8:40a, 1:40p, 6:40p, 8:40p | nothing | pre-briefs upcoming meetings and post-briefs finished ones across Granola + Krisp; the 8:40p run is an end-of-day rollup of still-open next steps; proposes calendar/reminder/draft actions, gated on reply |
 | `mtg-reconciliation` | 10 min before each briefer | a local crosswalk | matches Krisp transcripts (which lack calendar access) to Granola's calendar-true metadata; corrects title, attendees, and stream |
 
