@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "updated": "2026-07-09",
+  "policy": "raise-score-only",
+  "note": "The USPS digest's only owned artifact. A sender here only raises a junk score; it never forces suppression on its own, so a known advertiser that sends a personally addressed, first-class piece still surfaces. Entries are added only after the operator replies drop/junk on a D# item.",
+  "senders": [
+    {"sender": "VALPAK", "reason": "coupon pack, addressed to Current Resident", "added": "2026-07-09", "source": "operator drop on D3"},
+    {"sender": "RETAILMENOT", "reason": "marketing circular, ECRWSS indicia", "added": "2026-07-02", "source": "operator drop on D2"}
+  ]
+}
