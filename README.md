@@ -192,6 +192,7 @@ Open to **board & advisory roles, fractional CPO/CTO engagements, panels & talks
 | [`docs/adr-13-channel-strategy.md`](docs/adr-13-channel-strategy.md) | ADR-13: official-API-first channels, mirrored delivery, outbox daemons, dual-store state, the concurrent-edit protocol, the HITL board |
 | [`docs/adr-16-store-cutover-two-lane.md`](docs/adr-16-store-cutover-two-lane.md) | ADR-16: the store-of-record cutover (manifest, backrefs, carve-out, gated retirement), the two-lane end state, the GV-class read-only reader, and the injection-pause anecdote |
 | [`docs/one-shortlist.md`](docs/one-shortlist.md) | The one-shortlist pattern - the single-writer law extended to lists |
+| [`docs/architecture-map.md`](docs/architecture-map.md) | The post-cutover end state: one cloud store, two lanes, the heartbeat pair, model tiering, and the token-diet patterns |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Layers, fences, daily data flow, failure modes |
 | [`docs/harness.md`](docs/harness.md) | Harness engineering: scheduler, context, tools, contract, log, evals - and how agents/skills/memory plug in |
 | [`docs/case-studies.md`](docs/case-studies.md) | Three governance decisions, end to end |
