@@ -82,4 +82,32 @@ Follow-through, same night:
 - **Honest partial coverage.** Large fan-in reads get a size cap plus a named "not read this run" list - silent truncation is a failure mode, a named partial is an output.
 - **Telemetry floor.** Run duration is stamped as an integer even on no-op runs; a blank measurement breaks percentile and miss detection fleet-wide.
 
+
+## The delivery plane (added after the egress audit)
+
+BLUF: hosted sandboxes have connectors-only egress - no raw HTTP to arbitrary hosts. The push channel's API is therefore unreachable from the hosted lane no matter what credential a task holds; a token is a credential, not a network path. The fix is a store-and-forward delivery plane: hosted tasks write finished outputs (message text plus a templated report file) to an outbox folder in the cloud file store they CAN reach, and a tiny always-on relay with real internet polls that folder and posts to the push channel, acking each file with a delivered-marker (create-only stores make markers, not deletions, the idempotency primitive). The local lane keeps a grace-window fallback flush of the same folder, so a relay outage degrades to delayed delivery, never loss.
+
+```
+ hosted lane ──write──> cloud file store /outbox ──poll──> relay (always-on, $0) ──post──> push channel
+     │                        ▲      │ .delivered markers        (send-only; the reply
+     │                        │      └───────────────────────────  lane stays with the
+ local lane ──fallback flush──┘                                     local applier)
+```
+
+Relay implementation lesson: the first host chosen (a container PaaS trial) had a runtime ceiling that an always-on poller exhausts immediately, and its launcher silently rewrote the service config with an auto-stop HTTP service - fatal for a listener-less background process. The durable answer was the platform-native scripting runtime of the file store itself (runs as the operator, native folder access, free scheduled triggers, no card, no server). Lesson named: for a poller whose only privileged surface is the file store, run the poller INSIDE the file store's own runtime.
+
+## Orchestrator, workers, advisor (the three-tier loop, mapped)
+
+The pattern circulating in multi-agent engineering writing - an orchestrator that plans and verifies, cheap parallel workers with one scoped brief each, and a consulted-but-never-executing advisor - maps directly onto this fleet and earns its keep here:
+
+- **Orchestrator** = the interactive sessions and the command lane. Plans waves, dispatches, verifies every result before it counts. The store cutover and the delivery-plane build were both orchestrator work: many workers, one verifying brain.
+- **Workers** = the scheduled fleet and its subagent fan-outs. One SKILL.md brief each, no shared context, no cross-talk - the single-writer fence is what makes stateless parallel workers safe against a shared store.
+- **Advisor** = the independent-review pass and the weekly deep-model reviews. Consulted before big changes and before ship; proposes, never deploys. The injection-pause incident and the blind-copy audit were both advisor-shaped saves: an out-of-hot-path judge catching what the executing lane normalized.
+
+Cost note that makes the pattern sustainable: frequency times capability is the whole budget. The advisor tier runs a handful of times weekly on the deep model; the worker spine runs dozens of times daily on the mid model; probes and prompts run hourly on the small model. A weekly deep-model review costs less than one day of an over-modeled 15-minute loop.
+
+## End-state dependency map
+
+After the cutover, the audit, and the delivery plane, the local machine is load-bearing for exactly three things: reading the on-device message channels (the OS binds them to signed-in hardware), local files (vault, device exports, extension patches), and fleet meta that watches the local scheduler itself. Everything else - store, discovery, triage, planning boards, health prompts, mail digests, delivery - runs hosted against remote APIs and connectors. The design goal was never "no local machine"; it was "the local machine is a peripheral, not a dependency."
+
 See [`decisions.md`](decisions.md) for the running record and [`system-map.md`](system-map.md) for the agent-level view.
