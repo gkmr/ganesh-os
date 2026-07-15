@@ -1,6 +1,6 @@
 # Architecture map - the post-cutover end state
 
-BLUF: one store, two lanes, one human. The store of record is a cloud task API reachable from everywhere; the hosted lane reads, analyzes, and asks; the local lane adapts channels, watches health, and relays one dataset the cloud cannot reach. A high-frequency heartbeat stamp plus a hosted sentinel makes either lane's death loud. No frontier models run on a schedule: cheap gates decide whether a mid-tier worker fires at all. This file is the map [ADR-16](adr-16-store-cutover-two-lane.md) promised; the decision record explains why, this explains what runs where.
+BLUF: one store, two lanes, one human. The store of record is a cloud task API reachable from everywhere; the hosted lane reads, analyzes, and asks; the local lane adapts channels, watches health, and relays one dataset the cloud cannot reach. A high-frequency heartbeat stamp plus a hosted sentinel makes either lane's death loud. No frontier models run on a schedule: cheap gates decide whether a mid-tier worker fires at all. This file is the map [ADR-17](adr-17-store-cutover-two-lane.md) promised; the decision record explains why, this explains what runs where.
 
 ## The map
 
@@ -32,7 +32,7 @@ BLUF: one store, two lanes, one human. The store of record is a cloud task API r
 
 ## Store of record
 
-The task corpus lives in a consumer task platform with a real cloud API ([ADR-16](adr-16-store-cutover-two-lane.md)). Both lanes read and write the same substrate, so lane placement is a capability and scheduling decision, not a data-access one. The single-writer fences are unchanged: priority belongs to the triage agents, dates to the sweeps, lifecycle to the reply processor, deletion to nobody without confirmation. Boards, digests, and files remain renderings of the store, never a second store.
+The task corpus lives in a consumer task platform with a real cloud API ([ADR-17](adr-17-store-cutover-two-lane.md)). Both lanes read and write the same substrate, so lane placement is a capability and scheduling decision, not a data-access one. The single-writer fences are unchanged: priority belongs to the triage agents, dates to the sweeps, lifecycle to the reply processor, deletion to nobody without confirmation. Boards, digests, and files remain renderings of the store, never a second store.
 
 ## Hosted lane - stateless-ish readers and analysts
 
@@ -42,7 +42,7 @@ The hosted lane runs where the laptop lid does not matter: discovery diffs, the 
 
 The local lane shrank to three jobs plus one courier:
 
-- **Channel adapter** - the consumer-messaging digests in, the mirrored deliveries out, with an outbox fallback when a bridge is down. One channel is read-only permanently (the GV-class reader of ADR-16).
+- **Channel adapter** - the consumer-messaging digests in, the mirrored deliveries out, with an outbox fallback when a bridge is down. One channel is read-only permanently (the GV-class reader of ADR-17).
 - **Reply verb-applier** - the high-frequency loop that turns operator replies (stable handles + a small verb set) into fenced writes on the store.
 - **Monitor stack** - the catch-up controller, the fleet-health watchdog, the bridge-health check, and the extension-patch check.
 - **Data relay** - one scheduled copy of an on-device health export into the hosted drive folder, so the hosted analyst can read what only the device produces.
