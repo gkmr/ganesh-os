@@ -111,3 +111,24 @@ Cost note that makes the pattern sustainable: frequency times capability is the 
 After the cutover, the audit, and the delivery plane, the local machine is load-bearing for exactly three things: reading the on-device message channels (the OS binds them to signed-in hardware), local files (vault, device exports, extension patches), and fleet meta that watches the local scheduler itself. Everything else - store, discovery, triage, planning boards, health prompts, mail digests, delivery - runs hosted against remote APIs and connectors. The design goal was never "no local machine"; it was "the local machine is a peripheral, not a dependency."
 
 See [`decisions.md`](decisions.md) for the running record and [`system-map.md`](system-map.md) for the agent-level view.
+
+## The control plane and the audit loop (added 2026-07-15)
+
+BLUF: once routine pushes went quiet, two pieces closed the observability gap - a single merged
+control-plane view and a nightly output audit that drafts its own fixes.
+
+- One control plane, not two. The fleet dashboard and the task runner converged into one persisted
+  view: live roster from the scheduler API, per-task run/pause, and GROUP RUNS (preset bundles that
+  dispatch in dependency order - e.g. reconciliation before the briefer). Lesson: two views over the
+  same store drift apart; the merge deleted a whole class of "which dashboard is right" questions.
+- Quiet is a contract, not an absence. When no-news tasks stopped pushing, silence became ambiguous
+  (healthy? crashed?). The fix is the quiet-contract proof: a silent pass MUST advance its watermark;
+  the watchdog treats silence-without-evidence as a failure class of its own.
+- The audit drafts, a human applies. The nightly output audit lints the day's real artifacts on both
+  lanes (format contract, channel parity, plumbing markers, state freshness) and attaches a verbatim
+  find/replace patch to every defect. Applying is a separate, human-invoked step with read-back
+  verification. Detection and remediation stay different hands - the same separation as
+  propose-only boards and human-gated deletes.
+- Publish where the dashboard can read. The watchdog writes a compact verdict file to the shared
+  store each run; the control plane renders it. The dashboard never computes health itself - one
+  writer, many readers, same fence as everywhere else.
