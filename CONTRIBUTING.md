@@ -21,3 +21,12 @@ The evals are behavioral, not structural: `check_lane_fence` fails on a cross-la
 ## If you adopt the pattern
 
 The reusable core is **single-writer field ownership**: give every mutable field exactly one owning agent, make everyone else read-only, and enforce it with a lane-fence check. If you build something with it, an issue or a link is welcome.
+
+## Author identity (canonical)
+
+All commits to this repo - from any lane (Mac session, cloud session, or manual) - are authored as
+`Ganesh Kumar <8584372+gkmr@users.noreply.github.com>`. This is the GitHub noreply address for the
+repo owner: it attributes correctly and never exposes a private email. Set it per-repo before
+committing (`git config user.name "Ganesh Kumar" && git config user.email
+"8584372+gkmr@users.noreply.github.com"`). History was normalized to this single identity on
+2026-07-15; do not introduce a second author email.
