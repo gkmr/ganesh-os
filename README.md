@@ -8,19 +8,19 @@
 
 <p align="center"><img src="assets/hero.gif" alt="Ganesh OS - 99 overdue to zero, four life domains rebalanced, one morning text" width="100%"></p>
 
-**Ganesh OS is a personal AI operating system: software I run every day on my own life.** 30+ small AI agents read my messages, calendar, and health data on a schedule, and each morning text me the single most important thing to do across work, health, the people I love, and my own growth. It is real software, running daily. It is not a startup, a concept, or a piece of art, and it sells nothing. This repo is the architecture and patterns only, with all personal data removed, plus a working example of how to make autonomous agents safe to run unattended.
+**BLUF: Ganesh OS is a personal AI operating system - 30+ scheduled Claude agents that run one person's whole life across work, health, people, and growth, kept safe by a handful of enforced laws.** It is real software, running daily, and this repo is the sanitized design record: the architecture, the laws, the incidents, and the decision log, with all personal data removed. The reason it matters: everyone is shipping autonomous agents, and almost no one can govern them. This is a working answer - autonomy that stays auditable, recoverable, and trusted - pressure-tested on the hardest test bed there is, a real life.
 
-**How it reaches me:** on the channels I already use: iMessage, SMS, WhatsApp, and email. Work pours in from all of them, and I reply in plain English to steer it. No app, no dashboard.
+**How it reaches the operator:** on the channels already in use - iMessage, SMS, WhatsApp, Telegram, and email. Replies in plain English steer it. No app, no dashboard.
 
-> **Why I built it.** Work has a Slack, a sprint board, an on-call alert. My health, the people I love, and my own growth shared a sticky note, so work always won and the quiet things slipped quietly. That was not a discipline problem, it was a coordination problem: many demands, one me, and no system holding the line. So I built 30+ agents to run all of it as one governed system, and at 7:42 a.m. one text names the single thing that matters in each domain.
+> **Why it was built.** Work has a Slack, a sprint board, an on-call alert. Health, the people you love, and your own growth share a sticky note, so work always wins and the quiet things slip quietly. That is not a discipline problem, it is a coordination problem: many demands, one person, no system holding the line. So the fix was a system: 30+ agents running all of it as one governed fleet, and at 7:42 a.m. one text that names the single thing that matters in each domain.
 
-**[▶ Watch one day in motion (60s)](demo.html)**, or open the full site at **https://gkmr.github.io/ganesh-os/**: a plain problem, outcome, and how walkthrough up top, then the build for technical readers (the architecture, the 30+-agent fleet, governance, memory, and case studies).
+**[▶ Watch one day in motion (60s)](demo.html)**, or open the full site at **https://gkmr.github.io/ganesh-os/** - a plain problem, outcome, and how walkthrough up top, then the build for technical readers.
 
 ---
 
 ## The moment
 
-It is 7:42 on a Tuesday. Before I have opened a single app, this text is already on my phone:
+It is 7:42 on a Tuesday. Before a single app is opened, this text is already on the phone:
 
 ```
 [brief] 🗓 Tue
@@ -30,39 +30,32 @@ Today: 1 work · ship memo. 2 health · 11am lift (only slot this week).
 0 overdue. 11 real tasks. 6 things I handled while you slept.
 ```
 
-While I slept, 30+ agents read five message channels, reconciled six calendars, re-ranked every open item, cleared the overdue pile to zero, and decided - out of everything - that the memo, the lift, and the founder are what today is actually for. I did not plan that. The system did, and it can show its work for every line.
+Overnight, 30+ agents read five message channels, reconciled six calendars, re-ranked every open item, cleared the overdue pile to zero, and decided - out of everything - that the memo, the lift, and the founder are what today is actually for. Nobody planned that. The system did, and it can show its work for every line.
 
 That is the product. The rest of this page is how it is built so you can trust it.
 
-## Watch it decide, live
+## Read this in 5 minutes
 
-Prioritization here is not a pre-ranked chart. It is a choice made in front of you. This morning two things wanted the same slot:
+The guided path, in order. Each step is one artifact:
 
-- a **partner intro that could close a deal** (urgent, high value), and
-- the **week's only workout** that protects a six-week streak (not urgent, easy to skip).
+1. **The map** - [`docs/architecture-map.md`](docs/architecture-map.md). One store, two lanes, the delivery plane, the heartbeat pair, model tiering. The whole end state on one screen.
+2. **The law, enforced** - [`evals/lane_fence.py`](evals/lane_fence.py). The single-writer fence as deterministic code that CI runs on every change. [`QUICKSTART.md`](QUICKSTART.md) runs it in a minute.
+3. **One real agent** - [`agents/pipeline-triage.md`](agents/pipeline-triage.md). A constrained writer: it may set priority and nothing else. The shared rules every agent obeys are in [`agents/format-contract.md`](agents/format-contract.md).
+4. **The judgment** - [`docs/decisions.md`](docs/decisions.md). Seventeen ADRs: context, options, verdict, consequences. Seniority shows in the roads declined, so each record names them.
 
-Pure urgency drops the workout. The system does not. The per-day budget says today is full; the cross-domain rule says health has had zero slots this week; so it keeps the intro **and** the lift, and pushes a "nice to read" newsletter to the backlog instead - and tells me why in one line. **[See it animate, step by step →](demo.html)** You watch it score and cut, not admire a finished ranking.
+If you live in Claude Code, start instead with [`docs/claude-code-map.md`](docs/claude-code-map.md) - it translates this system's vocabulary (harness, `SKILL.md`, change log, fence) into CLAUDE.md, skills, hooks, subagents, and MCP. For everything else, [`docs/README.md`](docs/README.md) indexes every document.
 
-## What the AI actually does (and a rules engine can't)
+## The laws
 
-The agents are AI-native on purpose. Language models do the judgment a rules engine can't: reading forty messages and surfacing the three that are real, summarizing a thread to one quote and the ask, deciding that "memo gates the IC vote" outranks "reply to a newsletter." Classical scheduling does the parts that must be exact: calendar math, alarm-sync, the per-day budget. The split is the design - **LLM judgment where nuance lives, deterministic code where correctness lives** - and it is what turns a pile of channels into one ranked decision you can act on by replying to a text.
+Five rules do most of the governing. Each earned its place from a real failure, not a whiteboard:
 
----
+1. **Single-writer field fences.** Every mutable field has exactly one owning agent; an agent cannot write a field it does not own. Enforced by a behavioral eval over the change log, in CI and as a hook. This is the one non-negotiable.
+2. **One append-only, source-tagged change log.** Every autonomous write appends one line: which agent, which field, why. Auditability is one grep.
+3. **Human-gated irreversibles.** Deletion and sending wait for a human; everything reversible flows. The human is the exception handler, not the bottleneck ([ADR-04](docs/decisions.md)).
+4. **The lane-fit law.** A task is cloud-eligible only if every read, write, and delivery channel it names is reachable from the hosted lane. A prompt pasted across lanes carries its surface assumptions with it - found the hard way in the blind-copy audit ([architecture-map](docs/architecture-map.md#the-lane-fit-law-added-after-the-blind-copy-incident)).
+5. **The one-lane law.** Every mission runs in exactly one lane; the other lane's copy is disabled, not duplicated. Two lanes doing the same read is drift, not redundancy.
 
-## Under the hood: a governance layer
-
-The hard part was never getting the agents to act. It was making a fleet of autonomous writers **safe to run unattended** - auditable, self-healing, and human-gated. Six concrete mechanisms, not slogans:
-
-| Governance property | The mechanism |
-|---|---|
-| **Guardrails** | Single-writer fences: every mutable field has exactly one owning agent; an agent literally cannot write a field it does not own. |
-| **Audit trail** | One append-only, source-tagged change log: every autonomous write is attributable to who, what, and why. |
-| **Trust gate** | Behavioral evals run in CI; a change that regresses the invariants is blocked, not shipped. |
-| **Self-healing** | Run-guards safe to re-run without double-writing (idempotent), degradable surfaces, and auto-park: it recovers from a missed run, a downed connector, or a backlog without a human. |
-| **Governed change** | Self-improvement is snapshot-first, one change per iteration, human-approved - it proposes, it never auto-deploys. |
-| **Human-in-the-loop** | Only irreversible actions (deletion, sending) are gated; everything reversible flows. |
-
-The guardrail is enforced, not asserted. The actual check CI runs over the change log:
+The first law is not asserted, it is executed. The actual check CI runs over the change log:
 
 ```python
 # evals/lane_fence.py - fails on the first cross-lane write.
@@ -81,7 +74,49 @@ def check_lane_fence(changelog):
     return "PASS"   # a regression blocks the change and rolls back from a snapshot
 ```
 
-Full depth: **[the governance model](docs/governance.md)** · **[architecture](ARCHITECTURE.md)** · **[the nine patterns](docs/design-patterns.md)**.
+Full depth: **[the governance model](docs/governance.md)** · **[architecture](ARCHITECTURE.md)** · **[the design patterns](docs/design-patterns.md)**.
+
+## The architecture, current state
+
+The system converged this month to the shape mapped in [`docs/architecture-map.md`](docs/architecture-map.md):
+
+- **One store of record** - the task corpus lives in a cloud task API both lanes can reach ([ADR-17](docs/adr-17-store-cutover-two-lane.md) records the migration: manifested, backref'd, two-engine coexistence, gated retirement). The knowledge layer stays plain Markdown plus the append-only change log.
+- **Two lanes** - a hosted lane (discovery, triage writes, digests, the ask loop, analysis) that runs regardless of any laptop lid, and a local lane reduced to what the cloud cannot reach: channel adaptation, the reply verb-applier, the monitor stack, and one data relay.
+- **A delivery plane** - hosted sandboxes have connectors-only egress, so a token is a credential, not a network path. Finished outputs go store-and-forward: an outbox folder in the cloud file store, a tiny always-on relay with real internet that polls and posts, delivered-markers as the idempotency primitive, and a local grace-window fallback so a relay outage means delay, never loss.
+- **An asymmetric heartbeat** - the local applier stamps a marker every cycle; a hosted sentinel reads it hourly and alerts when the local lane goes dark. Neither lane is trusted to report its own death.
+- **Model tiering** - cheap gates decide whether a mid-tier worker fires at all; frontier models are reserved for interactive sessions, never pinned to cron. A controller audits the tiering rather than trusting it.
+
+The design goal was never "no local machine"; it was "the local machine is a peripheral, not a dependency."
+
+## Orchestrator, workers, advisor
+
+The three-tier pattern from multi-agent engineering practice maps directly onto this fleet:
+
+- **Orchestrator** - the interactive sessions and the command lane: plans waves, dispatches, verifies every result before it counts. The store cutover and the delivery-plane build were both orchestrator work.
+- **Workers** - the scheduled fleet and its subagent fan-outs: one `SKILL.md` brief each, no shared context, no cross-talk. The single-writer fence is what makes stateless parallel workers safe against a shared store.
+- **Advisor** - the independent-review pass and the weekly deep-model reviews: consulted before big changes, proposes, never deploys.
+
+The cost note that makes it sustainable: frequency times capability is the whole budget. A weekly deep-model review costs less than one day of an over-modeled 15-minute loop. Full mapping in [`docs/architecture-map.md`](docs/architecture-map.md#orchestrator-workers-advisor-the-three-tier-loop-mapped).
+
+## Results
+
+**Scale and steady state:**
+- 30+ agents, dozens of runs a day, running daily for months on a $200/month Claude Max plan without hitting usage limits.
+- 99 overdue items cleared in one pass, then held at zero by auto-park (exact counts from the change log; method in [ADR-08](docs/decisions.md)).
+- Four domains protected: a slot reserved per domain before urgency votes, so no loud lane starves the quiet three.
+
+**Incidents caught by design, not by luck:**
+- **The injection pause.** An in-band message tried to redirect where personal-message digests were delivered. The agents refused to follow it and paused delivery until first-party confirmation - the safety architecture working as designed ([ADR-17](docs/adr-17-store-cutover-two-lane.md)).
+- **The blind-copy audit.** Five tasks were found running as verbatim local prompts inside hosted schedules, reaching none of their sources and degrading politely instead of failing loudly. The save came from the advisor tier, an out-of-hot-path review catching what the executing lane had normalized. It produced the lane-fit law and a new structural flag: a task that degrades on every run is a placement bug, not resilience ([architecture-map](docs/architecture-map.md#the-lane-fit-law-added-after-the-blind-copy-incident)).
+
+**Three judgment calls**, each traced symptom to root cause to fix in [docs/case-studies.md](docs/case-studies.md):
+1. **Gate the irreversible, let the reversible flow.** A confirmation-gated loop never advanced, so work piled up. Fix: auto-recover everything reversible, human-gate only deletion.
+2. **Prioritization without distribution is just a different pile.** A bulk re-tier overloaded one day. Fix: a per-day budget plus spread, and a slot per domain so none starves.
+3. **A notification is only useful if the reply path is as cheap as the alert.** A surfacing layer that dead-ended became an action surface via a manifest and reply-by-text.
+
+## What the AI actually does (and a rules engine can't)
+
+The agents are AI-native on purpose. Language models do the judgment a rules engine can't: reading forty messages and surfacing the three that are real, summarizing a thread to one quote and the ask, deciding that "memo gates the IC vote" outranks "reply to a newsletter." Classical code does the parts that must be exact: calendar math, alarm-sync, the per-day budget, id handling. The split is the design - **LLM judgment where nuance lives, deterministic code where correctness lives** ([ADR-05](docs/decisions.md)) - and it is what turns a pile of channels into one ranked decision you can act on by replying to a text.
 
 ## Built with the full craft, not vibes
 
@@ -92,57 +127,42 @@ Every agent went through the loop an AI product and engineering org actually run
 - **Build** - a self-contained scheduled prompt that names the single field it may write; coordination happens through shared files, never shared state (see `agents/` and `agents/format-contract.md`).
 - **Verify** - unit tests on the parsers, **behavioral evals** on the invariants in CI (`evals/`), a self-review against the format contract that stands in for **PR review**, and a **system-design note** that records each tradeoff and the rejected alternatives (`docs/design-patterns.md`, `ARCHITECTURE.md`).
 
-This is the same discipline at the scale of one life that it is at the scale of a team: PRD, wireframe, prototype, unit tests, review, system-design pass, tradeoff log.
+This is the same discipline at the scale of one life that it is at the scale of a team: PRD, wireframe, prototype, unit tests, review, system-design pass, tradeoff log. The full walkthrough is in [`docs/craft.md`](docs/craft.md).
 
 ## The memory is the moat
 
-Longitudinal context only helps if it is stored without rot and recalled without lying. The mental model is a diary the system never erases: when a fact changes, the old line stays and gets stamped "true until today," the new one goes underneath, so it always knows what was true and when. A fact is born when an agent reads a message (a weigh-in reply, an email, a calendar event), pulls the values out, and writes each with a "valid from" stamp, a source tag, and a change-log line. Nothing is overwritten; a stale value is superseded, not replaced, so every fact traces back to where it came from. The raw messages are only receipts; the real knowledge is a compiled layer above them, including an "about me" profile the system rewrites weekly from what my messages show, not just what I claim. The honest limit: it is time-stamped notes plus a profile, not an entity-and-relation knowledge graph.
-
-Two things sit on top: a read-first index, so an agent loads a small routing map before any full file, and a weekly lint that flags facts past their validity window for re-check. The ideas are borrowed and named honestly: versioning a fact in time instead of mutating it is an old database move (bitemporal); the index-before-you-read layout is Karpathy's "LLM wiki"; the shared cross-agent memory is second-brain / PKM thinking. "MemPalace" and "gbrain" are those ideas with a name on them. The line the whole design defends: language-model judgment where nuance lives, deterministic code where correctness lives.
-
-Storing memory is mostly solved; recalling the right thing at the right moment is the part still being hardened. Full walk-through in **[docs/ai-depth.md](docs/ai-depth.md)**.
-
-## Three judgment calls
-
-Each is a governance decision, traced from symptom to root cause to fix in [docs/case-studies.md](docs/case-studies.md):
-
-1. **Gate the irreversible, let the reversible flow.** A confirmation-gated loop never advanced, so work piled up. Fix: auto-recover everything reversible, human-gate only deletion.
-2. **Prioritization without distribution is just a different pile.** A bulk re-tier overloaded one day. Fix: a per-day budget plus spread, and a slot per domain so none starves.
-3. **A notification is only useful if the reply path is as cheap as the alert.** A surfacing layer that dead-ended became an action surface via a manifest and reply-by-text.
-
-## Why governance is the hard part
-
-Agents are shipping into production faster than anyone can govern them, and "trust" is being asserted in slide decks rather than enforced in code. Single-writer ownership, an append-only audit trail, evals-as-CI-gate, and irreversible-only human gating are a working answer to the open problem: real autonomy that stays auditable, recoverable, and trusted. Here, that answer runs unattended every day: the evals gate every change and the audit trail is one queryable log.
+Longitudinal context only helps if it is stored without rot and recalled without lying. The mental model is a diary the system never erases: when a fact changes, the old line stays and gets stamped "true until today," the new one goes underneath, so it always knows what was true and when. Nothing is overwritten; a stale value is superseded, not replaced, and every fact traces back to the message it came from. A read-first index sits on top so an agent loads a small routing map before any full file, and a weekly lint flags facts past their validity window. The ideas are borrowed and named honestly: bitemporal versioning from databases, the index-before-you-read layout from Karpathy's "LLM wiki," second-brain thinking for the shared cross-agent memory. The honest limit: it is time-stamped notes plus a profile, not an entity-and-relation knowledge graph. Storing memory is mostly solved; recalling the right thing at the right moment is the part still being hardened. Full walk-through in **[docs/ai-depth.md](docs/ai-depth.md)**.
 
 ## The stack, and what's actually running
 
 A system doc that oversells is worthless, so here is the candid version.
 
 **Running today:**
-- **Models:** Claude, one workhorse model doing most of the agents.
-- **Harness:** a scheduled-agent runtime. Each agent is a `SKILL.md` prompt fired by cron, one run at a time, with a concurrency guard so a missed or doubled fire is a no-op.
-- **State:** plain Markdown files plus one append-only change log. No database.
-- **Memory:** file-based, with "valid from / superseded by" stamps so facts age out instead of being silently overwritten.
-- **Connectors:** Apple Reminders, Calendar, and Notes, Gmail, Slack, WhatsApp, Google Voice, iMessage, and Granola + Krisp.
-- **Resilience and monitoring:** a shared contract every agent carries (bounded retry with backoff, degrade-and-queue, a per-run marker, freshness-gated replay), a registered external catch-up controller that re-fires a missed run from its marker, and a central fleet-health watchdog that reads every marker, classifies missed / degraded / crashed / connector-out runs, and sends a daily `N/N ran clean` heartbeat. Every producer also follows one delivery + notification contract: chat + md + html, a uniform completion marker, a quiet success ping, and a loud failure iMessage. Now a mature layer, hardened over real failure cycles rather than newly added.
+- **Models:** Claude, tiered - cheap gates that answer "is there anything to do," mid-tier workers that fire only when the answer is yes, deep models reserved for interactive and weekly-review work. Pins are explicit per task and audited by a controller.
+- **Harness:** a scheduled-agent runtime across two lanes. Each agent is a `SKILL.md` prompt fired by cron, one run at a time, behind a concurrency guard so a missed or doubled fire is a no-op.
+- **State:** the task corpus in a cloud task API behind the single-writer fences ([ADR-17](docs/adr-17-store-cutover-two-lane.md)); the knowledge layer in plain Markdown plus one append-only change log. Boards, digests, and files are renderings of the store, never a second store.
+- **Memory:** file-based, with valid-from and superseded-by stamps so facts age out instead of being silently overwritten.
+- **Connectors:** Apple Reminders, Calendar, and Notes, Gmail, Slack, WhatsApp, Telegram, iMessage, and meeting-transcript sources.
+- **Delivery:** the store-and-forward delivery plane for the hosted lane, mirrored channel delivery for the local lane, an outbox fallback when a bridge is down.
+- **Resilience and monitoring:** a shared contract every agent carries (bounded retry with backoff, degrade-and-queue, a per-run marker, freshness-gated replay), a catch-up controller that re-fires a missed run from its marker, a fleet-health watchdog that classifies missed / degraded / crashed / connector-out runs, and the cross-lane heartbeat pair. Hardened over real failure cycles rather than newly added.
 
-**Designed but not fully wired yet** (other parts of these docs describe some of this as if it is built; it is not all live):
-- Per-agent tiered model routing. Right now it is mostly one model, not a cheap-model-for-capture, strong-model-for-judgment split.
-- Zero-miss scheduling. The resilience contract, catch-up controller, and fleet-health watchdog now recover and surface a missed run after the fact, and the host is set to wake for its early slots, so misses are cut at the source too. The honest residual: a startup failure or a fully closed host can still drop a slot until the next wake or catch-up pass, so this shrinks missed work rather than eliminating it.
+**Honest residuals:**
+- Zero-miss scheduling is shrunk, not solved: the hosted lane removed the laptop-lid class of misses, but a local startup failure can still drop a local-lane slot until the next wake or catch-up pass.
+- The structural evals (the fence, fresh ids) have clean criteria and are trusted. The judgment evals (did the brief rank the right thing, is the coaching any good) still have soft criteria and a thin golden set. Hand-labeling continues; that part is not solved.
+- Per-agent cost is not instrumented; a run-duration telemetry floor now exists (an integer stamp even on no-op runs), and per-role telemetry in the change log is the named next step.
 
-**Evals, honestly:**
-- The structural evals (the single-writer fence, ids read fresh before a write) have clean criteria and I trust them.
-- The judgment evals (did the morning brief rank the right thing, is the coaching any good) are where the criteria are still soft and the golden set is thin. I am hand-labeling and still finding gaps. That part is not solved.
+## Out of scope (v1)
 
-**Cost:** it runs on a $200/month Claude Max plan and has not hit the usage limits. Per-agent cost is not instrumented yet (tens of runs a day, read-heavy, a handful of writes); per-role telemetry in the change log is on the list.
+Naming what is out is half the design. This is one operator, batch (cron) cadence, correctness, and auditability. Deliberately excluded: multi-user or multi-tenant operation, auth, real-time collaboration, a query engine, real-time streaming triggers, and a telemetry stack one person does not need. Each exclusion is revisited only when a real bottleneck forces it (the ADRs record two such revisits already: the store in [ADR-16](docs/decisions.md) and again in [ADR-17](docs/adr-17-store-cutover-two-lane.md)).
 
 ## For engineers, start here
 
-If you live in Claude Code, read `docs/claude-code-map.md` first. It maps this system's vocabulary (harness, `SKILL.md`, change log, fence) to the primitives you know (CLAUDE.md, skills, hooks, subagents, MCP). Then:
+If you live in Claude Code, read [`docs/claude-code-map.md`](docs/claude-code-map.md) first. It maps this system's vocabulary (harness, `SKILL.md`, change log, fence) to the primitives you know (CLAUDE.md, skills, hooks, subagents, MCP). Then:
 - `CLAUDE.md` - the always-on law and conventions.
-- `skills/` - three agents in skill form: `morning-brief` (owns nothing), `pipeline-triage` (a constrained writer), and `catchup-controller` (the Layer-2 resilience healer).
+- `skills/` - agents in skill form: `morning-brief` (owns nothing), `pipeline-triage` (a constrained writer), `catchup-controller` (the Layer-2 resilience healer), and `inbox-usps` (the unattended-lane pilot).
 - `hooks/` - the determinism layer, the fence as a hook.
-- `evals/lane_fence.py` - the law as deterministic code; `QUICKSTART.md` runs it in a minute.
+- `evals/lane_fence.py` - the law as deterministic code; [`QUICKSTART.md`](QUICKSTART.md) runs it in a minute.
+- `schedules/` and `state/` - the unattended-lane scaffolding from [ADR-16](docs/decisions.md).
 
 ## Getting started
 
@@ -160,7 +180,7 @@ open demo.html            # or just double-click it; no build, no deps
 #    agents/  (sanitized example prompts + the manifest schema)
 ```
 
-This is a design repo, not an installable app: the live system runs on a desktop AI-agent runtime against personal connectors (Apple Reminders, Calendar, Slack, Gmail, and others), which is intentionally not included. To **adopt the pattern**, start with `agents/` and `evals/`, then apply the single-writer fence to your own agent stack - give every mutable field one owning agent and enforce it with a lane-fence check in CI. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+This is a design repo, not an installable app: the live system runs against personal connectors, which are intentionally not included. To **adopt the pattern**, start with `agents/` and `evals/`, then apply the single-writer fence to your own agent stack - give every mutable field one owning agent and enforce it with a lane-fence check in CI. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 To run the showcase as a live site, enable **GitHub Pages** (Settings → Pages → `main` / root); `index.html` and `demo.html` then serve at `https://gkmr.github.io/ganesh-os/`.
 
@@ -183,23 +203,26 @@ Open to **board & advisory roles, fractional CPO/CTO engagements, panels & talks
 |---|---|
 | [`index.html`](index.html) | The full site: a plain problem / outcome / how walkthrough, then the build (best via GitHub Pages) |
 | [`demo.html`](demo.html) | The animated day - the product, in 60 seconds |
-| [`design-system/`](design-system/) | The Ganesh OS design system: tokens, ~40 React components, guidelines, UI kits, and the `ganesh-os-design` skill |
-| [`docs/operator.md`](docs/operator.md) | Who runs this: the two roles, the functions led, and the throughline |
-| [`docs/ai-depth.md`](docs/ai-depth.md) | What makes it AI-native: the model/correctness split, multimodal channels, the memory moat (MemPalace, the Karpathy LLM-wiki, gbrain) |
-| [`docs/craft.md`](docs/craft.md) | The PM/eng craft: PRD, wireframe, prototype, tests, PR review, system-design tradeoffs |
-| [`docs/governance.md`](docs/governance.md) | The six governance properties, in depth |
+| [`CHANGELOG.md`](CHANGELOG.md) | Dated record of how the system evolved, newest first |
+| [`docs/README.md`](docs/README.md) | The index of every document, grouped by reading goal |
+| [`docs/architecture-map.md`](docs/architecture-map.md) | The current end state: one cloud store, two lanes, the delivery plane, the heartbeat pair, model tiering, the lane-fit law, orchestrator/worker/advisor |
+| [`docs/claude-code-map.md`](docs/claude-code-map.md) | This system translated into Claude Code primitives |
 | [`docs/decisions.md`](docs/decisions.md) | Architecture decision records - context, options, verdict, consequences |
-| [`docs/adr-13-channel-strategy.md`](docs/adr-13-channel-strategy.md) | ADR-13: official-API-first channels, mirrored delivery, outbox daemons, dual-store state, the concurrent-edit protocol, the HITL board |
-| [`docs/adr-17-store-cutover-two-lane.md`](docs/adr-17-store-cutover-two-lane.md) | ADR-17: the store-of-record cutover (manifest, backrefs, carve-out, gated retirement), the two-lane end state, the GV-class read-only reader, and the injection-pause anecdote |
+| [`docs/adr-17-store-cutover-two-lane.md`](docs/adr-17-store-cutover-two-lane.md) | ADR-17: the store-of-record cutover, the two-lane end state, the GV-class reader, the injection pause |
+| [`docs/adr-13-channel-strategy.md`](docs/adr-13-channel-strategy.md) | ADR-13: official-API-first channels, mirrored delivery, outbox daemons, the concurrent-edit protocol, the HITL board |
 | [`docs/one-shortlist.md`](docs/one-shortlist.md) | The one-shortlist pattern - the single-writer law extended to lists |
-| [`docs/architecture-map.md`](docs/architecture-map.md) | The post-cutover end state: one cloud store, two lanes, the heartbeat pair, model tiering, and the token-diet patterns |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Layers, fences, daily data flow, failure modes |
-| [`docs/harness.md`](docs/harness.md) | Harness engineering: scheduler, context, tools, contract, log, evals - and how agents/skills/memory plug in |
+| [`docs/harness.md`](docs/harness.md) | Harness engineering: scheduler, context, tools, contract, log, evals |
+| [`docs/governance.md`](docs/governance.md) | The six governance properties, in depth |
 | [`docs/case-studies.md`](docs/case-studies.md) | Three governance decisions, end to end |
-| [`docs/design-patterns.md`](docs/design-patterns.md) | The nine patterns + tradeoffs and alternatives |
+| [`docs/design-patterns.md`](docs/design-patterns.md) | The design patterns + tradeoffs and alternatives |
 | [`docs/agent-catalog.md`](docs/agent-catalog.md) | All 30+ agents and the one field each owns |
+| [`docs/ai-depth.md`](docs/ai-depth.md) | What makes it AI-native: the model/correctness split, the memory moat |
+| [`docs/craft.md`](docs/craft.md) | The PM/eng craft: PRD, wireframe, prototype, tests, PR review, system-design tradeoffs |
+| [`docs/operator.md`](docs/operator.md) | Who runs this: the two roles, the functions led, and the throughline |
 | [`evals/`](evals/) | The real behavioral checks, run in CI |
 | [`agents/`](agents/) | Sanitized example agent prompts + the manifest schema |
+| [`design-system/`](design-system/) | The Ganesh OS design system: tokens, ~40 React components, guidelines, UI kits |
 
 ## No personal data
 
@@ -207,6 +230,6 @@ Architecture and patterns only, authored in a generalized voice and scanned for 
 
 ## License
 
-MIT (see [`LICENSE`](LICENSE)). The architecture and patterns here are free to use, fork, and build on, including commercially - the only condition is keeping the copyright notice. Two things sit outside that grant because they are not in this repo: the personal data (none is included) and the live system, which runs privately against my own connectors. Patterns stay open; any commercial core stays private. Fork the fence, and if you ship something with it, an issue or a link is welcome.
+MIT (see [`LICENSE`](LICENSE)). The architecture and patterns here are free to use, fork, and build on, including commercially - the only condition is keeping the copyright notice. Two things sit outside that grant because they are not in this repo: the personal data (none is included) and the live system, which runs privately against the operator's own connectors. Patterns stay open; any commercial core stays private. Fork the fence, and if you ship something with it, an issue or a link is welcome.
 
 > If the single-writer-fence idea is useful to you, a ⭐ helps others find it.
