@@ -190,7 +190,7 @@ Open to **board & advisory roles, fractional CPO/CTO engagements, panels & talks
 | [`docs/governance.md`](docs/governance.md) | The six governance properties, in depth |
 | [`docs/decisions.md`](docs/decisions.md) | Architecture decision records - context, options, verdict, consequences |
 | [`docs/adr-13-channel-strategy.md`](docs/adr-13-channel-strategy.md) | ADR-13: official-API-first channels, mirrored delivery, outbox daemons, dual-store state, the concurrent-edit protocol, the HITL board |
-| [`docs/adr-16-store-cutover-two-lane.md`](docs/adr-16-store-cutover-two-lane.md) | ADR-16: the store-of-record cutover (manifest, backrefs, carve-out, gated retirement), the two-lane end state, the GV-class read-only reader, and the injection-pause anecdote |
+| [`docs/adr-17-store-cutover-two-lane.md`](docs/adr-17-store-cutover-two-lane.md) | ADR-17: the store-of-record cutover (manifest, backrefs, carve-out, gated retirement), the two-lane end state, the GV-class read-only reader, and the injection-pause anecdote |
 | [`docs/one-shortlist.md`](docs/one-shortlist.md) | The one-shortlist pattern - the single-writer law extended to lists |
 | [`docs/architecture-map.md`](docs/architecture-map.md) | The post-cutover end state: one cloud store, two lanes, the heartbeat pair, model tiering, and the token-diet patterns |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Layers, fences, daily data flow, failure modes |

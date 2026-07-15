@@ -1,4 +1,4 @@
-# ADR-16 - Store-of-record cutover, the two-lane end state, and the GV-class reader
+# ADR-17 - Store-of-record cutover, the two-lane end state, and the GV-class reader
 
 **Status:** Accepted · 2026-07-13 · extends [ADR-14](adr-14-one-store-triple-channel.md) (the one-store law) and the ADR-15 two-engine law ([decisions.md](decisions.md)) · applies the [ADR-13](adr-13-channel-strategy.md) pause and re-entry ladder.
 
