@@ -64,4 +64,14 @@ Four patterns keep the fleet cheap enough to run forever:
 - **Fast-exit** - high-frequency tasks are gated no-ops: read the delta, find nothing, exit before loading anything heavy.
 - **Cadence shoulders** - schedules run inside waking shoulders (early morning to late evening) instead of around the clock; nothing burns tokens while the operator sleeps.
 
+
+## The lane-fit law (added after the blind-copy incident)
+
+BLUF: a prompt copied across lanes carries its surface assumptions with it. A task is cloud-eligible only if every read, every write, and every delivery channel it names is reachable from the hosted lane (connectors, cloud file state, plain HTTP). Five tasks were found running as verbatim local prompts inside hosted schedules - each fired daily, reached none of its sources (local files, the on-device message channel, the local automation bridge), and degraded politely instead of failing loudly. One even reported its own emptiness for days without anyone noticing, because degrade-gracefully is the fleet's default posture.
+
+The correction and the rule it produced:
+- Hosted-lane tasks must be purpose-built for the hosted surface, never pasted from a local twin. The lane is part of the prompt contract.
+- Degrade-gracefully needs a counterweight: a task that degrades on EVERY run is a placement bug, not resilience. The weekly self-review now treats "N consecutive fully-degraded runs" as a structural flag, not business as usual.
+- The judgment tier (weekly reviews reading local state) moved back to the local lane, where its sources live. Discovery, triage, and the ask loop stay hosted. Ownership of a mission follows the lane that can actually see the data.
+
 See [`decisions.md`](decisions.md) for the running record and [`system-map.md`](system-map.md) for the agent-level view.
