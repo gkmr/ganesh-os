@@ -74,4 +74,12 @@ The correction and the rule it produced:
 - Degrade-gracefully needs a counterweight: a task that degrades on EVERY run is a placement bug, not resilience. The weekly self-review now treats "N consecutive fully-degraded runs" as a structural flag, not business as usual.
 - The judgment tier (weekly reviews reading local state) moved back to the local lane, where its sources live. Discovery, triage, and the ask loop stay hosted. Ownership of a mission follows the lane that can actually see the data.
 
+
+Follow-through, same night:
+- **Probation dissolved by audit, not by calendar.** The wait-a-week gate existed to verify hosted twins; the audit showed several twins never existed. Verification replaced waiting: tasks with no real twin were promoted to keep-forever, tasks whose mission had ended were deleted the same night.
+- **One tiering writer.** The general triage task retired into the job triage task, which now tiers every project - the single-writer fence applies to missions, not just fields.
+- **Pointer stubs for superseded docs.** "Supersedes is not a migration": a retired doc keeps a one-paragraph stub at its old path pointing at the successor, so every stale citation resolves while the knowledge layer catches up to the fleet.
+- **Honest partial coverage.** Large fan-in reads get a size cap plus a named "not read this run" list - silent truncation is a failure mode, a named partial is an output.
+- **Telemetry floor.** Run duration is stamped as an integer even on no-op runs; a blank measurement breaks percentile and miss detection fleet-wide.
+
 See [`decisions.md`](decisions.md) for the running record and [`system-map.md`](system-map.md) for the agent-level view.
