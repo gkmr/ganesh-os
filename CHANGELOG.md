@@ -46,3 +46,13 @@ BLUF: the dated record of how the system evolved, newest first. Entries are reco
 
 ## 2026-06-16 to 2026-06-20
 - Initial public release: the single-writer architecture for a personal multi-agent system - the lane-fence eval, hooks, sanitized agent prompts, the ADR log, and the portfolio site.
+
+## 2026-07-15 - control plane merge + audit loop
+- Merged the two ops dashboards into one Fleet Control view: live roster, group runs with preset
+  bundles (dependency-ordered), pause/resume, skill-parity column, nightly audit verdict panel.
+- Nightly output audit added to the watchdog: lints the day's artifacts on both lanes, proves
+  quiet-contract silences against watermarks, and auto-drafts a verbatim fix patch per defect;
+  applying stays human-invoked (apply-audit-patches).
+- Delivery contract v6: html-only artifacts to the push channel, full two-channel parity,
+  anchored push budget (no-news = no push), HITL proposal manifest (PR# ok/no/later), and a
+  single-consumer fence on the reply-polling API (a second consumer silently steals updates).
