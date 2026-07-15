@@ -56,3 +56,12 @@ BLUF: the dated record of how the system evolved, newest first. Entries are reco
 - Delivery contract v6: html-only artifacts to the push channel, full two-channel parity,
   anchored push budget (no-news = no push), HITL proposal manifest (PR# ok/no/later), and a
   single-consumer fence on the reply-polling API (a second consumer silently steals updates).
+
+## 2026-07-15 (later) - the eval system catches its first real bug, same day it shipped
+- The in-session smoke run of the new eval suite flagged a P-check failure: a second consumer on
+  the single-consumer reply-polling API (the food logger still polled directly), which meant one
+  channel's replies were being silently lost. Patch drafted by the audit, applied with read-back,
+  regression baseline updated. Lesson recorded: a fence is only real once an eval enforces it -
+  the same rule had been written in doctrine for two days while the violation sat live.
+- Second smoke finding: a one-time task created minutes before its fire time missed dispatch
+  entirely. Operational floor added: one-times get >=15 minutes of lead, or a manual first run.
