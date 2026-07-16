@@ -132,3 +132,32 @@ control-plane view and a nightly output audit that drafts its own fixes.
 - Publish where the dashboard can read. The watchdog writes a compact verdict file to the shared
   store each run; the control plane renders it. The dashboard never computes health itself - one
   writer, many readers, same fence as everywhere else.
+
+## Delivery v7 and the content-ownership pass (added 2026-07-16)
+
+BLUF: full parity broke twice in one day - first as duplicates, then as noise - and both fixes
+were ownership rules, not more plumbing.
+
+- Universal parity, one path per leg. Every push now lands on both channels with a rendered
+  html card, no per-task exemptions. That surfaced the CLAIM-BEFORE-SEND rule (a deliverer
+  creates the delivered-marker BEFORE sending, so three redundant transports can coexist
+  without double-posting) and the ONE-PATH LAW (each leg travels the direct tool OR the
+  store-and-forward outbox, never both - a fallback fired alongside its primary is a duplicate
+  generator, not redundancy).
+- Marker and stub hygiene. Bookkeeping markers and sub-1KB stub files are data, not content;
+  every deliverer's pending-filter excludes them. Learned the loud way: a 2-byte marker and a
+  230-byte stub both got posted to the push channel as documents.
+- Content ownership: one describer per item. With every agent pushing on both channels, the
+  morning became four agents re-describing the same items under different handles. The fix is
+  an ownership map for content, the same shape as the write fences: the planning board owns the
+  full list, triage digests are delta-only, inbox digests carry comms handles only, sweeps
+  report actions taken plus a pointer. The same item is fully described at most once per
+  half-day, by its owner; every other mention is a cross-reference handle.
+- Label truth. A cloud digest stamped its own header with raw UTC labeled as local time - the
+  same timezone-label disease that once shifted calendar events, now on the agent's own clock.
+  New output eval: every printed timestamp must sit within minutes of the actual fire time,
+  and slot names must match the clock ("midday" delivered at 8 AM is a mislabel).
+- The audit loop closed for real. The nightly output audit's drafted patches were applied by a
+  human-invoked pass that found the last live hour-gate hiding in a safety-net clause the
+  doctrine pass had missed twice. Detection by eval, remediation by separate hands, verification
+  by the next night's audit - the full loop, exercised on a production defect.
