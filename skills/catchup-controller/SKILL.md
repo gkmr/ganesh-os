@@ -28,5 +28,6 @@ A transient error inside a run that already started is that run's own job to ret
 - Freshness-gate every replay. A stale slot is skipped, never re-fired.
 - Idempotent and silent. A clean pass writes only its own run marker and says nothing.
 - Write a run marker on every run, even a no-op. The controller can only re-fire what a task can prove it missed, so an absent marker is the miss signal.
-- Resolve now, the quiet-hours gate, and the freshness gates to the operator's local timezone from the clock, not the host's cron label. The host may run a different timezone than the operator; read the operator's current timezone from a one-line override file (home tz by default), so travel never fires a nudge in local quiet hours.
+- Resolve now and the freshness gates to the operator's local timezone from the clock, not the host's cron label. The host may run a different timezone than the operator; read the operator's current timezone from a one-line override file (home tz by default).
+- No clock-hour gates. Quiet hours are retired fleet-wide: the operator's device Do-Not-Disturb owns notification timing, and this controller re-fires a still-fresh miss at any hour. (Historical bug: this controller's own hour-gates once stamped "quiet-hours skip" on eight tasks during a 2 AM catch-up burst - a retired rule surviving as buried prompt text. Freshness and concurrency are the only legitimate gates.)
 - No em dashes in any output. Use `" - "`.

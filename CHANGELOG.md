@@ -65,3 +65,21 @@ BLUF: the dated record of how the system evolved, newest first. Entries are reco
   the same rule had been written in doctrine for two days while the violation sat live.
 - Second smoke finding: a one-time task created minutes before its fire time missed dispatch
   entirely. Operational floor added: one-times get >=15 minutes of lead, or a manual first run.
+
+## 2026-07-16 - delivery v7.3: parity's failure modes are ownership problems
+- Universal two-channel parity with an html card on every push; zero per-task exemptions.
+- CLAIM-BEFORE-SEND mutex (marker created before sending) after redundant transports raced a
+  backlog clear into duplicates; ONE-PATH LAW (direct tool OR outbox per leg, never both) after
+  a fallback fired alongside its primary.
+- Marker/stub hygiene: bookkeeping markers and sub-1KB stubs never delivered as content.
+- Content-ownership map: board owns the full list, triage is delta-only, inbox digests carry
+  comms handles only, sweeps report actions + pointer - one full description per item per
+  half-day; everything else is a handle.
+- Label-truth eval after a cloud run stamped raw UTC as local time on its own header - the
+  calendar timezone-label bug, relocated to the agent's own clock.
+- Quiet-hours retirement completed: buried clause-level gates survived the doctrine change for
+  two days (the catch-up controller's own gates stamped "quiet-hours skip" on eight tasks at
+  2 AM); a prompt-lint eval purged them clause by clause. Explicit prompt text beats doctrine
+  references, and only an eval proves a purge.
+- Audit-to-apply loop exercised end to end on production: the nightly audit drafted the patch,
+  a human-invoked apply pass found and fixed the final straggler with read-back verification.
