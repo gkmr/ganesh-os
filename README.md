@@ -100,6 +100,26 @@ appearing anywhere = refuse and flag) and a one-mutex delivery plane (claim-befo
 per leg) that keeps three redundant transports from double-posting. The full ten rules and the
 incident: [`docs/delivery-law.md`](docs/delivery-law.md).
 
+Since v7.2 the law covers both directions. Outbound, every artifact reaches one pinned chat as
+text plus an html document, relay-first with the store outbox as automatic fallback. Inbound, a
+nightly review board numbers the store's decision points and the operator answers in natural
+grammar from a thumb: simple commands are applied deterministically by the relay itself on its
+5-minute tick (live-measured round trip: under four minutes), judgment calls fall to staggered
+applier lanes within fifteen. The store gets fresher every night instead of staler, and the
+operator never opens a task manager to run their life.
+
+```mermaid
+flowchart LR
+    AG[agents] -->|"text + html"| RL[relay]
+    AG -->|"fallback"| OB[(outbox)]
+    OB --> RL
+    RL --> CH[[pinned chat]]
+    CH -->|"reply: '3 done, 5 push Tue'"| PL[poller]
+    PL -->|"simple, ≤5 min"| TS[(task store)]
+    PL -->|"judgment, ≤15 min"| AL[applier lanes] --> TS
+    TS -->|"⚡ confirmation"| CH
+```
+
 ## Orchestrator, workers, advisor
 
 The three-tier pattern from multi-agent engineering practice maps directly onto this fleet:
@@ -222,7 +242,7 @@ Open to **board & advisory roles, fractional CPO/CTO engagements, panels & talks
 | [`docs/decisions.md`](docs/decisions.md) | Architecture decision records - context, options, verdict, consequences |
 | [`docs/adr-17-store-cutover-two-lane.md`](docs/adr-17-store-cutover-two-lane.md) | ADR-17: the store-of-record cutover, the two-lane end state, the GV-class reader, the injection pause |
 | [`docs/adr-13-channel-strategy.md`](docs/adr-13-channel-strategy.md) | ADR-13: official-API-first channels, mirrored delivery, outbox daemons, the concurrent-edit protocol, the HITL board |
-| [`docs/delivery-law.md`](docs/delivery-law.md) | The delivery law v7.1: law in the trusted layer, pinned recipients as anti-tamper, claim-before-send, the self-injection incident |
+| [`docs/delivery-law.md`](docs/delivery-law.md) | The delivery law v7.1/v7.2: law in the trusted layer, pinned recipients as anti-tamper, claim-before-send, the self-injection incident, and the sub-five-minute reply loop |
 | [`docs/one-shortlist.md`](docs/one-shortlist.md) | The one-shortlist pattern - the single-writer law extended to lists |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Layers, fences, daily data flow, failure modes |
 | [`docs/harness.md`](docs/harness.md) | Harness engineering: scheduler, context, tools, contract, log, evals |

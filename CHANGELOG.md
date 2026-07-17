@@ -2,6 +2,24 @@
 
 BLUF: the dated record of how the system evolved, newest first. Entries are reconstructed from the ADR dates in [`docs/decisions.md`](docs/decisions.md) and the repo history; each links to the document that carries the full detail. Sanitized, like everything here.
 
+## 2026-07-17 (later) - v7.2: the reply loop closes at conversation speed
+- A nightly review board turns the whole task store into a numbered decision list (all
+  true-overdue, tomorrow's docket, a stale-rotation cohort, an undated-backlog sample), with a
+  persistent rotation so the entire backlog cycles through human eyes over weeks - the store gets
+  fresher instead of staler ([delivery-law](docs/delivery-law.md)).
+- Reply latency collapsed from an hour to conversation speed: the relay poller now applies the
+  simple grammar (done, priority, push/park with real dates) deterministically on its 5-minute
+  tick via the task-store API, confirming back into the chat; staggered applier lanes catch
+  judgment calls within fifteen minutes. Live-measured simple round trip: 3m40s.
+- The board-to-relay contract is a machine-readable handle map in the store; operator-dated
+  decisions carry a protected tag no automation may re-date.
+- The envelope leak: a correct fallback wrote its transport envelope (secret included) into the
+  outbox as content and the drainer posted it verbatim. Fixed twice - the rule now says the
+  fallback carries only message text, and the drainer independently detects envelopes, extracts
+  the message, and redacts secrets. Guards that matter exist once as instruction and once as code.
+- Architecture diagrams added across README, ARCHITECTURE, and the delivery-law doc (delivery
+  plane and reply loop, rendered natively on GitHub).
+
 ## 2026-07-17 - delivery law v7.1: law moves into the trusted layer
 - The self-injection incident: a parity doctrine block distributed via synced skill files was
   refused by the fleet's own agents as suspected injection - wrong about the source, right about
