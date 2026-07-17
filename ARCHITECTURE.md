@@ -42,6 +42,44 @@ The five layers above produce. A sixth, cross-cutting layer watches them and sta
 
 This layer is what turns "the agents ran" from a hope into a checked, delivered fact.
 
+## The delivery and reply plane
+
+Delivery earned its own plane after the v7.1 rollout, with one law across every lane and, since
+v7.2, a closed loop back from the operator. Outbound: every substantive artifact ships as text
+plus a self-contained html document to one pinned chat, through a serverless relay with real
+egress as the primary path and a store outbox as the automatic fallback, joined by a
+claim-before-send marker mutex so three redundant transports produce zero duplicates. Inbound: a
+nightly review board numbers the store's decision points, the operator replies in natural grammar
+from any surface, one relay poller captures the replies, simple commands apply deterministically
+on the same 5-minute tick with an instant confirmation, and judgment commands fall to staggered
+applier lanes within fifteen minutes. Measured round trip for a simple decision: under four
+minutes, operator thumb to store write to confirmation.
+
+```mermaid
+flowchart TB
+    subgraph outbound [Outbound - one law, every lane]
+        AG[scheduled agents] -->|"POST text + html"| RL[serverless relay]
+        AG -->|"fallback: outbox files"| OB[(store outbox)]
+        OB -->|"5-min flush"| MX{claim-before-send}
+        RL --> MX
+        MX --> CH[[pinned push chat]]
+    end
+    subgraph inbound [Inbound - the reply loop]
+        CH -->|"operator reply"| PL[relay poller]
+        PL -->|"simple grammar"| TS[(task store)]
+        PL -->|"needs judgment"| IX[(inbox + offset)]
+        IX --> AL[staggered applier lanes]
+        AL --> TS
+        TS -->|"confirmation"| CH
+    end
+```
+
+The board-to-relay contract is a machine-readable handle map in the store (one pipe-delimited line
+per decision item), so the deterministic layer resolves handles without guessing, and the
+protected-tag rule means an operator-dated decision is never re-dated by any automation. The
+single-consumer fence holds: exactly one poller touches the messaging API, and the applier lanes
+share one offset file with idempotent applies, so lane races are harmless by construction.
+
 ## Single-writer fences
 
 The core invariant. Each mutable field has exactly one owner:
