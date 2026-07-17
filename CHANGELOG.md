@@ -2,6 +2,44 @@
 
 BLUF: the dated record of how the system evolved, newest first. Entries are reconstructed from the ADR dates in [`docs/decisions.md`](docs/decisions.md) and the repo history; each links to the document that carries the full detail. Sanitized, like everything here.
 
+## 2026-07-17 - delivery law v7.1: law moves into the trusted layer
+- The self-injection incident: a parity doctrine block distributed via synced skill files was
+  refused by the fleet's own agents as suspected injection - wrong about the source, right about
+  the shape. Delivery law relocated from tamperable skill files into every task prompt plus one
+  canonical store file that wins on drift; skill-file "supersede" blocks declared void by the law
+  itself ([delivery-law](docs/delivery-law.md)).
+- The hosted push leg went cloud-native: a serverless relay with real egress as primary, the
+  store outbox as automatic fallback - a hosted task can no longer believe delivery requires the
+  local machine, and silent delivery skips are outlawed (the outbox write always succeeds).
+- Every hosted scheduled trigger deleted and recreated carrying the law verbatim; two new scan
+  tasks added; the DST-guard's id table rebuilt against the live roster with a report-not-guess
+  rule for stale ids.
+- Drifted twin scans ended structurally: one became a thin alias delegating to the other -
+  don't reconcile duplicates, delete the duplicate class.
+- Drafts demoted: email drafts are no longer a delivery surface for anything the operator must
+  see; machine-state drafts remain for appliers only.
+- Temporal law: stamp TODAY as the first action, catch up missed slots multi-day; plus a
+  stale-posting guard after an eight-month-old listing headlined as net-new.
+- Reply capture converged on one poller appending to an inbox file with offset state - the
+  single-consumer fence, now structural instead of behavioral.
+
+## 2026-07-16 - delivery v7.3: parity's failure modes are ownership problems
+- Universal two-channel parity with an html card on every push; zero per-task exemptions.
+- CLAIM-BEFORE-SEND mutex (marker created before sending) after redundant transports raced a
+  backlog clear into duplicates; ONE-PATH LAW (direct tool OR outbox per leg, never both) after
+  a fallback fired alongside its primary.
+- Marker/stub hygiene: bookkeeping markers and sub-1KB stubs never delivered as content.
+- Content-ownership map: board owns the full list, triage is delta-only, inbox digests carry
+  comms handles only, sweeps report actions + pointer - one full description per item per
+  half-day; everything else is a handle.
+- Label-truth eval after a cloud run stamped raw UTC as local time on its own header - the
+  calendar timezone-label bug, relocated to the agent's own clock.
+- Quiet-hours retirement completed: buried clause-level gates survived the doctrine change for
+  two days; a prompt-lint eval purged them clause by clause. Explicit prompt text beats doctrine
+  references, and only an eval proves a purge.
+- Audit-to-apply loop exercised end to end on production: the nightly audit drafted the patch,
+  a human-invoked apply pass found and fixed the final straggler with read-back verification.
+
 ## 2026-07-14
 - Delivery plane: store-and-forward outbox for the hosted lane, an always-on relay, delivered-markers as the idempotency primitive, and the relay-in-the-store lesson ([architecture-map](docs/architecture-map.md#the-delivery-plane-added-after-the-egress-audit)).
 - Orchestrator/worker/advisor mapping and the end-state dependency map: the local machine is a peripheral, not a dependency ([architecture-map](docs/architecture-map.md)).
@@ -65,21 +103,3 @@ BLUF: the dated record of how the system evolved, newest first. Entries are reco
   the same rule had been written in doctrine for two days while the violation sat live.
 - Second smoke finding: a one-time task created minutes before its fire time missed dispatch
   entirely. Operational floor added: one-times get >=15 minutes of lead, or a manual first run.
-
-## 2026-07-16 - delivery v7.3: parity's failure modes are ownership problems
-- Universal two-channel parity with an html card on every push; zero per-task exemptions.
-- CLAIM-BEFORE-SEND mutex (marker created before sending) after redundant transports raced a
-  backlog clear into duplicates; ONE-PATH LAW (direct tool OR outbox per leg, never both) after
-  a fallback fired alongside its primary.
-- Marker/stub hygiene: bookkeeping markers and sub-1KB stubs never delivered as content.
-- Content-ownership map: board owns the full list, triage is delta-only, inbox digests carry
-  comms handles only, sweeps report actions + pointer - one full description per item per
-  half-day; everything else is a handle.
-- Label-truth eval after a cloud run stamped raw UTC as local time on its own header - the
-  calendar timezone-label bug, relocated to the agent's own clock.
-- Quiet-hours retirement completed: buried clause-level gates survived the doctrine change for
-  two days (the catch-up controller's own gates stamped "quiet-hours skip" on eight tasks at
-  2 AM); a prompt-lint eval purged them clause by clause. Explicit prompt text beats doctrine
-  references, and only an eval proves a purge.
-- Audit-to-apply loop exercised end to end on production: the nightly audit drafted the patch,
-  a human-invoked apply pass found and fixed the final straggler with read-back verification.

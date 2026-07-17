@@ -88,6 +88,18 @@ The system converged this month to the shape mapped in [`docs/architecture-map.m
 
 The design goal was never "no local machine"; it was "the local machine is a peripheral, not a dependency."
 
+## The delivery law
+
+Delivery has its own law now, and it lives in the trusted layer. A rollout incident made the case:
+a doctrine block distributed through synced skill files - claiming to "supersede" task constraints -
+was refused by the fleet's own agents as suspected injection. They were wrong about the source (it
+was the operator's own rule) and right about the shape: unsigned supersession in a tamperable file
+IS what an attack looks like. So the law moved into every task prompt plus one canonical store file
+that wins on drift, with pinned recipients as an anti-tamper tripwire (any other destination
+appearing anywhere = refuse and flag) and a one-mutex delivery plane (claim-before-send, one path
+per leg) that keeps three redundant transports from double-posting. The full ten rules and the
+incident: [`docs/delivery-law.md`](docs/delivery-law.md).
+
 ## Orchestrator, workers, advisor
 
 The three-tier pattern from multi-agent engineering practice maps directly onto this fleet:
@@ -210,6 +222,7 @@ Open to **board & advisory roles, fractional CPO/CTO engagements, panels & talks
 | [`docs/decisions.md`](docs/decisions.md) | Architecture decision records - context, options, verdict, consequences |
 | [`docs/adr-17-store-cutover-two-lane.md`](docs/adr-17-store-cutover-two-lane.md) | ADR-17: the store-of-record cutover, the two-lane end state, the GV-class reader, the injection pause |
 | [`docs/adr-13-channel-strategy.md`](docs/adr-13-channel-strategy.md) | ADR-13: official-API-first channels, mirrored delivery, outbox daemons, the concurrent-edit protocol, the HITL board |
+| [`docs/delivery-law.md`](docs/delivery-law.md) | The delivery law v7.1: law in the trusted layer, pinned recipients as anti-tamper, claim-before-send, the self-injection incident |
 | [`docs/one-shortlist.md`](docs/one-shortlist.md) | The one-shortlist pattern - the single-writer law extended to lists |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Layers, fences, daily data flow, failure modes |
 | [`docs/harness.md`](docs/harness.md) | Harness engineering: scheduler, context, tools, contract, log, evals |
