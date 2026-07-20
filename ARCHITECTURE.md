@@ -7,7 +7,7 @@ Ganesh OS runs on a desktop AI agent runtime that provides four primitives:
 - **File tools** for a Markdown knowledge base on disk.
 - **A sandboxed shell** for scripted work.
 - **Scheduled tasks**: each agent is a `SKILL.md` prompt fired by cron in local time, running only while the host app is awake, serialized one at a time.
-- **Connectors**: Apple Reminders, Apple Calendar, Google Calendar (six accounts), iMessage, WhatsApp, Slack, Gmail, Apple Notes.
+- **Connectors**: Apple Reminders, Apple Calendar, Google Calendar (six accounts), iMessage, WhatsApp, Slack, Gmail, Telegram, and a phone health export (Apple Health, pushed by the phone itself - see the ingest direction below). Apple Notes was retired in v7.1 as a local-machine dependency the cloud-first fleet no longer accepts.
 
 Each scheduled run starts fresh with no memory of prior runs. All continuity lives in files. That constraint forces the whole design: state is external, every agent reloads context from disk, and coordination happens through shared files rather than shared memory.
 
@@ -20,6 +20,8 @@ Each scheduled run starts fresh with no memory of prior runs. All continuity liv
 **3. Reconcile and surface.** Two daily sweeps own dates: they reconcile reminders against six calendars, dedupe, resolve conflicts, advance recurring items, auto-park overdue, and enforce a per-day budget. Two briefings then read the triage canvases plus calendar plus messages and produce the ranked daily view (the single most important task plus a cross-domain top three) delivered to chat, a vault file, a phone-readable calendar event, and an SMS.
 
 **4. Wellbeing coaching.** A morning weigh-in captures weight, sleep, and how the body feels; a readiness pass reads last night's recovery and recommends an energy-timed day (advisory only - it never writes dates); context-aware meal prompts carry coaching; a workout coach previews the day's training and nudges before each session, joint-aware; a sleep coach runs the wind-down. A silent metrics brain captures all of it, tracks the trends (weight, body-fat, sleep debt, macros, body-feeling, ritual adherence) with an adaptive-TDEE loop that calibrates calorie targets against the actual weight trend, and regenerates a holistic dashboard. Hydration and mind rituals ride one-way reminders, not extra pings.
+
+Since v7.3 this layer runs cloud-first on real body data and bookends the whole day. The coach's first run is a guaranteed daily day-starter - the scheduled session or a concrete push to train anyway, week-over-week trend arrows computed from the ingested health data, one readiness note, and a fresh motivational line - and the evening wrap closes the same loop with a data-informed "did you train today?" line and the running weekly count, celebratory or kind but never silent and never scolding. A Sunday deep-dive report turns the same store of ingested data into four-week charts. The tone layer is deliberate: the morning ask opens with one warm, funny, freshly written line, the coach adds a deadpan shower thought, and the day ends on a calm wind-down line - three distinct registers, invented daily, never repeated. A system that runs a life should feel like a companion, not a cron table.
 
 **5. Reflect.** An end-of-day agent diffs the morning plan against what actually happened and grades the day with coaching. A weekly agent runs error analysis across the logs, lints the knowledge base for rot, runs the regression checks, and proposes at most one change per agent - diagnostic only, never self-deploying.
 
@@ -79,6 +81,40 @@ per decision item), so the deterministic layer resolves handles without guessing
 protected-tag rule means an operator-dated decision is never re-dated by any automation. The
 single-consumer fence holds: exactly one poller touches the messaging API, and the applier lanes
 share one offset file with idempotent applies, so lane races are harmless by construction.
+
+## The ingest direction (v7.3): the plane starts listening
+
+Until v7.3 the delivery plane only spoke. Now it also listens: the operator's phone pushes its
+Apple Health export (weight, sleep, steps, energy, workouts, heart metrics) straight to the same
+serverless relay endpoint, which files each payload as a dated JSON document in a store inbox
+folder. No laptop in the path - the phone talks to the relay, the relay talks to the store, and
+every consumer reads the store. One endpoint, one secret, one new branch.
+
+Two design notes earn recording. First, the auth moved layers: the exporting app cannot place a
+secret inside the payload it generates, and the serverless layer cannot read request headers, so
+the health branch authenticates on the query string while every other caller keeps the
+body-secret contract - the same lesson as the envelope leak, met from the other side: put each
+guarantee at the layer that can actually enforce it. Second, freshness is monitored with an
+onboarding state: the weekly audit flags an ingest quiet for more than two days, but before the
+lane's first-ever payload it reports "awaiting first export" rather than failure - a new lane
+deserves a grace state, not a false alarm.
+
+```mermaid
+flowchart LR
+    PH([phone health export]) -->|"authenticated POST"| RL[serverless relay]
+    RL -->|"dated JSON"| HI[(store health inbox)]
+    HI --> DC[daily coach\nday-starter + trends]
+    HI --> EW[evening wrap\ntraining bookend]
+    HI --> WR[Sunday deep-dive\nfour-week charts]
+    HI --> AU[weekly audit\nfreshness check]
+```
+
+The same release added a context bridge for the personal-pulse layer: interactive conversations
+and scheduled runs alike append dated one-line facts to a rolling store file that the pulse
+agents read as an extra channel. It closes a real blind spot - things the operator told the
+system but never typed into any message thread - under strict rules: entries are always the
+operator's side, never quoted as anyone else's words, they age out of relevance after two weeks,
+and the file lives in the private store only, never in this repo.
 
 ## Single-writer fences
 
