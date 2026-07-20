@@ -153,6 +153,51 @@ flowchart LR
     L --> TT
 ```
 
+## The ingest direction (v7.3): the plane starts listening
+
+The plane's first two releases moved messages out and decisions in. v7.3 added the third flow:
+raw data in. The operator's phone now pushes its Apple Health export (weight, sleep, steps,
+energy, workouts, heart metrics) directly to the relay endpoint on the phone's own schedule; the
+relay authenticates it, files each payload as a dated JSON document in a store inbox folder, and
+stamps a heartbeat property. Every consumer reads the store, never the device: the daily coach
+computes week-over-week trend arrows for its day-starter, the evening wrap answers "did you
+train today?" from actual workout data, a Sunday deep-dive renders four-week charts, and the
+weekly audit checks the feed's freshness. The old local-machine export lane demoted itself to
+fallback in one release.
+
+```mermaid
+flowchart LR
+    PH([phone health export]) -->|"authenticated POST"| RL[serverless relay]
+    RL -->|"dated JSON + heartbeat"| HI[(store health inbox)]
+    HI --> DC[daily coach\nday-starter + trends]
+    HI --> EW[evening wrap\ntraining bookend]
+    HI --> WR[Sunday deep-dive\nfour-week charts]
+    HI --> AU[weekly audit\nfreshness check]
+```
+
+Three rules earned their place in the law with it:
+
+- **Auth lives at the layer that can enforce it.** The exporting app cannot put a secret inside
+  the payload it generates, and the serverless layer cannot read request headers - so the health
+  branch authenticates on the query string, while every other caller keeps the body-secret
+  contract. Same lesson as the envelope leak below, approached from the other side.
+- **A new lane gets an onboarding state, not a false alarm.** The audit flags an ingest quiet
+  for more than two days - but before the lane's first-ever payload it reports "awaiting first
+  export" instead of failure. Monitoring that cries wolf on day one teaches the operator to
+  ignore it by day thirty.
+- **Data-informed, never data-shamed.** The consumers that turn body data into words carry an
+  explicit tone clause: celebrate streaks, stay kind and forward-looking on down weeks, never
+  scold, and say "no fresh data" rather than guess. The same release deliberately gave the day
+  a voice - a warm funny wake-up line, a deadpan shower thought, a calm wind-down close, each
+  freshly written daily - because a system trusted with someone's body data had better feel like
+  a companion.
+
+The release also added a context bridge for the personal-pulse layer: interactive conversations
+and scheduled runs append dated one-line facts to a rolling store file the pulse agents read as
+an extra channel - closing the blind spot of things the operator told the system but never typed
+into any message thread. Entries are always the operator's side, never quoted as anyone else's
+words, they fade to background after two weeks, and the file never leaves the private store.
+
 ## The envelope leak: the fallback wrote the wrong layer
 
 One incident on rollout day earned its own rule. A task tried the relay, hit blocked egress, and

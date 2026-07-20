@@ -2,6 +2,28 @@
 
 BLUF: the dated record of how the system evolved, newest first. Entries are reconstructed from the ADR dates in [`docs/decisions.md`](docs/decisions.md) and the repo history; each links to the document that carries the full detail. Sanitized, like everything here.
 
+## 2026-07-19 - v7.3: the plane starts listening, and the day gets a voice
+- The delivery plane gained its third direction: data in. The operator's phone pushes its Apple
+  Health export straight to the serverless relay, which files dated JSON into a store inbox
+  folder - no laptop in the path; the old local export lane demoted itself to fallback
+  ([delivery-law](docs/delivery-law.md)).
+- Auth moved to the layer that can enforce it: the exporting app cannot carry a body secret and
+  the serverless layer cannot read headers, so the health branch authenticates on the query
+  string while every other caller keeps the body-secret contract.
+- The wellbeing layer became a daily bookend on real data: a guaranteed morning day-starter
+  (session or a concrete push to train anyway, week-over-week trend arrows, a readiness note),
+  an evening "did you train today?" line with the weekly count, and a Sunday deep-dive with
+  four-week charts. Tone is law: celebrate streaks, stay kind on down weeks, never scold, never
+  guess ([ARCHITECTURE](ARCHITECTURE.md)).
+- The day got a deliberate voice: a warm funny wake-up line, a deadpan shower thought, a calm
+  wind-down close - three registers, freshly invented daily, never repeated.
+- Ingest monitoring ships with an onboarding state: quiet-for-two-days flags, but a lane that
+  has never fired reports "awaiting first export," not failure.
+- A context bridge closed the last blind spot in the personal-pulse layer: interactive
+  conversations and scheduled runs append dated one-line operator-side facts to a rolling store
+  file the pulses read as an extra channel; entries fade after two weeks and never leave the
+  private store.
+
 ## 2026-07-17 (later) - v7.2: the reply loop closes at conversation speed
 - A nightly review board turns the whole task store into a numbered decision list (all
   true-overdue, tomorrow's docket, a stale-rotation cohort, an undated-backlog sample), with a

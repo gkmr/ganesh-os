@@ -12,6 +12,8 @@ So I stopped hunting for a better app and asked an engineer's question instead: 
 
 Now the morning opens differently. At 7 a.m. one text names the single thing that matters most and the two or three just beneath it, already balanced across work, health, and the people I love, and it tells me what it handled while I slept. The backlog sits at zero, not because I cleared it but because the system parked what I never decided. I change anything by replying to the text. At night it grades the day, kindly and honestly, and names tomorrow's first move. The dread is gone. Not because there is less to do, but because nothing slips in silence anymore.
 
+And it has a voice now. The first thing I read each day is a line written to make me smile, the coach opens with my actual week - sleep, weight, how many days I trained - and a reason to train today, and the last thing at night is a calm, funny wind-down line. My phone's health data flows to it on its own, so the encouragement is about my real week, not a template. It stopped feeling like a scheduler somewhere in the cloud and started feeling like a companion who happens to be extremely organized.
+
 ## Jobs to be done
 
 A small number of very specific jobs, each in the owner's own voice:

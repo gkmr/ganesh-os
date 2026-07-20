@@ -108,6 +108,14 @@ grammar from a thumb: simple commands are applied deterministically by the relay
 applier lanes within fifteen. The store gets fresher every night instead of staler, and the
 operator never opens a task manager to run their life.
 
+v7.3 added the third direction: data flowing in. The phone pushes its Apple Health export
+straight to the same relay, which files it in the store for a daily coach day-starter with
+week-over-week trends, an evening "did you train today?" bookend, and a Sunday deep-dive with
+four-week charts - no laptop anywhere in the path. The same release gave the day a deliberate
+tone: a warm funny line to wake up to, a deadpan shower thought from the coach, a calm wind-down
+line to close on - three registers, freshly written every day. The full story:
+[`docs/delivery-law.md`](docs/delivery-law.md).
+
 ```mermaid
 flowchart LR
     AG[agents] -->|"text + html"| RL[relay]
@@ -174,7 +182,7 @@ A system doc that oversells is worthless, so here is the candid version.
 - **Harness:** a scheduled-agent runtime across two lanes. Each agent is a `SKILL.md` prompt fired by cron, one run at a time, behind a concurrency guard so a missed or doubled fire is a no-op.
 - **State:** the task corpus in a cloud task API behind the single-writer fences ([ADR-17](docs/adr-17-store-cutover-two-lane.md)); the knowledge layer in plain Markdown plus one append-only change log. Boards, digests, and files are renderings of the store, never a second store.
 - **Memory:** file-based, with valid-from and superseded-by stamps so facts age out instead of being silently overwritten.
-- **Connectors:** Apple Reminders, Calendar, and Notes, Gmail, Slack, WhatsApp, Telegram, iMessage, and meeting-transcript sources.
+- **Connectors:** Apple Reminders and Calendar, Gmail, Slack, WhatsApp, Telegram, iMessage, meeting-transcript sources, and a phone health export that pushes Apple Health data straight to the relay (Apple Notes retired as a local-machine dependency).
 - **Delivery:** the store-and-forward delivery plane for the hosted lane, mirrored channel delivery for the local lane, an outbox fallback when a bridge is down.
 - **Resilience and monitoring:** a shared contract every agent carries (bounded retry with backoff, degrade-and-queue, a per-run marker, freshness-gated replay), a catch-up controller that re-fires a missed run from its marker, a fleet-health watchdog that classifies missed / degraded / crashed / connector-out runs, and the cross-lane heartbeat pair. Hardened over real failure cycles rather than newly added.
 
@@ -242,7 +250,7 @@ Open to **board & advisory roles, fractional CPO/CTO engagements, panels & talks
 | [`docs/decisions.md`](docs/decisions.md) | Architecture decision records - context, options, verdict, consequences |
 | [`docs/adr-17-store-cutover-two-lane.md`](docs/adr-17-store-cutover-two-lane.md) | ADR-17: the store-of-record cutover, the two-lane end state, the GV-class reader, the injection pause |
 | [`docs/adr-13-channel-strategy.md`](docs/adr-13-channel-strategy.md) | ADR-13: official-API-first channels, mirrored delivery, outbox daemons, the concurrent-edit protocol, the HITL board |
-| [`docs/delivery-law.md`](docs/delivery-law.md) | The delivery law v7.1/v7.2: law in the trusted layer, pinned recipients as anti-tamper, claim-before-send, the self-injection incident, and the sub-five-minute reply loop |
+| [`docs/delivery-law.md`](docs/delivery-law.md) | The delivery law v7.1-v7.3: law in the trusted layer, pinned recipients as anti-tamper, claim-before-send, the self-injection incident, the sub-five-minute reply loop, and the health-ingest direction |
 | [`docs/one-shortlist.md`](docs/one-shortlist.md) | The one-shortlist pattern - the single-writer law extended to lists |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Layers, fences, daily data flow, failure modes |
 | [`docs/harness.md`](docs/harness.md) | Harness engineering: scheduler, context, tools, contract, log, evals |
