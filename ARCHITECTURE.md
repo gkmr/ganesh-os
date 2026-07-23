@@ -82,6 +82,24 @@ protected-tag rule means an operator-dated decision is never re-dated by any aut
 single-consumer fence holds: exactly one poller touches the messaging API, and the applier lanes
 share one offset file with idempotent applies, so lane races are harmless by construction.
 
+## The signal plane (v7.4): what reaches the operator, and what stays in the files
+
+Delivery earned a governance layer of its own. The rules, in force across every lane:
+
+- **Signal law.** No agent is quiet because of the clock (device DND owns timing), and every
+  status-class agent is quiet when nothing changed - a silent run still writes its state file
+  and a run marker. Silence means "no news," provably, never "malfunction."
+- **Two channels.** The main chat is the operator's day: nine fixed anchors plus true alerts.
+  An ops channel is the engine room: audits, self-tests, incident notes, machine checklists.
+  The relay routes by an ops flag in the payload or an `.ops.` filename marker.
+- **The sent-log.** The relay appends every outbound send (kind, destination, size, head) to an
+  append-only store log with rotation - the audit trail left the chat.
+- **Primacy.** The primary channel carries the max of every surface; a richer secondary is a
+  named defect a weekly audit hunts using the sent-log.
+- **Identity by id.** After a same-name folder duplication froze the sent-log and misfiled two
+  days of health payloads, the store root is pinned by immutable id everywhere. Names are for
+  humans; ids are for machines.
+
 ## The ingest direction (v7.3): the plane starts listening
 
 Until v7.3 the delivery plane only spoke. Now it also listens: the operator's phone pushes its

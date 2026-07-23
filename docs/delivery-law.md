@@ -198,6 +198,61 @@ an extra channel - closing the blind spot of things the operator told the system
 into any message thread. Entries are always the operator's side, never quoted as anyone else's
 words, they fade to background after two weeks, and the file never leaves the private store.
 
+## The signal law (v7.4): silence by content, never by clock
+
+Two days of live traffic produced the sharpest review the system has had: an outside reader
+called the feed noisy and not actionable. The diagnosis held up. Anchors overlapped, status
+agents reported "nothing to report," and system chatter shared a channel with things the
+operator actually had to act on.
+
+The law that came out of it has two halves. First: no agent may go quiet because of the time
+of day - quiet hours are still outlawed, the device's own do-not-disturb owns timing. Second:
+every status-class agent must go quiet when it has nothing new - a delta pass with zero drift
+sends nothing, and writes its state file and a run marker instead. Silence became a signal:
+it means "nothing changed," never "something broke," because the run marker proves the run.
+
+The channel split is the law's second half made physical. The main chat carries the operator's
+day: a fixed set of daily anchors plus genuinely new alerts. A second ops channel carries the
+engine room - audit scorecards, relay self-tests, incident notes, checklists for the local
+machine's next sitting. The relay routes on an explicit ops flag in the payload, or an `.ops.`
+marker in a queued filename, and records the destination of every send. The operator holds a
+pinned one-card contract listing exactly what arrives where, regenerated only when the
+contract itself changes.
+
+Two supporting structures make the law auditable rather than aspirational:
+
+- **The sent-log.** The relay appends one line per outbound send - timestamp, kind, destination,
+  size, a short head of the content - to an append-only store log with size rotation. Debugging
+  a delivery no longer needs the chat scrolled; the log is the record.
+- **The primacy audit.** The primary chat channel must carry the max of every surface - if any
+  secondary surface (the local message lane, an email digest) is ever richer than the primary's
+  version of the same content, that is a defect with a name, caught by a weekly read of the
+  sent-log against the surfaces.
+
+## The duplicate-folder incident: names are not identities
+
+A local-lane task, doing exactly what it was told, created a second store root folder with the
+same name in a different parent. Every agent that resolved the store by name started landing on
+whichever copy the search returned first: the sent-log froze mid-week, and two days of health
+payloads filed into the wrong tree. Nothing errored - that is the point. By-name resolution is
+nondeterministic the moment a name stops being unique.
+
+The fix moved identity down a layer: the relay now pins the store root by its immutable folder
+id and resolves every subpath from there. The stray folder was renamed into quarantine rather
+than deleted (deletes stay human-gated), and the stranded files were rescued into the true tree
+with their history intact. The rule that generalizes: **any store a fleet writes to is addressed
+by id, never by name** - names are for humans, ids are for machines.
+
+## Rituals are habits, not tasks
+
+A long-running migration chat had been nagging daily to move device-time rituals (hydrate,
+posture, wind-down) between task stores - and structurally could not finish, because the target
+store had no cloud-reachable write path. The resolution reframed the object: rituals are not
+tasks with due dates, they are habits. They moved to the task platform's native habit objects -
+device-time reminders, streak tracking, one-tap check-ins - and standing law now excludes
+habit-class objects from triage, boards, and overdue counts entirely. The daily nag class
+disappeared with the category error that caused it. The migration chat was retired.
+
 ## The envelope leak: the fallback wrote the wrong layer
 
 One incident on rollout day earned its own rule. A task tried the relay, hit blocked egress, and

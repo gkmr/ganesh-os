@@ -2,6 +2,36 @@
 
 BLUF: the dated record of how the system evolved, newest first. Entries are reconstructed from the ADR dates in [`docs/decisions.md`](docs/decisions.md) and the repo history; each links to the document that carries the full detail. Sanitized, like everything here.
 
+## 2026-07-23 - v7.4: the feed goes quiet on purpose
+- The signal law: silence by clock is forbidden, silence by no-new-content is the default.
+  Status-class agents send only when there is something new to say; a silent run still writes
+  its state file and a run marker, so debugging moved from the chat into files. The trigger for
+  the redesign was blunt and external - an outside reader called 48 hours of the feed "noisy and
+  not actionable" - and the fix was structural, not cosmetic ([delivery-law](docs/delivery-law.md)).
+- The channel split: the operator's main chat now carries only what he acts on (nine daily
+  anchors plus true alerts); a second ops channel carries the engine room - audits, self-tests,
+  incident notes, operator checklists. The relay routes by an explicit ops flag in the payload
+  or an `.ops.` marker in a queued filename, and the operator pinned a one-card "message diet"
+  contract listing exactly what arrives where ([delivery-law](docs/delivery-law.md)).
+- The sent-log: the relay now appends every outbound send - kind, destination, size, a short
+  head - to an append-only store log with rotation. The chat stopped being the audit trail;
+  the log is. A primacy audit reads it weekly to enforce that the primary channel carries the
+  max of every surface (a richer secondary channel is now a named defect class).
+- The duplicate-folder incident: a local task re-created the store's root folder by name,
+  and every by-name lookup went nondeterministic - the sent-log froze and health payloads
+  filed into the wrong tree for two days. Fix: the relay pins the store root by immutable
+  folder id, never by name; the stray folder was quarantined and the stranded files rescued
+  with history intact ([decisions](docs/decisions.md)).
+- Rituals became habits, not tasks: device-time routines (hydration, posture, wind-down)
+  moved from dated tasks to native habit objects with device reminders, excluded from triage,
+  boards, and overdue counts by standing law - ending a class of daily nag that a failed
+  migration chat had been generating. The migration chat itself was retired
+  ([decisions](docs/decisions.md)).
+- The wellbeing layer graduated from summaries to computed KPIs: recovery, strain, and sleep
+  scores calculated in-run from the operator's own rolling baselines (never population norms),
+  each with a one-line plain-language "why" naming its drivers, one personalized coaching call
+  per morning, and a propose-only protocol for moving a booked hard session on a red morning.
+
 ## 2026-07-19 - v7.3: the plane starts listening, and the day gets a voice
 - The delivery plane gained its third direction: data in. The operator's phone pushes its Apple
   Health export straight to the serverless relay, which files dated JSON into a store inbox
