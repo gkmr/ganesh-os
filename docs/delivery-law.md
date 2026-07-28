@@ -255,7 +255,13 @@ guards-exist-twice rule:
   Anything queued older than eighteen hours is summarized in a single ops-channel line and
   archived unsent - the operator learns the outage happened without reliving it.
 
-The pattern across all five: every guard sits in the deterministic layer, at the exact point the
+- **The front-matter guard (v7.5.1, one day later).** A queued message whose first line was a
+  transport routing header slipped past the envelope detector (which only understood JSON) and
+  posted five kilobytes of plumbing to the main chat. The content guard now dead-letters any
+  queued text that opens with a routing-header prefix. Six guards; the count is not the point -
+  the turnaround is. A failure class observed once in production is dead in code within a day.
+
+The pattern across all six: every guard sits in the deterministic layer, at the exact point the
 failure occurred, and each failure had already happened in production before its guard existed.
 The relay is small enough that this is cheap - which is itself an argument for keeping the
 delivery plane's moving part tiny.
