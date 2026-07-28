@@ -229,6 +229,57 @@ Two supporting structures make the law auditable rather than aspirational:
   version of the same content, that is a defect with a name, caught by a weekly read of the
   sent-log against the surfaces.
 
+## The relay grows reflexes (v7.5): guards live where the failures happened
+
+The signal law said what should reach the operator; a week of live traffic showed the relay
+itself could still betray it. Five failures, five guards, all shipped in one release of the
+serverless script - each one deterministic code, not prompt instruction, per the
+guards-exist-twice rule:
+
+- **The lock.** Two timer ticks overlapped during a slow sweep and the same digest posted twice,
+  sixteen seconds apart. The relay now takes a script-level lock at entry and exits quietly if
+  another run holds it. The claim-before-send marker guards across transports; the lock guards
+  across time.
+- **The time-box.** The platform kills a run at its execution ceiling with no cleanup, so a slow
+  sweep died mid-pass and left the outbox unarchived - and every subsequent tick re-scanned the
+  whole history. The relay now budgets its runtime, checks the clock between phases, and ends
+  gracefully with a partial-pass note rather than being killed mid-write.
+- **The archive sweep.** Delivered outbox pairs older than a day move to an archive subfolder, so
+  the pending scan reads only the live window. A store-and-forward queue that never truncates its
+  scan path degrades quadratically - the queue must shed what it has delivered.
+- **The content guard.** A document-format file queued as text passed a naive size check and
+  posted as junk. The relay now sniffs queued content - platform-native document types, binary
+  magic bytes, non-printable density - and dead-letters anything that is not actually message
+  text, with one ops note naming the file.
+- **The staleness gate.** After an outage, a backlog of expired anchors is noise, not news.
+  Anything queued older than eighteen hours is summarized in a single ops-channel line and
+  archived unsent - the operator learns the outage happened without reliving it.
+
+The pattern across all five: every guard sits in the deterministic layer, at the exact point the
+failure occurred, and each failure had already happened in production before its guard existed.
+The relay is small enough that this is cheap - which is itself an argument for keeping the
+delivery plane's moving part tiny.
+
+## The family tree (v7.5): a push is traceable to its task by its first characters
+
+Thirty-plus scheduled tasks had accumulated thirty-plus naming styles, and the operator could no
+longer tell which task produced a given push without archaeology. The fix is a naming law with
+three layers:
+
+- **Task names are a tree.** Every scheduled task is named "family · task (lane)" - a fixed set
+  of life-domain families, a short task name, and the lane it runs on. The scheduler's task list
+  became readable as a table of contents.
+- **Every push self-identifies.** The first line of every outbound message opens with the
+  family's emoji plus its family/task tag, matching the scheduler name. Seeing a push and finding
+  its task is now a string match, not a guess.
+- **Notification policy is a registry, not an accident.** A canonical store file maps every task
+  to its notify on/off state - high-signal anchors notify, plumbing stays silent - and per-device
+  settings are audited against it instead of drifting independently.
+
+The same release consolidated the anchors themselves: the morning plan merged into the
+day-starter, the food ask folded into the evening wrap, and the write-only sweep stopped sending
+entirely. Six anchors, each named, each traceable, each with a declared notification state.
+
 ## The duplicate-folder incident: names are not identities
 
 A local-lane task, doing exactly what it was told, created a second store root folder with the

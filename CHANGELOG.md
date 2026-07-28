@@ -2,6 +2,40 @@
 
 BLUF: the dated record of how the system evolved, newest first. Entries are reconstructed from the ADR dates in [`docs/decisions.md`](docs/decisions.md) and the repo history; each links to the document that carries the full detail. Sanitized, like everything here.
 
+## 2026-07-27 - v7.5: the relay grows reflexes, and the fleet gets a family tree
+- Relay hardening shipped live, five guards in one release, each answering a production failure
+  ([delivery-law](docs/delivery-law.md)): a script-level lock (overlapping timer runs had posted
+  the same digest twice, sixteen seconds apart); a run time-box that ends a pass gracefully before
+  the platform's execution ceiling (timeouts had been abandoning the outbox mid-sweep); an archive
+  sweep that moves delivered outbox pairs older than a day out of the scan path (the backlog had
+  been re-scanned on every five-minute tick); a content guard that dead-letters binary or
+  document-format payloads queued as text (a doc file had passed a naive size check and posted as
+  junk); and an eighteen-hour staleness gate that collapses an aged backlog into one ops-channel
+  summary instead of a flood of stale sends.
+- The message diet converged: nine anchors became six. The morning plan merged into the
+  day-starter (one bookend, not two), the food ask folded into the evening wrap, and the evening
+  sweep went write-only - it files its state and proposals, and the wrap speaks for the evening.
+- The fleet got a family tree: every scheduled task renamed to a "family · task (lane)" scheme,
+  every push now opens with an emoji plus its family/task tag, and a canonical registry in the
+  store maps each task to its lane, slot, and notification setting. A push can be traced to the
+  task that sent it from its first characters, and notification policy became a written law
+  instead of a per-device accident.
+- A slot watchdog joined the sys- cohort: it reads the fleet's run markers and reports missed
+  slots to the ops channel, so the signal law's silence stays provable end to end.
+- Quota economy: redundant lanes disabled (staggered appliers trimmed to one, the single-company
+  careers watchers absorbed into the primary scan, the separate morning plan retired), tens of
+  scheduled sessions per day removed - motivated by a spend-limit incident in which the fleet ran
+  dark for a day: triggers fired, nothing wrote ([decisions](docs/decisions.md)).
+- The weekly primacy audit ran end to end on the sent-log and found thirteen violations on the
+  local message lane - the primary channel had been carrying less than a secondary on eight task
+  classes. Dual-write patches were queued as an operator checklist; the audit class works.
+- The goal layer revived: the first weekly goal review after five silently missed Sundays (the
+  task lived on the local lane and the laptop was closed). Rebuilt cloud-native; its first run
+  produced five improvement proposals and the operator applied all five in a single reply.
+- Parity became re-applyable: fleet doctrine now lives in one canonical store file plus an
+  idempotent patcher script stored beside it, because the synced skill library reverts local
+  edits on every re-sync. Parity that can be wiped by a sync must be one command to restore.
+
 ## 2026-07-23 - v7.4: the feed goes quiet on purpose
 - The signal law: silence by clock is forbidden, silence by no-new-content is the default.
   Status-class agents send only when there is something new to say; a silent run still writes

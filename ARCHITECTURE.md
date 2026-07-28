@@ -89,9 +89,11 @@ Delivery earned a governance layer of its own. The rules, in force across every 
 - **Signal law.** No agent is quiet because of the clock (device DND owns timing), and every
   status-class agent is quiet when nothing changed - a silent run still writes its state file
   and a run marker. Silence means "no news," provably, never "malfunction."
-- **Two channels.** The main chat is the operator's day: nine fixed anchors plus true alerts.
-  An ops channel is the engine room: audits, self-tests, incident notes, machine checklists.
-  The relay routes by an ops flag in the payload or an `.ops.` filename marker.
+- **Two channels.** The main chat is the operator's day: six fixed anchors plus true alerts
+  (nine at v7.4; v7.5 merged the morning plan into the day-starter, folded the food ask into
+  the evening wrap, and made the evening sweep write-only). An ops channel is the engine room:
+  audits, self-tests, incident notes, machine checklists. The relay routes by an ops flag in
+  the payload or an `.ops.` filename marker.
 - **The sent-log.** The relay appends every outbound send (kind, destination, size, head) to an
   append-only store log with rotation - the audit trail left the chat.
 - **Primacy.** The primary channel carries the max of every surface; a richer secondary is a
@@ -99,6 +101,16 @@ Delivery earned a governance layer of its own. The rules, in force across every 
 - **Identity by id.** After a same-name folder duplication froze the sent-log and misfiled two
   days of health payloads, the store root is pinned by immutable id everywhere. Names are for
   humans; ids are for machines.
+- **Relay reflexes (v7.5).** The relay itself carries five deterministic guards, each born from
+  a production failure: a script-level lock against overlapping runs, a run time-box against the
+  platform's execution ceiling, an archive sweep that sheds delivered queue entries from the
+  scan path, a content guard that dead-letters non-text payloads, and a staleness gate that
+  collapses an aged post-outage backlog into one ops summary ([delivery-law](docs/delivery-law.md)).
+- **The family tree (v7.5).** Every scheduled task is named "family · task (lane)", every push
+  opens with its family's emoji plus its family/task tag, and a canonical registry maps each
+  task to its notification state - a push is traceable to its task by its first characters, and
+  a slot watchdog in the sys- cohort reads the run markers so the signal law's silence stays
+  provable.
 
 ## The ingest direction (v7.3): the plane starts listening
 
