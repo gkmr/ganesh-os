@@ -2,6 +2,33 @@
 
 BLUF: the dated record of how the system evolved, newest first. Entries are reconstructed from the ADR dates in [`docs/decisions.md`](docs/decisions.md) and the repo history; each links to the document that carries the full detail. Sanitized, like everything here.
 
+## 2026-07-28 - v7.5.1: the sixth guard, and the feed learns to be funny on purpose
+- The sixth relay guard shipped live within a day of the fifth: a queued message whose first
+  line was a transport header (the front-matter leak - YAML-ish routing metadata that the
+  JSON-only envelope detector waved through) posted 5KB of plumbing to the operator's main
+  chat. The content guard now dead-letters any queued text opening with a routing-header
+  prefix. Same pattern as the other five: the guard sits in deterministic code, at the exact
+  line the failure crossed, shipped after one production occurrence
+  ([delivery-law](docs/delivery-law.md)).
+- The quote layer became a format law: every quote in every anchor ships as a two-line bit -
+  a playful one-line preamble in the system's own steering voice, then the quote flagged with
+  a speech-bubble glyph - and rides above the fold, never behind a mobile client's "read more"
+  collapse. The trigger was operator forensics: the daily quotes HAD been sending, at message
+  tails, and were provably unread. Placement is a delivery property, not a nicety.
+- The morning fold completed the bookend symmetry: both daily sweeps are now write-only
+  preparers (state files, proposals, calendar events) while exactly one anchor per bookend
+  speaks. One voice per morning, one per evening.
+- Notification policy became enforceable end to end: every muted-class cloud task was
+  recreated with notifications disabled at the scheduler level - the registry column is now
+  baked into the trigger objects rather than hoped into device settings. The scheduler's
+  update API cannot change notification settings on an existing task, so the honest mechanism
+  is delete-and-recreate; the DST guard's id table was rebuilt in the same pass (it had been
+  carrying a dozen dead ids from earlier recreations - a rename-tracking lesson relearned).
+- The roster got a spring clean: every disabled or retired scheduled task (superseded
+  watchers, redundant applier lanes, spent one-shot reminders) was deleted outright, taking
+  the scheduler list from fifty-plus entries to twenty-two live, family-named tasks. A list
+  the operator can read at a glance is itself a monitoring surface.
+
 ## 2026-07-27 - v7.5: the relay grows reflexes, and the fleet gets a family tree
 - Relay hardening shipped live, five guards in one release, each answering a production failure
   ([delivery-law](docs/delivery-law.md)): a script-level lock (overlapping timer runs had posted
