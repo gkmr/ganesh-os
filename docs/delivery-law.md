@@ -286,6 +286,21 @@ The same release consolidated the anchors themselves: the morning plan merged in
 day-starter, the food ask folded into the evening wrap, and the write-only sweep stopped sending
 entirely. Six anchors, each named, each traceable, each with a declared notification state.
 
+## The stranding (v7.5.2): the ghost folder strikes twice
+
+The duplicate-folder fix below pinned the RELAY's folders by id - and left every other writer
+resolving by name. Six days later the morning inbox digest paid for the gap: its by-name outbox
+lookup returned the quarantined duplicate tree, it wrote its artifacts there, and a message no
+deliverer would ever see was reported as a successful fallback delivery. The generalized law:
+EVERY writer on every lane resolves store folders by immutable id; the quarantine tree is a
+banned write target until deleted; and delivery claims require a read-back - the created file's
+parent id must equal the real outbox id, or the run treats itself as failed and corrects in-run.
+Watchers close the loop: the daily fallback sweep lists the ghost tree and auto-rescues anything
+found there, and the weekly audit fails any producer that wrote there. The meta-lesson is the
+one worth keeping: a correctness rule adopted at the component that failed is not adopted - it
+recurs at every component that shares the anti-pattern until the rule moves into canonical law
+and something checks it.
+
 ## The duplicate-folder incident: names are not identities
 
 A local-lane task, doing exactly what it was told, created a second store root folder with the
