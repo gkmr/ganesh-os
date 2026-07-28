@@ -2,6 +2,33 @@
 
 BLUF: the dated record of how the system evolved, newest first. Entries are reconstructed from the ADR dates in [`docs/decisions.md`](docs/decisions.md) and the repo history; each links to the document that carries the full detail. Sanitized, like everything here.
 
+## 2026-07-28 (later) - v7.5.2: names are still not identities
+- The ghost folder struck twice. The morning inbox digest resolved the outbox folder BY NAME,
+  and the name search returned the quarantined duplicate tree from the v7.4 folder incident -
+  a folder no deliverer polls. The digest ran perfectly, wrote its artifacts, verified nothing,
+  and reached zero endpoints. Twelve other lanes delivered normally all morning, which is what
+  made it invisible: per-lane success hides a single-lane black hole.
+- The safety net earned its keep: the daily fallback sweep detected the stranded digest within
+  two hours, delivered its top three urgent items, and named the exact wrong folder - the first
+  real catch by a layer built for exactly this. The stranded artifacts were rescued into the
+  real outbox by hand and delivered end to end the same day.
+- The law generalized from the instance to the class ([delivery-law](docs/delivery-law.md)):
+  ADR-18 had pinned the RELAY's root folder by immutable id, but every other writer kept
+  resolving by name - a rule enforced at one component recurs at every component that shares
+  the anti-pattern. Canonical law now binds every writer on every lane: all store folders
+  by immutable id, the quarantine tree is a banned write target, and a READ-BACK rule makes
+  "delivered" mean verified-parent-id, not wrote-somewhere.
+- Three watchers enforce it: the fallback sweep checks the ghost tree every day and
+  auto-rescues anything found there (naming the producer); the weekly delivery audit fails
+  any task that wrote there in the trailing week; and the operator approved deleting the
+  ghost tree outright - the durable fix is that there is nothing left for a name search
+  to find.
+- Also in this release: the morning anchor gained a travel mode (away days swap the home
+  training block for a hotel-friendly suggestion, zero guilt, auto-detected from the
+  calendar); the quote feedback loop went live end to end (bare emoji reactions in the chat
+  are captured to a store file the anchors read to tune their humor register, seeded with
+  the operator's stated taste); and one-shot travel-day briefs bracket the week's trip.
+
 ## 2026-07-28 - v7.5.1: the sixth guard, and the feed learns to be funny on purpose
 - The sixth relay guard shipped live within a day of the fifth: a queued message whose first
   line was a transport header (the front-matter leak - YAML-ish routing metadata that the

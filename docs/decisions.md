@@ -286,3 +286,16 @@ Format: **Context → Options → Decision → Consequences.**
 **Decision.** Three moves. (1) **Relay reflexes:** five deterministic guards in the relay script itself - lock, time-box, archive sweep, content guard, staleness gate - each at the exact point a production failure occurred. (2) **The family tree:** every scheduled task named "family · task (lane)", every push opening with its family emoji plus family/task tag, and a canonical store registry mapping each task to its notification state, audited by a new slot watchdog. (3) **The quota diet:** redundant lanes retired (appliers trimmed to one, single-company watchers absorbed into the primary scan, the separate morning plan merged into the day-starter), shrinking the daily session count by tens so a spend ceiling is a margin problem, not an outage class.
 
 **Consequences.** The delivery plane's one moving part now fails closed instead of loud, and the guards-exist-twice rule holds at the transport layer, not just the prompt layer. Traceability became a string match, and notification policy became a written law instead of per-device drift. Cost, named: the family scheme is a convention the next rename can break - the slot watchdog and the Monday audit are the checks that keep it honest, and the quota diet trades redundancy for margin, accepted because every retired lane was a duplicate class, not a capability.
+
+
+---
+
+## ADR-20 - By-id resolution becomes universal law, with read-back and watchers
+
+**Status:** Accepted · 2026-07-28 · extends [ADR-18](#adr-18---the-signal-law-the-two-channel-split-and-identity-by-id) and [ADR-19](#adr-19---relay-reflexes-the-family-tree-and-the-quota-diet).
+
+**Context.** ADR-18 fixed by-name folder resolution at the relay after the duplicate-folder incident. Six days later the same failure class fired at a different component: the morning inbox digest resolved the outbox by name, landed in the quarantined duplicate tree, and delivered to zero endpoints while reporting success. The fallback sweep caught it within two hours - the first live catch by that layer.
+
+**Decision.** Promote by-id resolution from a relay behavior to universal canonical law: every writer on every lane resolves store folders by immutable id; the quarantine tree is a banned write target and is approved for deletion; "delivered" requires read-back (created file's parent id equals the real outbox id) or the run self-corrects. Enforcement is layered - the daily fallback sweep lists the ghost tree and auto-rescues strays (naming the producer), the weekly audit fails any producer that wrote there, and the high-traffic writers carry the law inline in their prompts.
+
+**Consequences.** The failure class dies at the class level, not the instance level: the rule lives in the canonical file every prompt defers to, two watchers check it on a daily and weekly cadence, and deletion of the ghost tree removes the trap entirely. The named lesson: a correctness rule adopted only where the failure occurred WILL recur wherever the anti-pattern survives - generalize to canon plus checks, or plan to fix it again. Cost: read-back adds one verification call per fallback write - accepted, delivery claims that mean nothing are worse than slow ones.
