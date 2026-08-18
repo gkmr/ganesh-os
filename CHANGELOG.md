@@ -2,6 +2,69 @@
 
 BLUF: the dated record of how the system evolved, newest first. Entries are reconstructed from the ADR dates in [`docs/decisions.md`](docs/decisions.md) and the repo history; each links to the document that carries the full detail. Sanitized, like everything here.
 
+## 2026-08-17 (later) - v7.6.1: the second signal pass, and one reminder per fact
+- The watchdog went live and earned its keep within its first ten minutes: a correct
+  reply-lane staleness alert, a clean self-test, and then the real diagnosis — the inbound
+  poller had never been broken at all. Update-id continuity proved zero messages had reached
+  the bot in the silent window; the lane was idle, not dead. The correction was owned
+  publicly: the earlier "six-day outage" read had the right symptom and the wrong cause,
+  and only an instrumented poller could tell the difference. It now can.
+- A second signal-to-noise pass closed four gaps the first one created or missed: the
+  morning master shortlist was retired (the day brief's today-list had made it a duplicate
+  voice 75 minutes apart); the evening inbox digest joined the morning one in secretless
+  split delivery (the last untrusted-content reader still holding credentials — the exact
+  class behind three refusal incidents); the nightly board became the evening's single
+  voice, folding the inbox bottom line and tomorrow's draft into one message; and consumed
+  operator replies can no longer boomerang back as proposed board rows.
+- Status inflation got a structural fix: the weekly accountability update now carries an
+  applied / not-applied truth table where "applied" requires documentary evidence, after a
+  scan called an application "pending" that had never been submitted. A task existing is
+  not progress. The work-in-progress limit was reconciled against the live task store the
+  same evening — one keystone had died into a tombstone while the prompt still counted it.
+- One-reminder-per-fact became law: a reminder lives in exactly one store. The watch-facing
+  store wins for wrist nudges, the platform's own medication surface wins for meds, and the
+  task store keeps tasks and content records, never duplicate alarms. The duplicate med
+  mirrors were deleted with their clinical content preserved into a canonical record file
+  the health lanes read.
+- Deep links became law too: anything the operator would tap through to — a task, a posting,
+  an email thread, a chat with a person — must carry its real link, with a hard
+  no-fabrication rule. The job scan additionally got a link-completeness law (every role
+  named anywhere links to its posting, passes included) and a transport-readability law
+  (only messenger-supported tags in the text leg; text and card always in sync).
+
+## 2026-08-17 - v7.6: the operating shape, and the watchdog that lives outside the walls
+- The week exposed the system's deepest structural flaw: every monitor lived inside the
+  environment it monitored. When the cloud execution environment died for three days (the
+  second multi-day outage in ten days), schedules kept firing into a dead room, the watchdogs
+  died with their patients, and the delivery ledger simply stopped - with no one to say so.
+  The fix moved the alarm outside the walls: the relay (the one component on independent
+  infrastructure, which survived every incident) now watches the delivery ledger's pulse and
+  messages the operator directly when the fleet goes silent. A monitor is only as available
+  as the failure domain it does NOT share ([first-principles](docs/first-principles.md)).
+- A second silent failure hid inside a green checkmark for six days: the inbound reply poller
+  treated an API-level error response identically to "no new messages" and returned quietly,
+  so every execution showed Completed while the operator's replies fell on the floor. The
+  poller now treats not-ok as failure, counts consecutive failures, and alerts; a cross-check
+  alerts when outbound flows but inbound stays frozen (the second-consumer case, where the
+  poll "succeeds" empty forever). Lesson for the ledger: a run that completes is not a run
+  that worked - instrument the distinction ([applied-learnings](docs/applied-learnings.md)).
+- The daily surface consolidated into an operating shape the operator chose option by option:
+  one morning brief (health anchor + inbox bottom line + today's shortlist), one evening
+  bookend (board + tomorrow's draft), midday deltas kept deliberately, and pre/post-meeting
+  briefs for every real meeting - budget-conscious but chosen with eyes open.
+- Two inversions of authority shipped with it. HUMAN-EDIT-WINS: the task store is the source
+  of truth and the operator edits it by hand through deep links; any change the fleet did not
+  make wins instantly and freezes that item against automated re-tiering for a week. And
+  AUTO-BLOCK: the morning brief places a handful of color-coded focus blocks on the calendar
+  for the day's top items - automation proposes the day, the human's edits reshape it, and an
+  "unblock" is honored as the instruction it is.
+- The weekly reviews learned to heal themselves: both Sunday reports now fire daily behind a
+  silent guard - run only on Sunday or when more than a week has passed since the last
+  success, exit wordlessly otherwise. A missed Sunday self-heals Monday morning instead of
+  waiting a week. The slot watchdog keeps a one-day-later backstop and learned the hard
+  lesson of the outage week: an alarm that detects a failure and stays silent has itself
+  failed - alert delivery is non-optional, with a secretless fallback path.
+
 ## 2026-07-28 (later) - v7.5.2: names are still not identities
 - The ghost folder struck twice. The morning inbox digest resolved the outbox folder BY NAME,
   and the name search returned the quarantined duplicate tree from the v7.4 folder incident -
