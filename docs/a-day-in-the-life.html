@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚙️ Ganesh OS — A Day in the Life</title>
+<style>
+  :root{
+    --bg:#0f1216; --surface:#171c22; --card:#1d242c; --card2:#232b35;
+    --ink:#e8edf2; --ink2:#9aa7b4; --ink3:#5f6b78; --line:#2b343f;
+    --brief:#4d9fdc; --job:#e08a3c; --health:#57b98a; --board:#b48ce0;
+    --sys:#8494a5; --watch:#d9b74a; --dead:#c25b5b;
+    --r:12px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:28px 16px 80px;max-width:880px;margin:0 auto}
+  h1{font-size:26px;letter-spacing:-.3px}
+  h2{font-size:17px;margin:34px 0 6px;color:var(--ink)}
+  .sub{color:var(--ink2);font-size:13.5px;margin-top:4px}
+  .note{color:var(--ink3);font-size:12.5px;margin-top:6px}
+
+  /* toggle */
+  .toggle{display:flex;gap:8px;margin:22px 0 10px;position:sticky;top:8px;z-index:50}
+  .toggle button{flex:1;padding:12px 10px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface);color:var(--ink2);font-size:14px;font-weight:600;cursor:pointer;transition:all .25s}
+  .toggle button.on{background:var(--card2);color:var(--ink);border-color:var(--brief);box-shadow:0 0 0 1px var(--brief) inset}
+  .toggle button .tag{display:block;font-size:11px;font-weight:400;color:var(--ink3);margin-top:2px}
+  .toggle button.on .tag{color:var(--ink2)}
+
+  /* stat tiles */
+  .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 4px}
+  .tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 14px 12px;animation:pop .5s ease both}
+  .tile .big{font-size:30px;font-weight:700;letter-spacing:-.5px}
+  .tile .lbl{font-size:12px;color:var(--ink2);margin-top:2px}
+  .tile .delta{font-size:11.5px;margin-top:4px;color:var(--health)}
+  .tile .delta.bad{color:var(--dead)}
+  @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* timeline */
+  .tl{position:relative;margin-top:14px;padding-left:86px}
+  .tl::before{content:"";position:absolute;left:70px;top:0;bottom:0;width:2px;background:var(--line)}
+  .ev{position:relative;margin:0 0 10px;opacity:0;animation:slide .45s ease forwards}
+  @keyframes slide{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+  .ev .t{position:absolute;left:-86px;top:10px;width:60px;text-align:right;font-size:12px;color:var(--ink2);font-variant-numeric:tabular-nums}
+  .ev .dot{position:absolute;left:-21px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--sys);box-shadow:0 0 0 3px var(--bg)}
+  .ev .card{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--sys);border-radius:10px;padding:10px 12px}
+  .ev .hd{font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .ev .bd{font-size:12.5px;color:var(--ink2);margin-top:3px}
+  .ev .badge{font-size:10.5px;font-weight:700;border-radius:20px;padding:1px 8px;margin-left:auto;white-space:nowrap}
+  .b-msg{background:#24405a;color:#9fcdf2}
+  .b-silent{background:#1f2a24;color:#7dbb9a}
+  .b-dead{background:#402424;color:#e0a0a0}
+  .b-watch{background:#3d3520;color:#e6cd7d}
+  .ev.silent .card{border-style:dashed;opacity:.75}
+  .ev.silent .dot{background:transparent;border:2px solid var(--ink3)}
+  .ev.brief .dot{background:var(--brief)} .ev.brief .card{border-left-color:var(--brief)}
+  .ev.job .dot{background:var(--job)} .ev.job .card{border-left-color:var(--job)}
+  .ev.health .dot{background:var(--health)} .ev.health .card{border-left-color:var(--health)}
+  .ev.board .dot{background:var(--board)} .ev.board .card{border-left-color:var(--board)}
+  .ev.watch .dot{background:var(--watch)} .ev.watch .card{border-left-color:var(--watch)}
+  .ev.dead .dot{background:var(--dead)} .ev.dead .card{border-left-color:var(--dead)}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0 0;font-size:12px;color:var(--ink2)}
+  .legend span::before{content:"●";margin-right:5px}
+  .lg-brief::before{color:var(--brief)} .lg-job::before{color:var(--job)}
+  .lg-health::before{color:var(--health)} .lg-board::before{color:var(--board)}
+  .lg-watch::before{color:var(--watch)} .lg-sys::before{color:var(--sys)} .lg-dead::before{color:var(--dead)}
+
+  /* hum */
+  .hum{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+  .hum .h{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-size:13px}
+  .hum .h b{display:flex;align-items:center;gap:8px;font-size:13.5px}
+  .pulse{width:8px;height:8px;border-radius:50%;background:var(--health);display:inline-block;animation:pulse 2s infinite}
+  .pulse.slow{animation-duration:3.4s;background:var(--brief)}
+  .pulse.amber{background:var(--watch)}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(120,200,160,.5)}70%{box-shadow:0 0 0 9px rgba(120,200,160,0)}100%{box-shadow:0 0 0 0 rgba(120,200,160,0)}}
+  .hum .h small{color:var(--ink2);display:block;margin-top:3px;font-size:12px}
+
+  /* flow map */
+  .flow{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:8px;margin-top:12px}
+  svg{width:100%;height:auto;display:block}
+  .nlabel{fill:var(--ink);font:600 12.5px -apple-system,sans-serif}
+  .nsub{fill:var(--ink2);font:10.5px -apple-system,sans-serif}
+  .nbox{fill:var(--card);stroke:var(--line);rx:9}
+  .wire{stroke:var(--ink3);stroke-width:1.6;fill:none}
+  .flowdot{stroke-dasharray:3 9;stroke-width:2.4;fill:none;animation:dash 2.6s linear infinite}
+  @keyframes dash{to{stroke-dashoffset:-48}}
+  .fd-out{stroke:var(--brief)} .fd-in{stroke:var(--health)} .fd-mac{stroke:var(--watch)} .fd-eye{stroke:var(--dead);animation-duration:4s}
+
+  /* week strip */
+  .week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:12px}
+  .day{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 8px;font-size:11.5px;min-height:96px;animation:pop .5s ease both}
+  .day b{display:block;font-size:12px;margin-bottom:5px;color:var(--ink)}
+  .day div{color:var(--ink2);margin-top:3px;line-height:1.35}
+  footer{margin-top:40px;color:var(--ink3);font-size:12px;text-align:center}
+</style>
+</head>
+<body>
+  <h1>⚙️ Ganesh OS — a day in the life</h1>
+  <div class="sub">Every scheduled voice in your Telegram day, hour by hour. Toggle to see what changed on Aug 17.</div>
+
+  <div class="toggle">
+    <button id="btnBefore" onclick="setMode('before')">BEFORE · the trickle<span class="tag">week of 8/10 as measured</span></button>
+    <button id="btnAfter" class="on" onclick="setMode('after')">AFTER · two briefs + deltas<span class="tag">live since Aug 18</span></button>
+  </div>
+
+  <div class="tiles" id="tiles"></div>
+
+  <h2>📅 The weekday, hour by hour</h2>
+  <div class="sub" id="tlsub"></div>
+  <div class="legend">
+    <span class="lg-brief">briefs / inbox</span><span class="lg-job">job lane</span>
+    <span class="lg-health">health</span><span class="lg-board">boards / tasks</span>
+    <span class="lg-watch">Watch (Apple)</span><span class="lg-sys">system</span><span class="lg-dead">noise (before only)</span>
+  </div>
+  <div class="tl" id="tl"></div>
+
+  <h2>🫀 Always running underneath (no messages)</h2>
+  <div class="hum">
+    <div class="h"><b><span class="pulse slow"></span>Relay · every 5 min</b><small>Google's infra, outside the cloud env. Delivers outbox files, captures your Telegram replies, logs every send — and watches the fleet's pulse (silent &gt;20h ⇒ it texts you itself).</small></div>
+    <div class="h"><b><span class="pulse"></span>Command lane · hourly</b><small>Reads your replies + [GK] emails, applies task/calendar changes, couriers digest cards, answers "run ea", "prep me for X", "unblock Y", ask-the-coach.</small></div>
+    <div class="h"><b><span class="pulse"></span>Meeting briefer · hourly 7a–7p</b><small>🤝 pre-brief 20–80 min before every real meeting (all 5 calendars incl. Section 2 + Parameter); post-brief when a transcript exists.</small></div>
+    <div class="h"><b><span class="pulse amber"></span>Self-heal guards · daily</b><small>Goals 8:00a · deep-dive 8:45a · slot-watchdog 8:10a. Six days a week they check and exit in silence; a missed Sunday backfills Monday, automatically.</small></div>
+  </div>
+
+  <h2>🗺️ How a message travels</h2>
+  <div class="flow">
+    <svg viewBox="0 0 840 330" role="img" aria-label="Architecture flow: cloud tasks write to Drive, the relay delivers to Telegram, replies flow back, the watchdog watches from outside">
+      <rect class="nbox" x="20" y="30" width="180" height="86" rx="9"/>
+      <text class="nlabel" x="36" y="56">☁️ Cloud tasks ×23</text>
+      <text class="nsub" x="36" y="74">briefs · scans · boards · coaches</text>
+      <text class="nsub" x="36" y="90">fire on schedule, die between runs</text>
+
+      <rect class="nbox" x="290" y="30" width="170" height="86" rx="9"/>
+      <text class="nlabel" x="306" y="56">🗄️ Drive fleet store</text>
+      <text class="nsub" x="306" y="74">state · laws · digests · logs</text>
+      <text class="nsub" x="306" y="90">single source of truth</text>
+
+      <rect class="nbox" x="545" y="16" width="170" height="70" rx="9"/>
+      <text class="nlabel" x="561" y="42">📮 Relay (Apps Script)</text>
+      <text class="nsub" x="561" y="60">Google infra · never sleeps</text>
+
+      <rect class="nbox" x="545" y="120" width="170" height="66" rx="9"/>
+      <text class="nlabel" x="561" y="146">💬 Telegram</text>
+      <text class="nsub" x="561" y="164">MAIN + OPS · sent-log = truth</text>
+
+      <rect class="nbox" x="290" y="210" width="170" height="66" rx="9"/>
+      <text class="nlabel" x="306" y="236">📱 You reply</text>
+      <text class="nsub" x="306" y="254">"done · push Thu · run ea"</text>
+
+      <rect class="nbox" x="20" y="210" width="180" height="86" rx="9"/>
+      <text class="nlabel" x="36" y="236">✅ TickTick + 📆 Calendar</text>
+      <text class="nsub" x="36" y="254">your edits WIN (7-day freeze)</text>
+      <text class="nsub" x="36" y="270">⏱ blocks placed + swept daily</text>
+
+      <rect class="nbox" x="545" y="228" width="170" height="66" rx="9"/>
+      <text class="nlabel" x="561" y="254">🍎 Mac / Watch lane</text>
+      <text class="nsub" x="561" y="272">reminders · quotes · health push</text>
+
+      <path class="wire flowdot fd-out" d="M200 73 H290"/>
+      <path class="wire flowdot fd-out" d="M460 62 C500 55 510 50 545 50"/>
+      <path class="wire flowdot fd-out" d="M630 86 V120"/>
+      <path class="wire flowdot fd-in" d="M545 160 C500 175 490 220 460 236"/>
+      <path class="wire flowdot fd-in" d="M290 243 H200"/>
+      <path class="wire flowdot fd-in" d="M110 210 C120 150 150 120 200 100"/>
+      <path class="wire flowdot fd-mac" d="M545 258 C510 290 400 300 200 285"/>
+      <path class="wire flowdot fd-eye" d="M630 16 C630 -6 420 -8 375 30"/>
+      <text class="nsub" x="470" y="14">🚨 watchdog: silent fleet ⇒ it alerts YOU</text>
+      <text class="nsub" x="215" y="66">writes</text>
+      <text class="nsub" x="480" y="44">POST</text>
+      <text class="nsub" x="470" y="212">pollInbox (5 min)</text>
+      <text class="nsub" x="222" y="236">applied</text>
+    </svg>
+  </div>
+
+  <h2>🗓️ The week on top of the day</h2>
+  <div class="week">
+    <div class="day"><b>Sun</b><div>🎭 quote-rotor 5a → new week program</div><div>🏆 goals review 8a</div><div>📊 deep-dive 8:45a</div></div>
+    <div class="day"><b>Mon</b><div>🩺 delivery audit 8:33a</div><div>🔁 missed Sunday? guards backfill this morning</div></div>
+    <div class="day"><b>Tue</b><div>🤔 reflect · 5 questions 12:04p</div></div>
+    <div class="day"><b>Wed</b><div>— rhythm day —</div></div>
+    <div class="day"><b>Thu</b><div>— rhythm day —</div></div>
+    <div class="day"><b>Fri</b><div>🤔 reflect 12:04p</div><div>📝 weekly update drafts 11:02a (w/ applied-or-not truth table)</div></div>
+    <div class="day"><b>Sat</b><div>— rhythm day —</div></div>
+  </div>
+  <div class="note">Daily self-heal guards run silently every day at 8:00/8:10/8:45a — six silent exits a week is the system working.</div>
+
+  <footer>Ganesh OS · shape of 2026-08-17 · toggle above to compare · every card in the AFTER view is tap-to-open deep-linked in the real messages</footer>
+
+<script>
+const AFTER = {
+  sub: "≈8-10 MAIN messages on a normal day. Two briefs anchor it; everything else is a delta that only speaks when something changed.",
+  tiles: [
+    {big:"~9", lbl:"MAIN msgs / healthy day", delta:"▼ from ~26 · midday check adds 0-2 only when something needs you", good:true},
+    {big:"2", lbl:"daily briefs (7:05a · 9:15p)", delta:"inbox + tasks + health folded in", good:true},
+    {big:"14", lbl:"silent guardian runs / day", delta:"watchdogs, guards, sweeps — 0 messages", good:true}
+  ],
+  ev: [
+    {t:"5:50a", c:"board", h:"🟠 Triage FULL + 🗂 domain board", b:"One bundle: tier digest + card + per-domain deep links. Master shortlist retired from mornings.", badge:"2 msgs + card", bt:"b-msg"},
+    {t:"6:15a", c:"sys", h:"Morning sweep", b:"Write-only: reconciles calendar & tasks, prepares the anchor. Says nothing.", badge:"silent", bt:"b-silent", silent:true},
+    {t:"6:25a", c:"brief", h:"Inbox scanner (secretless)", b:"Reads ~200 emails + Slack + GVoice, writes digest files to Drive. Never touches credentials.", badge:"silent", bt:"b-silent", silent:true},
+    {t:"7:00a", c:"watch", h:"⌚ Wake quote on the wrist", b:"Same thought as the anchor's opening line — one voice, two surfaces.", badge:"Watch", bt:"b-watch"},
+    {t:"7:05a", c:"brief", h:"💪 THE MORNING BRIEF", b:"Quotes · recovery/sleep/strain · 🍽 nutrition call · THE DAY plan · 📥 inbox BLUF · 📌 today's top-5 · ⏱ auto-blocks placed (color-coded) · reply rubric.", badge:"1-2 msgs + card", bt:"b-msg"},
+    {t:"7:07a", c:"brief", h:"📥 Inbox card rides in", b:"Courier ships the full html card only — the BLUF already arrived inside the brief.", badge:"card only", bt:"b-msg"},
+    {t:"7:31a", c:"job", h:"💼 Job scan AM", b:"Net-new roles only, every role linked (posting + TickTick), clean Telegram tags. Zero new = zero message.", badge:"0-1 msg + card", bt:"b-msg"},
+    {t:"8:00a", c:"sys", h:"Goals guard · slot-watchdog · deep-dive guard", b:"8:00 / 8:10 / 8:45 — on a healthy weekday all three check and exit silently. Sunday missed? They backfill now.", badge:"silent ×3", bt:"b-silent", silent:true},
+    {t:"8:50a", c:"board", h:"🟠 Triage delta", b:"Speaks only if something changed since 5:50a. No change = nothing.", badge:"0-1 msg", bt:"b-msg"},
+    {t:"~mtg", c:"brief", h:"🤝 Pre-briefs before every real meeting", b:"Who · last touch · your goal · one sharp question. Post-brief when a transcript exists. All day, event-driven.", badge:"per meeting", bt:"b-msg"},
+    {t:"12:30p", c:"watch", h:"⌚ Midday line + 💧 water cadence", b:"Apple Reminders own the wrist all day. Meds ping from Apple Health — reminders deduped, one voice per fact.", badge:"Watch", bt:"b-watch"},
+    {t:"12:50p", c:"brief", h:"📥 Midday needs-you check", b:"Slim scan since the AM digest: humans, deadlines, alerts only — no newsletters (those wait for PM). Delivered ~1:07p; nothing urgent = total silence.", badge:"0 or 1-2 msgs", bt:"b-msg"},
+    {t:"6:50p", c:"board", h:"🟠 Triage delta (evening)", b:"Again: only if something moved.", badge:"0-1 msg", bt:"b-msg"},
+    {t:"7:02p", c:"health", h:"🌆 Evening wrap", b:"Day close: what happened, 🍽 remaining macros, wind-down quote (Watch echoes it at 9:30p).", badge:"1 msg + card", bt:"b-msg"},
+    {t:"8:30p", c:"brief", h:"Inbox PM scanner (secretless)", b:"Same split design as the morning — writes files, holds no secrets.", badge:"silent", bt:"b-silent", silent:true},
+    {t:"8:31p", c:"job", h:"💼 Job scan PM", b:"Evening sweep of postings + recruiter mail. Zero new = silence.", badge:"0-1 msg + card", bt:"b-msg"},
+    {t:"9:15p", c:"board", h:"📋 THE EVENING BRIEF (nightly board)", b:"Review board + 📌 tomorrow's draft + 📥 PM inbox BLUF + ⏱ block sweep + master shortlist & domain links — one bundle, then the PM card rides in.", badge:"3 msgs + cards", bt:"b-msg"},
+    {t:"9:30p", c:"watch", h:"⌚ Calm line", b:"The wrap's wind-down thought, echoed on the wrist. Goodnight.", badge:"Watch", bt:"b-watch"},
+    {t:"9:45p", c:"sys", h:"🧾 Ops ledger → OPS group", b:"The day's run scorecard goes to the ops channel, never MAIN.", badge:"OPS only", bt:"b-silent"}
+  ]
+};
+const BEFORE = {
+  sub: "≈26 MAIN messages on a healthy day (the 15.6/day average included 3 outage days). Facts arrived in fragments, several voices repeated each other, and probes leaked into MAIN.",
+  tiles: [
+    {big:"~26", lbl:"MAIN msgs / healthy day", delta:"▲ 2.6× over the ≤10 target", good:false},
+    {big:"0", lbl:"true briefs", delta:"6-8 fragments before 9am instead", good:false},
+    {big:"3", lbl:"silent failure classes", delta:"env outages · idle reply lane · mute watchdog", good:false}
+  ],
+  ev: [
+    {t:"6:07a", c:"board", h:"🟠 Triage FULL — sent twice", b:"Text + card, then the same pair again (dup guard gap on 8/10).", badge:"4 msgs", bt:"b-dead", cl:"dead"},
+    {t:"6:08a", c:"board", h:"📌 Master shortlist + 🗂 domains", b:"Two more board messages — 75 minutes later the day-starter re-covered the same ground.", badge:"2 msgs", bt:"b-msg"},
+    {t:"7:23a", c:"health", h:"💪 Day-starter", b:"Health block + day plan (often split 2 msgs + card). No inbox, no shortlist — those came separately.", badge:"2 msgs + card", bt:"b-msg"},
+    {t:"7:36a", c:"brief", h:"📥 Inbox AM — text + card", b:"Separate voice; carried secrets while reading 200 untrusted emails → refused to send 3 different mornings.", badge:"2 msgs", bt:"b-msg"},
+    {t:"7:48a", c:"job", h:"💼 Job scan AM — text + card", b:"Ran AFTER the triage full pass, so new roles waited for the 8:50 delta. Cards missing links, raw tags in text.", badge:"2 msgs", bt:"b-msg"},
+    {t:"8:35a", c:"sys", h:'"No commands - nothing to do."', b:"The command lane announcing it had nothing to announce.", badge:"noise", bt:"b-dead", cl:"dead"},
+    {t:"8:41a", c:"sys", h:"⏰ Overdue watchdog", b:"14 newly overdue — legitimate, but arriving as its own voice minutes after 5 other messages.", badge:"1 msg", bt:"b-msg"},
+    {t:"9:01a", c:"sys", h:'"placeholder" · "test-connectivity-ignore"', b:"Probe messages leaking into MAIN before real sends.", badge:"noise ×2", bt:"b-dead", cl:"dead"},
+    {t:"8:50a", c:"board", h:"🟠 Triage delta", b:"Often re-listing unchanged items.", badge:"1-2 msgs", bt:"b-msg"},
+    {t:"2:16p", c:"sys", h:"⚡ Ack · ack · ack", b:"One reply from you drew up to four acknowledgments from three different lanes.", badge:"noise ×3", bt:"b-dead", cl:"dead"},
+    {t:"6:50p", c:"board", h:"🟠 Evening triage delta", b:"Third board voice of the day.", badge:"1-2 msgs", bt:"b-msg"},
+    {t:"7:09p", c:"health", h:"🌆 Evening wrap", b:"Day 'closes' — but three more message groups are still coming.", badge:"1 msg + card", bt:"b-msg"},
+    {t:"8:38p", c:"brief", h:"📥 Inbox PM — text + card", b:"Fourth separate evening voice. Same secrets-while-reading-email exposure as the morning.", badge:"2 msgs", bt:"b-msg"},
+    {t:"8:46p", c:"job", h:"💼 Job scan PM — text + card", b:"Fifth.", badge:"2 msgs", bt:"b-msg"},
+    {t:"9:34p", c:"board", h:"📋 Nightly board + shortlist + domains", b:"Sixth, seventh and eighth — the day closed three times.", badge:"3-4 msgs", bt:"b-msg"},
+    {t:"any", c:"sys", h:"🕳️ And when the whole env died…", b:"…nothing said anything. 45h and 72h outages with zero alerts; the reply lane sat unwatched for 6 days; the watchdog that noticed told no one.", badge:"silence", bt:"b-dead", cl:"dead"}
+  ]
+};
+function setMode(m){
+  const d = m==='after'?AFTER:BEFORE;
+  document.getElementById('btnAfter').classList.toggle('on', m==='after');
+  document.getElementById('btnBefore').classList.toggle('on', m==='before');
+  document.getElementById('tlsub').textContent = d.sub;
+  const tiles = document.getElementById('tiles');
+  tiles.innerHTML='';
+  d.tiles.forEach((t,i)=>{
+    const el=document.createElement('div');el.className='tile';el.style.animationDelay=(i*90)+'ms';
+    el.innerHTML=`<div class="big">${t.big}</div><div class="lbl">${t.lbl}</div><div class="delta ${t.good?'':'bad'}">${t.delta}</div>`;
+    tiles.appendChild(el);
+  });
+  const tl = document.getElementById('tl');
+  tl.innerHTML='';
+  d.ev.forEach((e,i)=>{
+    const el=document.createElement('div');
+    el.className='ev '+(e.cl||e.c)+(e.silent?' silent':'');
+    el.style.animationDelay=(i*110)+'ms';
+    el.innerHTML=`<div class="t">${e.t}</div><div class="dot"></div>
+      <div class="card"><div class="hd">${e.h}<span class="badge ${e.bt}">${e.badge}</span></div>
+      <div class="bd">${e.b}</div></div>`;
+    tl.appendChild(el);
+  });
+}
+setMode('after');
+</script>
+</body>
+</html>
