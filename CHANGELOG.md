@@ -47,7 +47,7 @@ BLUF: the dated record of how the system evolved, newest first. Entries are reco
 
 ## 2026-08-17 (later) - v7.6.1: the second signal pass, and one reminder per fact
 - The watchdog went live and earned its keep within its first ten minutes: a correct
-  reply-lane staleness alert, a clean self-test, and then the real diagnosis — the inbound
+  reply-lane staleness alert, a clean self-test, and then the real diagnosis - the inbound
   poller had never been broken at all. Update-id continuity proved zero messages had reached
   the bot in the silent window; the lane was idle, not dead. The correction was owned
   publicly: the earlier "six-day outage" read had the right symptom and the wrong cause,
@@ -55,7 +55,7 @@ BLUF: the dated record of how the system evolved, newest first. Entries are reco
 - A second signal-to-noise pass closed four gaps the first one created or missed: the
   morning master shortlist was retired (the day brief's today-list had made it a duplicate
   voice 75 minutes apart); the evening inbox digest joined the morning one in secretless
-  split delivery (the last untrusted-content reader still holding credentials — the exact
+  split delivery (the last untrusted-content reader still holding credentials - the exact
   class behind three refusal incidents); the nightly board became the evening's single
   voice, folding the inbox bottom line and tomorrow's draft into one message; and consumed
   operator replies can no longer boomerang back as proposed board rows.
@@ -63,14 +63,14 @@ BLUF: the dated record of how the system evolved, newest first. Entries are reco
   applied / not-applied truth table where "applied" requires documentary evidence, after a
   scan called an application "pending" that had never been submitted. A task existing is
   not progress. The work-in-progress limit was reconciled against the live task store the
-  same evening — one keystone had died into a tombstone while the prompt still counted it.
+  same evening - one keystone had died into a tombstone while the prompt still counted it.
 - One-reminder-per-fact became law: a reminder lives in exactly one store. The watch-facing
   store wins for wrist nudges, the platform's own medication surface wins for meds, and the
   task store keeps tasks and content records, never duplicate alarms. The duplicate med
   mirrors were deleted with their clinical content preserved into a canonical record file
   the health lanes read.
-- Deep links became law too: anything the operator would tap through to — a task, a posting,
-  an email thread, a chat with a person — must carry its real link, with a hard
+- Deep links became law too: anything the operator would tap through to - a task, a posting,
+  an email thread, a chat with a person - must carry its real link, with a hard
   no-fabrication rule. The job scan additionally got a link-completeness law (every role
   named anywhere links to its posting, passes included) and a transport-readability law
   (only messenger-supported tags in the text leg; text and card always in sync).

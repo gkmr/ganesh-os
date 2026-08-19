@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>⚙️ Ganesh OS — A Day in the Life</title>
+<title>⚙️ Ganesh OS - A Day in the Life</title>
 <style>
   :root{
     --bg:#0f1216; --surface:#171c22; --card:#1d242c; --card2:#232b35;
@@ -94,7 +94,7 @@
 </style>
 </head>
 <body>
-  <h1>⚙️ Ganesh OS — a day in the life</h1>
+  <h1>⚙️ Ganesh OS - a day in the life</h1>
   <div class="sub">Every scheduled voice in your Telegram day, hour by hour. Toggle to see what changed on Aug 17.</div>
 
   <div class="toggle">
@@ -115,7 +115,7 @@
 
   <h2>🫀 Always running underneath (no messages)</h2>
   <div class="hum">
-    <div class="h"><b><span class="pulse slow"></span>Relay · every 5 min</b><small>Google's infra, outside the cloud env. Delivers outbox files, captures your Telegram replies, logs every send — and watches the fleet's pulse (silent &gt;20h ⇒ it texts you itself).</small></div>
+    <div class="h"><b><span class="pulse slow"></span>Relay · every 5 min</b><small>Google's infra, outside the cloud env. Delivers outbox files, captures your Telegram replies, logs every send - and watches the fleet's pulse (silent &gt;20h ⇒ it texts you itself).</small></div>
     <div class="h"><b><span class="pulse"></span>Command lane · hourly</b><small>Reads your replies + [GK] emails, applies task/calendar changes, couriers digest cards, answers "run ea", "prep me for X", "unblock Y", ask-the-coach.</small></div>
     <div class="h"><b><span class="pulse"></span>Meeting briefer · hourly 7a–7p</b><small>🤝 pre-brief 20–80 min before every real meeting (all 5 calendars incl. Section 2 + Parameter); post-brief when a transcript exists.</small></div>
     <div class="h"><b><span class="pulse amber"></span>Self-heal guards · daily</b><small>Goals 8:00a · deep-dive 8:45a · slot-watchdog 8:10a. Six days a week they check and exit in silence; a missed Sunday backfills Monday, automatically.</small></div>
@@ -176,12 +176,12 @@
     <div class="day"><b>Sun</b><div>🎭 quote-rotor 5a → new week program</div><div>🏆 goals review 8a</div><div>📊 deep-dive 8:45a</div></div>
     <div class="day"><b>Mon</b><div>🩺 delivery audit 8:33a</div><div>🔁 missed Sunday? guards backfill this morning</div></div>
     <div class="day"><b>Tue</b><div>🤔 reflect · 5 questions 12:04p</div></div>
-    <div class="day"><b>Wed</b><div>— rhythm day —</div></div>
-    <div class="day"><b>Thu</b><div>— rhythm day —</div></div>
+    <div class="day"><b>Wed</b><div> -  rhythm day  - </div></div>
+    <div class="day"><b>Thu</b><div> -  rhythm day  - </div></div>
     <div class="day"><b>Fri</b><div>🤔 reflect 12:04p</div><div>📝 weekly update drafts 11:02a (w/ applied-or-not truth table)</div></div>
-    <div class="day"><b>Sat</b><div>— rhythm day —</div></div>
+    <div class="day"><b>Sat</b><div> -  rhythm day  - </div></div>
   </div>
-  <div class="note">Daily self-heal guards run silently every day at 8:00/8:10/8:45a — six silent exits a week is the system working.</div>
+  <div class="note">Daily self-heal guards run silently every day at 8:00/8:10/8:45a - six silent exits a week is the system working.</div>
 
   <footer>Ganesh OS · shape of 2026-08-17 · toggle above to compare · every card in the AFTER view is tap-to-open deep-linked in the real messages</footer>
 
@@ -191,26 +191,26 @@ const AFTER = {
   tiles: [
     {big:"~9", lbl:"MAIN msgs / healthy day", delta:"▼ from ~26 · midday check adds 0-2 only when something needs you", good:true},
     {big:"2", lbl:"daily briefs (7:05a · 9:15p)", delta:"inbox + tasks + health folded in", good:true},
-    {big:"14", lbl:"silent guardian runs / day", delta:"watchdogs, guards, sweeps — 0 messages", good:true}
+    {big:"14", lbl:"silent guardian runs / day", delta:"watchdogs, guards, sweeps - 0 messages", good:true}
   ],
   ev: [
     {t:"5:50a", c:"board", h:"🟠 Triage FULL + 🗂 domain board", b:"One bundle: tier digest + card + per-domain deep links. Master shortlist retired from mornings.", badge:"2 msgs + card", bt:"b-msg"},
     {t:"6:15a", c:"sys", h:"Morning sweep", b:"Write-only: reconciles calendar & tasks, prepares the anchor. Says nothing.", badge:"silent", bt:"b-silent", silent:true},
     {t:"6:25a", c:"brief", h:"Inbox scanner (secretless)", b:"Reads ~200 emails + Slack + GVoice, writes digest files to Drive. Never touches credentials.", badge:"silent", bt:"b-silent", silent:true},
-    {t:"7:00a", c:"watch", h:"⌚ Wake quote on the wrist", b:"Same thought as the anchor's opening line — one voice, two surfaces.", badge:"Watch", bt:"b-watch"},
+    {t:"7:00a", c:"watch", h:"⌚ Wake quote on the wrist", b:"Same thought as the anchor's opening line - one voice, two surfaces.", badge:"Watch", bt:"b-watch"},
     {t:"7:05a", c:"brief", h:"💪 THE MORNING BRIEF", b:"Quotes · recovery/sleep/strain · 🍽 nutrition call · THE DAY plan · 📥 inbox BLUF · 📌 today's top-5 · ⏱ auto-blocks placed (color-coded) · reply rubric.", badge:"1-2 msgs + card", bt:"b-msg"},
-    {t:"7:07a", c:"brief", h:"📥 Inbox card rides in", b:"Courier ships the full html card only — the BLUF already arrived inside the brief.", badge:"card only", bt:"b-msg"},
+    {t:"7:07a", c:"brief", h:"📥 Inbox card rides in", b:"Courier ships the full html card only - the BLUF already arrived inside the brief.", badge:"card only", bt:"b-msg"},
     {t:"7:31a", c:"job", h:"💼 Job scan AM", b:"Net-new roles only, every role linked (posting + TickTick), clean Telegram tags. Zero new = zero message.", badge:"0-1 msg + card", bt:"b-msg"},
-    {t:"8:00a", c:"sys", h:"Goals guard · slot-watchdog · deep-dive guard", b:"8:00 / 8:10 / 8:45 — on a healthy weekday all three check and exit silently. Sunday missed? They backfill now.", badge:"silent ×3", bt:"b-silent", silent:true},
+    {t:"8:00a", c:"sys", h:"Goals guard · slot-watchdog · deep-dive guard", b:"8:00 / 8:10 / 8:45 - on a healthy weekday all three check and exit silently. Sunday missed? They backfill now.", badge:"silent ×3", bt:"b-silent", silent:true},
     {t:"8:50a", c:"board", h:"🟠 Triage delta", b:"Speaks only if something changed since 5:50a. No change = nothing.", badge:"0-1 msg", bt:"b-msg"},
     {t:"~mtg", c:"brief", h:"🤝 Pre-briefs before every real meeting", b:"Who · last touch · your goal · one sharp question. Post-brief when a transcript exists. All day, event-driven.", badge:"per meeting", bt:"b-msg"},
-    {t:"12:30p", c:"watch", h:"⌚ Midday line + 💧 water cadence", b:"Apple Reminders own the wrist all day. Meds ping from Apple Health — reminders deduped, one voice per fact.", badge:"Watch", bt:"b-watch"},
-    {t:"12:50p", c:"brief", h:"📥 Midday needs-you check", b:"Slim scan since the AM digest: humans, deadlines, alerts only — no newsletters (those wait for PM). Delivered ~1:07p; nothing urgent = total silence.", badge:"0 or 1-2 msgs", bt:"b-msg"},
+    {t:"12:30p", c:"watch", h:"⌚ Midday line + 💧 water cadence", b:"Apple Reminders own the wrist all day. Meds ping from Apple Health - reminders deduped, one voice per fact.", badge:"Watch", bt:"b-watch"},
+    {t:"12:50p", c:"brief", h:"📥 Midday needs-you check", b:"Slim scan since the AM digest: humans, deadlines, alerts only - no newsletters (those wait for PM). Delivered ~1:07p; nothing urgent = total silence.", badge:"0 or 1-2 msgs", bt:"b-msg"},
     {t:"6:50p", c:"board", h:"🟠 Triage delta (evening)", b:"Again: only if something moved.", badge:"0-1 msg", bt:"b-msg"},
     {t:"7:02p", c:"health", h:"🌆 Evening wrap", b:"Day close: what happened, 🍽 remaining macros, wind-down quote (Watch echoes it at 9:30p).", badge:"1 msg + card", bt:"b-msg"},
-    {t:"8:30p", c:"brief", h:"Inbox PM scanner (secretless)", b:"Same split design as the morning — writes files, holds no secrets.", badge:"silent", bt:"b-silent", silent:true},
+    {t:"8:30p", c:"brief", h:"Inbox PM scanner (secretless)", b:"Same split design as the morning - writes files, holds no secrets.", badge:"silent", bt:"b-silent", silent:true},
     {t:"8:31p", c:"job", h:"💼 Job scan PM", b:"Evening sweep of postings + recruiter mail. Zero new = silence.", badge:"0-1 msg + card", bt:"b-msg"},
-    {t:"9:15p", c:"board", h:"📋 THE EVENING BRIEF (nightly board)", b:"Review board + 📌 tomorrow's draft + 📥 PM inbox BLUF + ⏱ block sweep + master shortlist & domain links — one bundle, then the PM card rides in.", badge:"3 msgs + cards", bt:"b-msg"},
+    {t:"9:15p", c:"board", h:"📋 THE EVENING BRIEF (nightly board)", b:"Review board + 📌 tomorrow's draft + 📥 PM inbox BLUF + ⏱ block sweep + master shortlist & domain links - one bundle, then the PM card rides in.", badge:"3 msgs + cards", bt:"b-msg"},
     {t:"9:30p", c:"watch", h:"⌚ Calm line", b:"The wrap's wind-down thought, echoed on the wrist. Goodnight.", badge:"Watch", bt:"b-watch"},
     {t:"9:45p", c:"sys", h:"🧾 Ops ledger → OPS group", b:"The day's run scorecard goes to the ops channel, never MAIN.", badge:"OPS only", bt:"b-silent"}
   ]
@@ -223,21 +223,21 @@ const BEFORE = {
     {big:"3", lbl:"silent failure classes", delta:"env outages · idle reply lane · mute watchdog", good:false}
   ],
   ev: [
-    {t:"6:07a", c:"board", h:"🟠 Triage FULL — sent twice", b:"Text + card, then the same pair again (dup guard gap on 8/10).", badge:"4 msgs", bt:"b-dead", cl:"dead"},
-    {t:"6:08a", c:"board", h:"📌 Master shortlist + 🗂 domains", b:"Two more board messages — 75 minutes later the day-starter re-covered the same ground.", badge:"2 msgs", bt:"b-msg"},
-    {t:"7:23a", c:"health", h:"💪 Day-starter", b:"Health block + day plan (often split 2 msgs + card). No inbox, no shortlist — those came separately.", badge:"2 msgs + card", bt:"b-msg"},
-    {t:"7:36a", c:"brief", h:"📥 Inbox AM — text + card", b:"Separate voice; carried secrets while reading 200 untrusted emails → refused to send 3 different mornings.", badge:"2 msgs", bt:"b-msg"},
-    {t:"7:48a", c:"job", h:"💼 Job scan AM — text + card", b:"Ran AFTER the triage full pass, so new roles waited for the 8:50 delta. Cards missing links, raw tags in text.", badge:"2 msgs", bt:"b-msg"},
+    {t:"6:07a", c:"board", h:"🟠 Triage FULL - sent twice", b:"Text + card, then the same pair again (dup guard gap on 8/10).", badge:"4 msgs", bt:"b-dead", cl:"dead"},
+    {t:"6:08a", c:"board", h:"📌 Master shortlist + 🗂 domains", b:"Two more board messages - 75 minutes later the day-starter re-covered the same ground.", badge:"2 msgs", bt:"b-msg"},
+    {t:"7:23a", c:"health", h:"💪 Day-starter", b:"Health block + day plan (often split 2 msgs + card). No inbox, no shortlist - those came separately.", badge:"2 msgs + card", bt:"b-msg"},
+    {t:"7:36a", c:"brief", h:"📥 Inbox AM - text + card", b:"Separate voice; carried secrets while reading 200 untrusted emails → refused to send 3 different mornings.", badge:"2 msgs", bt:"b-msg"},
+    {t:"7:48a", c:"job", h:"💼 Job scan AM - text + card", b:"Ran AFTER the triage full pass, so new roles waited for the 8:50 delta. Cards missing links, raw tags in text.", badge:"2 msgs", bt:"b-msg"},
     {t:"8:35a", c:"sys", h:'"No commands - nothing to do."', b:"The command lane announcing it had nothing to announce.", badge:"noise", bt:"b-dead", cl:"dead"},
-    {t:"8:41a", c:"sys", h:"⏰ Overdue watchdog", b:"14 newly overdue — legitimate, but arriving as its own voice minutes after 5 other messages.", badge:"1 msg", bt:"b-msg"},
+    {t:"8:41a", c:"sys", h:"⏰ Overdue watchdog", b:"14 newly overdue - legitimate, but arriving as its own voice minutes after 5 other messages.", badge:"1 msg", bt:"b-msg"},
     {t:"9:01a", c:"sys", h:'"placeholder" · "test-connectivity-ignore"', b:"Probe messages leaking into MAIN before real sends.", badge:"noise ×2", bt:"b-dead", cl:"dead"},
     {t:"8:50a", c:"board", h:"🟠 Triage delta", b:"Often re-listing unchanged items.", badge:"1-2 msgs", bt:"b-msg"},
     {t:"2:16p", c:"sys", h:"⚡ Ack · ack · ack", b:"One reply from you drew up to four acknowledgments from three different lanes.", badge:"noise ×3", bt:"b-dead", cl:"dead"},
     {t:"6:50p", c:"board", h:"🟠 Evening triage delta", b:"Third board voice of the day.", badge:"1-2 msgs", bt:"b-msg"},
-    {t:"7:09p", c:"health", h:"🌆 Evening wrap", b:"Day 'closes' — but three more message groups are still coming.", badge:"1 msg + card", bt:"b-msg"},
-    {t:"8:38p", c:"brief", h:"📥 Inbox PM — text + card", b:"Fourth separate evening voice. Same secrets-while-reading-email exposure as the morning.", badge:"2 msgs", bt:"b-msg"},
-    {t:"8:46p", c:"job", h:"💼 Job scan PM — text + card", b:"Fifth.", badge:"2 msgs", bt:"b-msg"},
-    {t:"9:34p", c:"board", h:"📋 Nightly board + shortlist + domains", b:"Sixth, seventh and eighth — the day closed three times.", badge:"3-4 msgs", bt:"b-msg"},
+    {t:"7:09p", c:"health", h:"🌆 Evening wrap", b:"Day 'closes' - but three more message groups are still coming.", badge:"1 msg + card", bt:"b-msg"},
+    {t:"8:38p", c:"brief", h:"📥 Inbox PM - text + card", b:"Fourth separate evening voice. Same secrets-while-reading-email exposure as the morning.", badge:"2 msgs", bt:"b-msg"},
+    {t:"8:46p", c:"job", h:"💼 Job scan PM - text + card", b:"Fifth.", badge:"2 msgs", bt:"b-msg"},
+    {t:"9:34p", c:"board", h:"📋 Nightly board + shortlist + domains", b:"Sixth, seventh and eighth - the day closed three times.", badge:"3-4 msgs", bt:"b-msg"},
     {t:"any", c:"sys", h:"🕳️ And when the whole env died…", b:"…nothing said anything. 45h and 72h outages with zero alerts; the reply lane sat unwatched for 6 days; the watchdog that noticed told no one.", badge:"silence", bt:"b-dead", cl:"dead"}
   ]
 };
