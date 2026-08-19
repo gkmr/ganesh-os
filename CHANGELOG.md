@@ -2,6 +2,29 @@
 
 BLUF: the dated record of how the system evolved, newest first. Entries are reconstructed from the ADR dates in [`docs/decisions.md`](docs/decisions.md) and the repo history; each links to the document that carries the full detail. Sanitized, like everything here.
 
+## 2026-08-19 (night) - v7.7.2: model tiering goes risk-based, and the fleet gets one model policy
+- The whole fleet moved to the newest frontier model in one pass, then deliberately tiered
+  back down by risk, not by convenience: judgment surfaces (both inbox digests plus the
+  midday check, the role scanner and the weekly accountability drafts, every health and
+  coaching anchor, the triage writer, the boards, the command lane) stay on the frontier
+  tier under monitoring; mechanical preparers (the two write-only sweeps, the fallback
+  sweep, the weekly delivery audit, the meeting briefer) run the mid tier; pure bookkeeping
+  (the DST guard, the overdue watchdog, the nightly ops ledger, the reply applier, the slot
+  watchdog) runs the small tier. The operating rule: anything that reads untrusted content,
+  touches money or health, or writes prose the operator sends as himself earns the frontier
+  model; anything whose output is a table, a diff, or a cron swap does not. Spend is watched
+  daily by the fallback sweep's receipt scan, so the tiering is a measured decision, not a
+  guess.
+- The weekly accountability update now delivers the complete text of all three audience
+  variants to the operator's phone (one message per audience, plus the combined card),
+  replacing summary-only delivery - the drafts meet the operator where he reads, not where
+  they were written.
+- Permission posture made explicit: 18 of 24 scheduled tasks run fully auto-approved; the
+  remaining six run under classifier auto-approval and have executed unattended without a
+  single block. Permission mode is stamped at task creation, so the ledger now watches for
+  the first permission stall as the trigger to recreate rather than churning task ids
+  preemptively (id churn breaks the DST guard's trigger table - a known failure class).
+
 ## 2026-08-19 (later) - v7.7.1: the visual walkthrough, and three more incident laws
 - docs/how-it-runs.html: an animated, executive-facing visual walkthrough of the whole
   system - the one-way loop, a day in the machine, the adaptive tone engine, the layered
