@@ -2,6 +2,49 @@
 
 BLUF: the dated record of how the system evolved, newest first. Entries are reconstructed from the ADR dates in [`docs/decisions.md`](docs/decisions.md) and the repo history; each links to the document that carries the full detail. Sanitized, like everything here.
 
+## 2026-08-19 - v7.7: the board learns the calendar, and the quotes learn the operator
+- State-aware quotes. The weekly quote generator still writes one program per week, but the
+  three daily-composed slots (wake, workout, wind-down) now each carry three variants of the
+  same day's thought - charged, steady, restore - and the daily consumers select the variant
+  matching that day's actual state: recovery band, sleep score, strain and workout load, the
+  mood index, and above all the operator's own words. A stated feeling outranks the sensors;
+  an explicit "red day" reply outranks everything and reshapes every remaining quote,
+  session suggestion, and coach's call for the day. Positive-state law is binding: every
+  variant in every band encourages; a bad number is never scolded, always reframed as
+  agency, and the restore register dignifies rest as the strong move - never "push
+  through". Preambles are composed fresh daily and flavor in the day's shape (calendar
+  density, the planned workout, meals so far, tonight's plans) without ever touching the
+  chosen line. Watch-applied lines stay weekly and are written state-robust, because the
+  wrist cannot see the morning's data.
+- The domains board became calendar-true. Spec v2 adds a social-and-personal domain, deepens
+  the job domains to ten rows, and writes the calendar-sync law: a task the operator has
+  committed calendar time to is pinned to the top of its domain, and any time-block placed
+  on the calendar writes back to the task store (top priority, due that day, a sync tag) so
+  both systems tell the same story. Overdue-versus-blocks ordering became an operator-
+  confirmed choice with remembered preferences, not a heuristic - the board asks once,
+  stores the answer, and only re-asks on genuinely new contention.
+- Plan far, write near. The nightly board now closes with a seven-day week-ahead view -
+  fixed commitments, planned work, social plans, weekends always - but writes nothing
+  beyond tomorrow; blocks materialize day-of through the morning anchor or an explicit ask.
+  Thirteen social and travel commitments were captured as dated holds with booking
+  deadlines the same evening.
+- Self-healing became historically honest. After a lane came back from a multi-day gap
+  having resumed only "current" work, the backfill law went fleet-wide: any lane returning
+  from a dark window wider than a cycle reconstructs the window it missed - widened
+  searches, diffs against the last good snapshot, seen-logs stamped with real dates - and
+  the watchdog now drops backfill flags into a dead lane's state file so the healed lane
+  finds its debt waiting.
+- Four production defects from the first morning of the new daily shape were closed with
+  both remediation and permanent law: document cards now ship byte-verbatim from the store
+  with a decode-verify before every send (a re-encoded card had reached the phone
+  unopenable), the newsletter digest earned its own card, the morning anchor learned to
+  wait for the overnight health export instead of declaring the night unmeasured minutes
+  before the data landed, and package tracking moved to the midday scanner with a same-day
+  pass. The alarm-less-reminder incident that killed the medication reminders was written
+  into canon with its guards: an API-created reminder has no alarm unless one is passed
+  explicitly, silent-by-design is a valid protected state, and a sweep may never complete
+  a recurring reminder for being alarm-less.
+
 ## 2026-08-17 (later) - v7.6.1: the second signal pass, and one reminder per fact
 - The watchdog went live and earned its keep within its first ten minutes: a correct
   reply-lane staleness alert, a clean self-test, and then the real diagnosis — the inbound
