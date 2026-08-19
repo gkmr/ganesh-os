@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ganesh OS · How It Runs - a visual walkthrough</title>
+<style>
+  :root{
+    --bg:#0b1020; --panel:#121a33; --panel2:#0f1730; --ink:#e8ecff; --dim:#93a0c9;
+    --green:#34d399; --yellow:#fbbf24; --red:#f87171; --blue:#60a5fa; --violet:#a78bfa;
+    --pink:#f472b6; --line:#26315c;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{scroll-behavior:smooth}
+  body{background:radial-gradient(1200px 800px at 70% -10%, #1a2450 0%, var(--bg) 55%);
+       color:var(--ink); font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; overflow-x:hidden}
+  section{max-width:1060px; margin:0 auto; padding:60px 22px}
+  h1{font-size:clamp(30px,5vw,50px); line-height:1.12; letter-spacing:-.5px}
+  h2{font-size:clamp(22px,3.4vw,32px); margin-bottom:8px}
+  h3{font-size:17px; margin-bottom:6px}
+  p.lead{color:var(--dim); font-size:clamp(15px,2vw,19px); max-width:740px; margin-top:12px}
+  .kicker{display:inline-block; font-size:12px; letter-spacing:2.5px; text-transform:uppercase; color:var(--blue);
+          border:1px solid var(--line); padding:5px 12px; border-radius:999px; margin-bottom:16px; background:rgba(96,165,250,.06)}
+  .muted{color:var(--dim)}
+  .card{background:linear-gradient(180deg,var(--panel),var(--panel2)); border:1px solid var(--line); border-radius:16px; padding:20px}
+  .hero{min-height:82vh; display:flex; flex-direction:column; justify-content:center; position:relative}
+  .orbitWrap{position:absolute; right:-40px; top:50%; transform:translateY(-50%); width:400px; height:400px;
+             perspective:900px; opacity:.9; pointer-events:none}
+  @media(max-width:900px){.orbitWrap{position:static; transform:none; margin:30px auto 0; width:290px;height:290px}}
+  .orbit{position:absolute; inset:0; transform-style:preserve-3d; animation:spin 22s linear infinite}
+  @keyframes spin{from{transform:rotateX(64deg) rotateZ(0)} to{transform:rotateX(64deg) rotateZ(360deg)}}
+  .ring{position:absolute; inset:0; border:1.5px dashed rgba(120,150,255,.35); border-radius:50%}
+  .ring.r2{inset:50px; border-color:rgba(167,139,250,.35)}
+  .ring.r3{inset:104px; border-color:rgba(244,114,182,.3)}
+  .sat{position:absolute; top:50%; left:50%; width:50px; height:50px; margin:-25px; border-radius:14px;
+       display:flex; align-items:center; justify-content:center; font-size:23px;
+       background:var(--panel); border:1px solid var(--line); box-shadow:0 8px 30px rgba(0,0,0,.5);
+       transform:rotateZ(calc(var(--a) * 1deg)) translateX(var(--r)) rotateZ(calc(var(--a) * -1deg)) rotateX(-64deg)}
+  .core{position:absolute; top:50%; left:50%; width:92px; height:92px; margin:-46px; border-radius:50%;
+        display:flex; align-items:center; justify-content:center; font-size:40px;
+        background:radial-gradient(circle at 32% 30%, #3350c9, #16204a 70%);
+        box-shadow:0 0 60px rgba(90,120,255,.55), inset 0 0 24px rgba(255,255,255,.15); animation:pulse 3.2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 40px rgba(90,120,255,.4)} 50%{box-shadow:0 0 90px rgba(90,120,255,.75)}}
+  .badges{display:flex; flex-wrap:wrap; gap:10px; margin-top:22px}
+  .badge{background:var(--panel); border:1px solid var(--line); padding:8px 14px; border-radius:999px; font-size:13px}
+  .badge b{color:var(--blue)}
+  .flow{display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-top:26px; position:relative}
+  @media(max-width:900px){.flow{grid-template-columns:1fr 1fr}}
+  .node{text-align:center; padding:16px 10px; border-radius:14px; background:var(--panel); border:1px solid var(--line); transition:transform .3s}
+  .node:hover{transform:translateY(-4px)}
+  .node .ic{font-size:30px; display:block; margin-bottom:6px}
+  .node b{font-size:14px}
+  .node small{display:block; color:var(--dim); font-size:12px; margin-top:4px}
+  .pipe{height:3px; background:linear-gradient(90deg,transparent, var(--blue), transparent);
+        background-size:200% 100%; animation:flowdash 2.2s linear infinite; border-radius:2px; margin:12px 0}
+  @keyframes flowdash{from{background-position:200% 0} to{background-position:-200% 0}}
+  .tl{position:relative; margin-top:30px; padding-left:34px}
+  .tl:before{content:""; position:absolute; left:12px; top:0; bottom:0; width:3px;
+             background:linear-gradient(180deg,var(--yellow),var(--blue),var(--violet)); border-radius:2px}
+  .step{position:relative; margin-bottom:16px; opacity:0; transform:translateX(24px); transition:all .6s ease}
+  .step.vis{opacity:1; transform:none}
+  .step:before{content:""; position:absolute; left:-28px; top:8px; width:13px; height:13px; border-radius:50%;
+               background:var(--bg); border:3px solid var(--blue); box-shadow:0 0 10px rgba(96,165,250,.7)}
+  .step .t{font-weight:700; color:var(--blue); font-size:14px}
+  .step .card{padding:12px 16px; margin-top:4px}
+  .step small{color:var(--dim)}
+  .bands{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:26px; perspective:1200px}
+  @media(max-width:760px){.bands{grid-template-columns:1fr}}
+  .flip{height:250px; cursor:pointer}
+  .flipIn{position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+  .flip:hover .flipIn,.flip.flipped .flipIn{transform:rotateY(180deg)}
+  .face{position:absolute; inset:0; backface-visibility:hidden; border-radius:16px; padding:18px;
+        border:1px solid var(--line); display:flex; flex-direction:column; justify-content:center; text-align:center}
+  .face.back{transform:rotateY(180deg); text-align:left; justify-content:flex-start; padding-top:22px; font-size:13.5px}
+  .g .face{background:linear-gradient(160deg, rgba(52,211,153,.16), var(--panel2)); border-color:rgba(52,211,153,.4)}
+  .y .face{background:linear-gradient(160deg, rgba(251,191,36,.14), var(--panel2)); border-color:rgba(251,191,36,.4)}
+  .r .face{background:linear-gradient(160deg, rgba(248,113,113,.14), var(--panel2)); border-color:rgba(248,113,113,.4)}
+  .face .big{font-size:44px; margin-bottom:8px}
+  .tip{font-size:12px; color:var(--dim); text-align:center; margin-top:10px}
+  .stackWrap{perspective:1000px; margin:36px auto 8px; width:min(520px,90%)}
+  .stack{transform:rotateX(56deg) rotateZ(-38deg); transform-style:preserve-3d}
+  .layer{border-radius:14px; padding:16px 20px; margin-bottom:14px; border:1px solid var(--line);
+         box-shadow:-18px 18px 0 rgba(0,0,0,.35); transition:transform .4s; font-size:14px}
+  .layer:hover{transform:translateZ(24px)}
+  .l1{background:linear-gradient(120deg,#1b2b57,#14204a)}
+  .l2{background:linear-gradient(120deg,#233d6b,#182a55)}
+  .l3{background:linear-gradient(120deg,#2c4f80,#1d3560)}
+  .l4{background:linear-gradient(120deg,#3a6293,#26456f)}
+  .layer b{display:block}
+  .layer small{color:#c6d4f5}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:22px}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+  .chips{display:flex; flex-wrap:wrap; gap:10px; margin-top:20px}
+  .rchip{background:var(--panel); border:1px solid var(--line); padding:9px 14px; border-radius:999px; font-size:13.5px; transition:all .25s; cursor:default}
+  .rchip:hover{border-color:var(--blue); box-shadow:0 0 14px rgba(96,165,250,.25); transform:translateY(-2px)}
+  .rchip b{color:var(--blue)}
+  .num{font-size:30px; font-weight:800; color:var(--blue)}
+  .stat{text-align:center}
+  .stats{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:24px}
+  @media(max-width:760px){.stats{grid-template-columns:1fr 1fr}}
+  .foot{color:var(--dim); font-size:12.5px; text-align:center; padding:30px 20px 60px}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div>
+    <span class="kicker">Ganesh OS · a visual walkthrough</span>
+    <h1>One product leader.<br>30+ AI agents.<br>A day that runs itself.</h1>
+    <p class="lead">A personal operating system that reads the inbox, plans the calendar, coaches health, hunts roles, and reports on itself - every message earning its place, every action reversible, every fact owned by exactly one agent. Designed, built, evaluated, and operated end to end by one person.</p>
+    <div class="badges">
+      <span class="badge"><b>Architecture</b> single-writer fences</span>
+      <span class="badge"><b>Reliability</b> ledger-verified delivery</span>
+      <span class="badge"><b>Product</b> human-in-the-loop by design</span>
+      <span class="badge"><b>Craft</b> every prompt, eval, and law hand-built</span>
+    </div>
+  </div>
+  <div class="orbitWrap">
+    <div class="orbit">
+      <div class="ring"></div><div class="ring r2"></div><div class="ring r3"></div>
+      <div class="sat" style="--a:0;   --r:196px">💪</div>
+      <div class="sat" style="--a:60;  --r:196px">📥</div>
+      <div class="sat" style="--a:120; --r:196px">💼</div>
+      <div class="sat" style="--a:180; --r:196px">📋</div>
+      <div class="sat" style="--a:240; --r:196px">🌆</div>
+      <div class="sat" style="--a:300; --r:196px">🧾</div>
+      <div class="sat" style="--a:30;  --r:142px">🗂</div>
+      <div class="sat" style="--a:150; --r:142px">📬</div>
+      <div class="sat" style="--a:270; --r:142px">💬</div>
+    </div>
+    <div class="core">⚙️</div>
+  </div>
+</section>
+
+<section>
+  <span class="kicker">Why this exists on a portfolio</span>
+  <h2>Player-coach, demonstrated</h2>
+  <p class="lead">This system is a working argument for a specific kind of leader: one who can design the org chart AND write the code. The agents are a team; the laws are its operating process; the nightly ledger is its accountability system. Everything below was shipped, broken, diagnosed, and hardened in production by its one operator.</p>
+  <div class="stats">
+    <div class="card stat"><div class="num">30+</div><span class="muted">scheduled agents across two runtimes</span></div>
+    <div class="card stat"><div class="num">500+</div><span class="muted">ledger-verified deliveries</span></div>
+    <div class="card stat"><div class="num">~50%</div><span class="muted">message volume cut while coverage widened</span></div>
+    <div class="card stat"><div class="num">1</div><span class="muted">owner per fact, enforced by eval</span></div>
+  </div>
+</section>
+
+<section>
+  <span class="kicker">Step 1 · The loop</span>
+  <h2>Everything flows one way, then back to the human</h2>
+  <p class="lead">No agent talks to another agent directly. They coordinate through files in one shared store, and every message to the operator goes through one relay that logs each send. That log, not an HTTP code, is the truth of what was delivered.</p>
+  <div class="flow">
+    <div class="node"><span class="ic">⏰</span><b>Scheduled agents</b><small>briefs, scanners, boards, coaches, watchdogs, each on its own cron</small></div>
+    <div class="node"><span class="ic">🗄</span><b>Shared store</b><small>state files, digests, cards, run markers - append-only, versioned</small></div>
+    <div class="node"><span class="ic">📡</span><b>Delivery relay</b><small>independent infrastructure; posts to the messenger, logs every send</small></div>
+    <div class="node"><span class="ic">📱</span><b>The phone</b><small>a main feed and an ops feed; rich HTML cards ride along</small></div>
+    <div class="node"><span class="ic">🧑‍✈️</span><b>Plain English back</b><small>replies from any surface become task, calendar, and state writes</small></div>
+  </div>
+  <div class="pipe"></div>
+  <div class="grid2">
+    <div class="card"><h3>🔒 Single-writer law</h3><p class="muted" style="font-size:14px">Every mutable field has exactly one owning agent, enforced by a behavioral eval over the change log. Two voices can never fight over one fact, so debugging is archaeology, not guesswork.</p></div>
+    <div class="card"><h3>🧾 Verdict by ledger</h3><p class="muted" style="font-size:14px">"Sent" means a new line in the delivery ledger, nothing else. The transport lies (it returns errors on successful posts); the ledger does not. A missing evening digest was found and re-couriered in minutes because of this.</p></div>
+  </div>
+</section>
+
+<section>
+  <span class="kicker">Step 2 · A day in the machine</span>
+  <h2>Anchors speak. Preparers stay silent. Watchdogs bark once.</h2>
+  <p class="lead">The day has a shape: two anchors the operator always reads, silent preparers that write files for them, and guards that only ever say something when something is wrong. Scroll the beats:</p>
+  <div class="tl" id="tl">
+    <div class="step"><span class="t">Pre-dawn</span><div class="card"><b>Write-only sweep</b> <small>· reconciles calendars, conflicts, and proposals into a file. Says nothing.</small></div></div>
+    <div class="step"><span class="t">Early morning</span><div class="card"><b>Inbox scanner</b> <small>· reads ~200 emails with zero credentials in context, writes a digest plus a newsletter deep-dive card to the store.</small></div></div>
+    <div class="step"><span class="t">7:00a</span><div class="card"><b>⌚ Wake line on the wrist</b> <small>· the same thought the morning brief opens with. One voice, two surfaces.</small></div></div>
+    <div class="step"><span class="t">7:05a</span><div class="card"><b>💪 The morning anchor</b> <small>· computes sleep, recovery, strain, and mood from overnight health data; picks the day's state band; delivers the plan, the inbox bottom line, a ranked shortlist, and up to three color-coded focus blocks written back to the task store. Waits for late data instead of guessing.</small></div></div>
+    <div class="step"><span class="t">Morning</span><div class="card"><b>💼 Role scanner</b> <small>· diffs target companies' careers pages, lands net-new fits in an intake list, silent when nothing is new, and backfills the whole gap after any outage.</small></div></div>
+    <div class="step"><span class="t">Midday</span><div class="card"><b>📥 Needs-you check</b> <small>· humans waiting, hard deadlines, physical mail read by vision. Silent unless something truly needs the operator.</small></div></div>
+    <div class="step"><span class="t">Evening</span><div class="card"><b>🌆 The wrap</b> <small>· recomputes the band from the day's actual strain, closes the loop on food and training, proposes tomorrow's plan as numbered, reply-able items.</small></div></div>
+    <div class="step"><span class="t">Night</span><div class="card"><b>📋 The board</b> <small>· review queue, tomorrow's draft, a seven-day look-ahead that plans far but writes nothing beyond tomorrow, and per-domain link boards ranked with the calendar.</small></div></div>
+    <div class="step"><span class="t">9:45p</span><div class="card"><b>🧾 The ops ledger</b> <small>· did all 30+ tasks run, deliver, or stay silent by law? One telemetry message to the ops feed, one heartbeat line to the main feed.</small></div></div>
+  </div>
+</section>
+
+<section>
+  <span class="kicker">Step 3 · The adaptive tone engine</span>
+  <h2>One thought, three registers, picked by the human's actual state</h2>
+  <p class="lead">A weekly generator writes coaching lines in three variants; the daily briefs select one from live physiology plus the operator's own words, which always outrank the sensors. Tap a card.</p>
+  <div class="bands">
+    <div class="flip g" onclick="this.classList.toggle('flipped')">
+      <div class="flipIn">
+        <div class="face"><div class="big">🟢</div><h3>CHARGED</h3><p class="muted">strong recovery · good sleep · high mood</p></div>
+        <div class="face back"><b>Register:</b> forward, spend the energy.<br><br>Session language says go get the heavy set; the coach's call is ambitious; even the role digest's framing leans in.</div>
+      </div>
+    </div>
+    <div class="flip y" onclick="this.classList.toggle('flipped')">
+      <div class="flipIn">
+        <div class="face"><div class="big">🟡</div><h3>STEADY</h3><p class="muted">mixed signals · or data missing</p></div>
+        <div class="face back"><b>Register:</b> grounded, one foot in front.<br><br>Show up, honor the streak, quality over heroics. The default whenever the data cannot decide - the system never guesses.</div>
+      </div>
+    </div>
+    <div class="flip r" onclick="this.classList.toggle('flipped')">
+      <div class="flipIn">
+        <div class="face"><div class="big">🔴</div><h3>RESTORE</h3><p class="muted">red recovery · short sleep · or the human says so</p></div>
+        <div class="face back"><b>Register:</b> gentle. Rest is the strong move.<br><br>Never "push through", never guilt. Fewer asks everywhere; urgency never stacks. A bad number is reframed as agency, never scolded.</div>
+      </div>
+    </div>
+  </div>
+  <p class="tip">The design rule: tone flexes, content never does. Selection, ranking, and silence gates are band-independent.</p>
+  <div class="grid2">
+    <div class="card"><h3>🗣 The human outranks the sensors</h3><p class="muted" style="font-size:14px">A typed "wiped" or "red day" beats every computed score for the rest of the day, and one reply reshapes every remaining quote, session suggestion, and coaching call. Morning and evening recompute independently: a day can open charged and close restore.</p></div>
+    <div class="card"><h3>🎨 Context that earns its place</h3><p class="muted" style="font-size:14px">Preambles may weave in at most one or two facts of the day's shape (calendar density, the planned session, tonight's plans). It reads like the system knows the day, never like a dashboard reciting itself.</p></div>
+  </div>
+</section>
+
+<section>
+  <span class="kicker">Step 4 · Layered, not duplicated</span>
+  <h2>One data substrate, three voices</h2>
+  <p class="lead">Measurement, prescription, and spirit are separate jobs on the same numbers - computed once, by one writer, so they can never disagree about what kind of morning it is. Hover the stack.</p>
+  <div class="stackWrap"><div class="stack">
+    <div class="layer l4"><b>💬 Spirit - the day's register</b><small>How should today feel? One band-matched line that lands before business.</small></div>
+    <div class="layer l3"><b>🎯 Prescription - the coach</b><small>What should you do? One concrete action, real numbers, train-or-rest verdicts on demand.</small></div>
+    <div class="layer l2"><b>📊 Measurement - the KPI engine</b><small>What is your state? Sleep, recovery, strain, mood, computed once per morning by a single writer.</small></div>
+    <div class="layer l1"><b>🗄 Data - exports plus the human's words</b><small>Wearable and nutrition streams, workout records, free-text check-ins.</small></div>
+  </div></div>
+</section>
+
+<section>
+  <span class="kicker">Step 5 · Reliability culture</span>
+  <h2>Incidents become laws, not apologies</h2>
+  <p class="lead">Every production failure ends as a named, dated law inside the offending agent's own instructions, with the incident as its reason. A sample from one week:</p>
+  <div class="grid2">
+    <div class="card"><h3>Marker-first</h3><p class="muted" style="font-size:14px">Two guards died silently before their only write. Now every guard's first action is writing "run started" to its own log, so a half-written marker names exactly where a run died.</p></div>
+    <div class="card"><h3>Courier self-audit</h3><p class="muted" style="font-size:14px">A courier skipped two undelivered cards without noticing. Now every run must record "delivered N" or "nothing pending (checked)", and the nightly ledger flags the line's absence the same night.</p></div>
+    <div class="card"><h3>The watchdog outside the walls</h3><p class="muted" style="font-size:14px">Every monitor once lived inside the environment it monitored, so outages killed the watchdogs with their patients. The alarm now lives on independent infrastructure and texts the operator directly when the fleet goes quiet.</p></div>
+    <div class="card"><h3>No fabricated links, ever</h3><p class="muted" style="font-size:14px">A status message once referenced a file with a dead link. Law: every reference carries its real captured URL or renders as plain text. Applies to job postings, tasks, and the system's own artifacts alike.</p></div>
+  </div>
+</section>
+
+<section>
+  <span class="kicker">Step 6 · Human sovereignty</span>
+  <h2>The machine proposes. The human disposes.</h2>
+  <div class="chips">
+    <span class="rchip"><b>HUMAN-EDIT-WINS</b> · a hand edit freezes its rank for 7 days, never counter-ordered</span>
+    <span class="rchip"><b>Propose-only boards</b> · numbered items, one-word replies, appliers do the writes</span>
+    <span class="rchip"><b>Confirmed ordering</b> · when priorities genuinely contend, the system asks once and remembers the answer</span>
+    <span class="rchip"><b>Irreversible = human-gated</b> · nothing is sent or deleted without an explicit instruction</span>
+    <span class="rchip"><b>Signal law</b> · silence is a valid, provable output; markers prove quiet means quiet</span>
+  </div>
+  <p class="muted" style="margin-top:18px">Replies work from any surface in plain English, are acknowledged exactly once, applied by exactly one lane, and visible in the next brief. The interface is a conversation; the guarantees are systems engineering.</p>
+</section>
+
+<section>
+  <span class="kicker">What transfers</span>
+  <h2>If your org is building with agents</h2>
+  <p class="lead">The portable lessons: give every fact one owner before you scale writers; treat delivery as a ledger problem, not a transport problem; make silence provable; put monitors outside the failure domain; let tone adapt to the user while content stays deterministic; and gate the irreversible on a human. This repo documents each pattern with the incident that taught it - the operator ran the postmortems, wrote the evals, and shipped the fixes personally.</p>
+</section>
+
+<div class="foot">Ganesh OS · docs/how-it-runs.html · sanitized walkthrough; architecture and patterns only, no personal data. The canonical prose lives in ARCHITECTURE.md and docs/decisions.md.</div>
+
+<script>
+  const steps=document.querySelectorAll('.step');
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')}),{threshold:.2});
+  steps.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>
