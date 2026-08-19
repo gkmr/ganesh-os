@@ -2,6 +2,22 @@
 
 BLUF: the dated record of how the system evolved, newest first. Entries are reconstructed from the ADR dates in [`docs/decisions.md`](docs/decisions.md) and the repo history; each links to the document that carries the full detail. Sanitized, like everything here.
 
+## 2026-08-19 (later) - v7.7.1: the visual walkthrough, and three more incident laws
+- docs/how-it-runs.html: an animated, executive-facing visual walkthrough of the whole
+  system - the one-way loop, a day in the machine, the adaptive tone engine, the layered
+  health stack, the reliability culture, and the human-sovereignty guarantees. Sanitized
+  to architecture and patterns; written as the 3-minute tour for a reader deciding whether
+  the operator can design the org AND write the code.
+- Three incident laws from the same night's ops ledger: MARKER-FIRST (two guards died
+  silently before their only write; every guard now logs "run started" before doing
+  anything, so a half-written marker names where a run died), COURIER SELF-AUDIT (a courier
+  skipped two undelivered cards; every run now records "delivered N" or "nothing pending
+  (checked)" and the ledger flags the line's absence the same night), and REAL-LINK (a
+  status message referenced its own artifact with a dead link; every reference now carries
+  its captured URL or renders as plain text). The ops ledger also gained a corrected
+  roster, a one-line nightly heartbeat to the main feed, and a stale-reply check so an
+  unapplied human reply can never sit open unnoticed again.
+
 ## 2026-08-19 - v7.7: the board learns the calendar, and the quotes learn the operator
 - State-aware quotes. The weekly quote generator still writes one program per week, but the
   three daily-composed slots (wake, workout, wind-down) now each carry three variants of the

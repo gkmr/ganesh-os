@@ -6,6 +6,7 @@ BLUF: every document in `docs/`, grouped by reading goal. The 5-minute path is i
 
 | Doc | One line |
 |---|---|
+| [`how-it-runs.html`](how-it-runs.html) | The animated visual walkthrough - the loop, a day in the machine, the adaptive tone engine, the reliability culture; the 3-minute executive tour |
 | [`architecture-map.md`](architecture-map.md) | The current end state: one cloud store, two lanes, the delivery plane, the heartbeat pair, model tiering, the lane-fit law, orchestrator/worker/advisor |
 | [`claude-code-map.md`](claude-code-map.md) | This system translated into Claude Code primitives: CLAUDE.md, skills, hooks, subagents, MCP |
 | [`decisions.md`](decisions.md) | The ADR log - every major decision as context, options, verdict, consequences |
