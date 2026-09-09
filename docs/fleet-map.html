@@ -1,0 +1,155 @@
+<title>Ganesh OS Fleet Map</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#faf8f3;--srf:#f1ede4;--line:#2a2724;--rule:#d6d0c4;--ink:#1c1a17;--sub:#5c574f;--mut:#8b857a;--red:#b8321f;--redbg:#fbeae6;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;--sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141311;--srf:#1e1c19;--line:#d8d2c6;--rule:#3a3631;--ink:#ece8e0;--sub:#aaa398;--mut:#7a746a;--red:#ff7a62;--redbg:#3a1a13}}
+:root[data-theme="dark"]{--bg:#141311;--srf:#1e1c19;--line:#d8d2c6;--rule:#3a3631;--ink:#ece8e0;--sub:#aaa398;--mut:#7a746a;--red:#ff7a62;--redbg:#3a1a13}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14.5px/1.5 var(--sans)}
+.wrap{max-width:1020px;margin:0 auto;padding:34px 26px 48px}
+h1{font-size:38px;line-height:1.05;margin:0 0 10px;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.lede{font-size:15.5px;color:var(--ink);max-width:88ch;margin:0 0 18px}
+hr.h{border:0;border-top:2px solid var(--line);margin:0 0 14px}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin:0 0 22px}
+.stat b{display:block;font-size:30px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
+.stat b.r{color:var(--red)}
+.stat span{display:block;font-size:11.5px;color:var(--sub);margin-top:6px;line-height:1.35}
+.eyebrow{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin:26px 0 10px}
+.eyebrow em{color:var(--red);font-style:normal}
+.fig{overflow-x:auto;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:12px 0}
+.fig svg{display:block;min-width:900px;width:100%;height:auto}
+.sec{display:grid;grid-template-columns:230px 1fr;gap:28px;margin-top:26px;padding-top:18px;border-top:1px solid var(--rule)}
+.sec h3{font-size:19px;line-height:1.2;margin:4px 0 8px;font-weight:700}
+.sec .k{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--sub);font-weight:700;margin:0 0 4px}
+.sec p{font-size:13px;color:var(--sub);margin:0}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--sub);text-align:left;padding:0 12px 8px 0;font-weight:700;border-bottom:1px solid var(--rule)}
+td{padding:10px 12px 10px 0;vertical-align:top;border-bottom:1px solid var(--rule)}
+td:first-child{font-weight:700;white-space:nowrap}
+tr.r td{color:var(--red)}
+.m{font-family:var(--mono);font-size:.93em}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:26px;padding-top:18px;border-top:2px solid var(--line)}
+.cols h4{font-size:14px;margin:0 0 6px}
+.cols p{font-size:12.5px;color:var(--sub);margin:0}
+.ft{margin-top:26px;padding-top:12px;border-top:1px solid var(--rule);font-size:11px;color:var(--mut);display:flex;justify-content:space-between;gap:20px}
+.ft span{max-width:80ch}
+@media (max-width:760px){.stats{grid-template-columns:repeat(3,1fr)}.sec,.cols{grid-template-columns:1fr}h1{font-size:30px}}
+</style>
+<div class="wrap">
+<h1>Inside the Ganesh OS fleet</h1>
+<p class="lede">Most of what the fleet does is not thinking, it is moving text between four places. Thirty-seven scheduled Claude sessions write files; one Apps Script is the only thing allowed to touch Telegram. This is the path a single message takes in each direction, what can refuse it, and the one place where the rules are enforced rather than hoped for.</p>
+<hr class="h">
+<div class="stats">
+<div class="stat"><b>37</b><span>scheduled lanes, each a fresh session with no memory</span></div>
+<div class="stat"><b>5 min</b><span>relay tick: courier out, poll in, mirror, watchdog</span></div>
+<div class="stat"><b class="r">1</b><span>enforced layer: the relay content guard</span></div>
+<div class="stat"><b>1 to 5</b><span>minutes from outbox file to your phone, measured</span></div>
+<div class="stat"><b class="r">24h</b><span>Telegram keeps an unread reply before it is gone</span></div>
+<div class="stat"><b>0</b><span>bot tokens outside the relay; lanes never see one</span></div>
+</div>
+
+<div class="eyebrow"><em>The path of one message</em> · what a lane writes, what the relay refuses, and how a reply comes back</div>
+<div class="fig">
+<svg viewBox="0 0 1000 560" role="img" aria-label="Path of one message through the fleet in both directions">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--line)"/></marker>
+<marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--mut)"/></marker></defs>
+<g font-family="IBM Plex Sans,system-ui,sans-serif" font-size="12" fill="var(--ink)">
+
+<rect x="330" y="14" width="340" height="52" fill="var(--srf)" stroke="var(--line)" stroke-width="1.5"/>
+<text x="500" y="35" text-anchor="middle" font-size="14" font-weight="700">Scheduled lane (cloud session)</text>
+<text x="500" y="53" text-anchor="middle" fill="var(--sub)">wakes on cron, reads Drive state, writes files, exits; never holds a token</text>
+
+<line x1="500" y1="66" x2="500" y2="92" stroke="var(--line)" stroke-width="1.5" marker-end="url(#ar)"/>
+<text x="512" y="84" fill="var(--sub)" font-size="11">create_file into telegram-outbox/</text>
+
+<rect x="250" y="94" width="500" height="88" fill="var(--redbg)" stroke="var(--red)" stroke-width="2"/>
+<text x="262" y="114" fill="var(--red)" font-size="13" font-weight="700">Relay content guard, the only enforced layer</text>
+<rect x="262" y="124" width="228" height="46" fill="none" stroke="var(--red)"/>
+<text x="272" y="142" font-family="IBM Plex Mono,monospace" font-size="11.5">looksBinaryOrDoc_</text>
+<text x="272" y="159" fill="var(--sub)" font-size="11">Doc-typed file, PDF bytes, front-matter, garbage</text>
+<rect x="502" y="124" width="236" height="46" fill="none" stroke="var(--red)"/>
+<text x="512" y="142" font-family="IBM Plex Mono,monospace" font-size="11.5">staleness gate · lock · dedupe</text>
+<text x="512" y="159" fill="var(--sub)" font-size="11">18h old to MAIN, overlapping ticks, repeats</text>
+
+<line x1="500" y1="182" x2="500" y2="206" stroke="var(--line)" stroke-width="1.5"/>
+<path d="M440,206 L500,236 L560,206 L500,176 Z" fill="var(--srf)" stroke="var(--line)" stroke-width="1.5"/>
+<text x="500" y="210" text-anchor="middle" font-weight="700" font-size="11.5">refused?</text>
+
+<line x1="440" y1="206" x2="230" y2="206" stroke="var(--line)" stroke-width="1.5"/>
+<line x1="230" y1="206" x2="230" y2="262" stroke="var(--line)" stroke-width="1.5" marker-end="url(#ar)"/>
+<text x="236" y="230" fill="var(--sub)" font-size="11">no</text>
+<line x1="560" y1="206" x2="770" y2="206" stroke="var(--red)" stroke-width="1.5"/>
+<line x1="770" y1="206" x2="770" y2="262" stroke="var(--red)" stroke-width="1.5" marker-end="url(#ar)"/>
+<text x="738" y="230" fill="var(--red)" font-size="11">yes</text>
+
+<rect x="90" y="264" width="280" height="76" fill="var(--srf)" stroke="var(--line)" stroke-width="1.5"/>
+<text x="102" y="284" font-weight="700" font-size="13">Sent to Telegram</text>
+<text x="102" y="302" fill="var(--sub)" font-size="11">MAIN (you) or OPS (system); sendMessage, chunked at 4,096</text>
+<text x="102" y="318" fill="var(--sub)" font-size="11">writes x.tgmsg.delivered = "ok", sent-log row, mirror row</text>
+<text x="102" y="334" fill="var(--sub)" font-size="11">the lane never learns this happened</text>
+
+<rect x="630" y="264" width="280" height="76" fill="var(--srf)" stroke="var(--red)" stroke-width="1.5"/>
+<text x="642" y="284" font-weight="700" font-size="13" fill="var(--red)">Dead-lettered</text>
+<text x="642" y="302" fill="var(--sub)" font-size="11">x.tgmsg.delivered = "DEAD-LETTER (content guard): why"</text>
+<text x="642" y="318" fill="var(--sub)" font-size="11">one OPS line names the lane and the fix</text>
+<text x="642" y="334" fill="var(--sub)" font-size="11">you never receive it; the lane still reports "sent"</text>
+
+<line x1="230" y1="340" x2="230" y2="372" stroke="var(--line)" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="90" y="374" width="280" height="60" fill="var(--srf)" stroke="var(--line)" stroke-width="1.5"/>
+<text x="102" y="394" font-weight="700" font-size="13">You reply in MAIN</text>
+<text x="102" y="412" fill="var(--sub)" font-size="11">a word, a 👍, a quoted line; Telegram queues it under one</text>
+<text x="102" y="427" fill="var(--sub)" font-size="11">cursor per bot and keeps it about 24 hours</text>
+
+<line x1="370" y1="404" x2="410" y2="404" stroke="var(--line)" stroke-width="1.5" marker-end="url(#ar)"/>
+<text x="390" y="396" text-anchor="middle" fill="var(--sub)" font-size="10.5">getUpdates</text>
+<rect x="412" y="366" width="256" height="76" fill="var(--srf)" stroke="var(--line)" stroke-width="1.5"/>
+<text x="424" y="386" font-weight="700" font-size="13">Relay pollInbox, same tick</text>
+<text x="424" y="404" fill="var(--sub)" font-size="11">appends telegram-inbox.jsonl, mirrors it</text>
+<text x="424" y="419" fill="var(--sub)" font-size="11">applies 👍/done instantly when the message id</text>
+<text x="424" y="434" fill="var(--sub)" font-size="11">maps to a task; everything else waits for the lane</text>
+
+<line x1="668" y1="404" x2="708" y2="404" stroke="var(--line)" stroke-width="1.5" marker-end="url(#ar)"/>
+<rect x="710" y="366" width="200" height="76" fill="var(--srf)" stroke="var(--line)" stroke-width="1.5"/>
+<text x="722" y="386" font-weight="700" font-size="13">reply-applier lane</text>
+<text x="722" y="404" fill="var(--sub)" font-size="11">hourly; reads the inbox file,</text>
+<text x="722" y="419" fill="var(--sub)" font-size="11">updates TickTick, reacts 👍</text>
+<text x="722" y="434" fill="var(--sub)" font-size="11">so you see it was applied</text>
+
+<rect x="90" y="462" width="820" height="82" fill="none" stroke="var(--red)" stroke-dasharray="5 4"/>
+<text x="102" y="482" fill="var(--red)" font-weight="700" font-size="12">THE SILENT FAILURE, and the only place that can see it</text>
+<text x="102" y="500" fill="var(--sub)" font-size="11.5">A second program polling this bot, or a webhook set on it, empties the queue before pollInbox runs. Every poll then returns "ok, nothing" with no error, sends keep flowing, and your replies vanish.</text>
+<text x="102" y="516" fill="var(--sub)" font-size="11.5">In a private chat you and the bot share one message-id counter, so the mirror's gap report (ids the relay neither sent nor received) counts your lost messages. Relay v7.9.4 reads that count every tick,</text>
+<text x="102" y="532" fill="var(--sub)" font-size="11.5">checks getWebhookInfo, deletes a stray webhook, resets a stuck cursor, and posts one 🩺 line to OPS. Nothing cloud-side can do this, because nothing cloud-side may hold the token.</text>
+</g>
+</svg>
+</div>
+
+<div class="sec">
+<div><p class="k">01 · The three layers</p><h3>Only one of them can say no</h3><p class="k" style="margin-top:10px">Why the prompt-only version keeps failing</p><p>Every defect of Sep 4 to 8 was a rule that lived in a prompt: a weekday typed from memory, a file created as a Google Doc, a folder read by the wrong id. Prompts are advice. A lane that misreads one produces a confident wrong message. Moving a rule into the relay guard is the whole fix; the prompt then only has to make the redirect graceful.</p></div>
+<table>
+<tr><th>Layer</th><th>What it does</th><th>Why it sits where it sits</th></tr>
+<tr class="r"><td>Relay guard</td><td>Intercepts every queued file before Telegram sees it: refuses Doc-typed and binary content, holds stale backlog out of MAIN, locks overlapping ticks, dedupes repeats, self-heals the reply cursor</td><td>The only layer with authority. If a lane ignores every law in its prompt, the wrong file still never reaches you, and the OPS line names the lane and the fix.</td></tr>
+<tr><td>Relay scripts</td><td>Courier the outbox, poll the inbox, keep the sent-log and mirror, chunk and escape, map message ids to tasks, read the Supra board server-side</td><td>Keeps tokens, cursors and transport out of every lane's reach. A lane writes a file and exits; it never handles the send.</td></tr>
+<tr><td>Prompt laws</td><td>Fleet common law and per-lane laws: folder ids, date truth, plain-text writes, footer shape, no legends</td><td>Advisory by design. They make a lane do the right thing the first time so the guard rarely fires; when a lane drifts, the system degrades to a dead-letter, not to a wrong message.</td></tr>
+</table>
+</div>
+
+<div class="sec">
+<div><p class="k">02 · What stays manual</p><h3>Four things the fleet is not allowed to do</h3><p class="k" style="margin-top:10px">Stated on purpose, not discovered later</p><p>The boundaries are drawn where a wrong action is expensive or irreversible. Each has a cheap path around it.</p></div>
+<table>
+<tr><th>Not automated</th><th>The reason</th><th>What happens instead</th></tr>
+<tr><td>Direct Telegram from a lane</td><td>One bot, one cursor. A second reader silently steals every reply; a token in a prompt ends up in a log</td><td>Lanes write files to the outbox or POST to the relay; the relay alone talks to Telegram and keeps the audit trail</td></tr>
+<tr><td>Sending iMessage</td><td>Only the Mac can send it; cloud has no route</td><td>Lanes write a .txt into imessage-outbox; a Mac task sends it and writes a .sent marker. Until that task runs, the file waits</td></tr>
+<tr><td>Deploying the relay</td><td>It is your Google account and the URL every lane holds; a new deployment changes the URL</td><td>You paste the versioned file and publish a new version of the existing deployment; the first tick posts a 🛠 proof line</td></tr>
+<tr class="r"><td>Model changes and parking stale tasks</td><td>Both change what you pay for or what you see, on your word only</td><td>The fleet reports and proposes; it never pins a model or parks a task without "pin them" or "park it" from you</td></tr>
+</table>
+</div>
+
+<div class="cols">
+<div><h4>A lane is configuration, not infrastructure</h4><p>Each lane is a prompt on a cron with a few connectors. It runs in a fresh session with no servers to keep alive and no keys to hold. Its whole memory is the fleet folder: a marker file at start, a marker file at the end, and the mirror as the record of what actually reached you.</p></div>
+<div><h4>The file that saves the most</h4><p>Every message is a file with a sibling marker. <span class="m">x.tgmsg.delivered</span> reading "ok" is the only proof of delivery; a lane's own "sent" is not. When a message seems missing, the marker and the mirror answer in one read, and the gap report answers the reverse question: did your reply reach the relay at all.</p></div>
+<div><h4>Why the bill is the point</h4><p>Five Opus lanes cost as much as the other thirty combined and do work a cheaper model does the same. The relay tick costs nothing. So the economics push the same direction as the reliability: put judgment in a few lanes, put enforcement in the relay, and let everything else be plain text moving between folders.</p></div>
+</div>
+
+<div class="ft"><span>Architecture as deployed 2026-09-09 (relay v7.9.4, 37 scheduled lanes). Numbers are measured from the Telegram mirror and outbox markers of Sep 4 to 8, 2026: courier lag 1 to 5 minutes on 30 of 30 deliveries, two Doc-typed refusals, reply lane silent from Sep 3 20:23 UTC. Incident detail lives in the operator changelog, not on this page.</span><span class="m">Ganesh OS · operator session</span></div>
+</div>
