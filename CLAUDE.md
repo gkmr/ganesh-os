@@ -26,6 +26,11 @@ BLUF: this repo is a personal AI operating system - 30+ scheduled Claude agents 
 - `docs/` - architecture, governance, harness, ADRs, case studies, and `docs/claude-code-map.md`.
 - `index.html`, `demo.html`, `design-system/` - the portfolio site and its design system.
 
+## Trap: Google Drive placeholders are unreadable from launchd
+Files a cloud lane writes into the Drive mount arrive **dataless** (`stat` shows `blocks=0, flags=compressed,dataless`), and macOS gives launchd agents `IOPOL_MATERIALIZE_DATALESS_FILES_OFF`, so reading one fails `EDEADLK` "Resource deadlock avoided" and returns **zero bytes, not an error you'd notice**.
+It passes every hand-test, because a GUI-launched process gets the policy ON - which is how the iMessage outbox lane silently delivered nothing for eight hours on 2026-09-09 and would have broken the Sunday git push the same way.
+Any lane reading that mount must materialize first: call `setiopolicy_np(IOPOL_TYPE_VFS_MATERIALIZE_DATALESS_FILES, IOPOL_SCOPE_PROCESS, IOPOL_MATERIALIZE_DATALESS_FILES_ON)` in the reading process, then read (`hooks/drive-read.py` does this, with a `--hydrate <dir>` mode for tools like rsync that cannot set it themselves).
+
 ## Out of scope (v1)
 Multi-user or multi-tenant, auth, real-time collaboration, a query engine. This is one operator, batch (cron) cadence, correctness, and auditability. Naming what is out is half the design.
 
