@@ -1,10 +1,4 @@
 /** ═══════════════════════════════════════════════════════════════════════
- *  v7.9.6 (2026-09-09) — TOKEN SELF-MIGRATION. On the first tick after deploy,
- *  if Script Property BOT_TOKEN is empty and BOT_INLINE is set, the relay writes
- *  the inline value into the property and says so in OPS. From then on the code
- *  reads the property, so the GitHub copy of this file (BOT_INLINE blank) can be
- *  pasted over Code.gs end to end at any time with no manual editing.
- *  Previous:
  *  v7.9.5 (2026-09-09, same day as 7.9.4) — SELF-HEAL KEYED ON EVIDENCE.
  *  7.9.4's first tick proved the reply lane was never dead: GK's "hi" landed in
  *  5 s and Telegram's update counter had moved only 3 in six days. The "unaccounted
@@ -246,7 +240,7 @@
 
 // v7.8.1: Script Property BOT_TOKEN wins when set; otherwise the inline value is used,
 // so pasting this file alone is enough. Both paths are supported permanently.
-var BOT_INLINE = '';  // blank in git: the relay reads Script Property BOT_TOKEN (migrated by v7.9.6)
+var BOT_INLINE = '';  // REDACTED in git: set Script Property BOT_TOKEN
 var BOT  = (function () {
   try { return PropertiesService.getScriptProperties().getProperty('BOT_TOKEN') || BOT_INLINE; }
   catch (e) { return BOT_INLINE; }
@@ -254,7 +248,7 @@ var BOT  = (function () {
 var CHAT = '8957631128';
 var OPS  = '-5198293797';   // Ganesh OS — Ops group (system/debug lane)
 var FLEET_ID = '1j8c7Pid2Qd8pn3xEIATptSKDHPT2HDxB';   // Claude-Fleet-State, pinned by ID (v7.3)
-var RELAY_VERSION = '7.9.6'; // v7.9 reply-link footer + v7.9.1 drive_put + v7.9.2 recency_index/drive_get + v7.9.3 op:version (2026-09-03)
+var RELAY_VERSION = '7.9.5'; // v7.9 reply-link footer + v7.9.1 drive_put + v7.9.2 recency_index/drive_get + v7.9.3 op:version (2026-09-03)
 
 // ===================== v7.9 REPLY-LINK FOOTER =====================
 // GK 2026-09-03: every message that reaches him ends with links he can tap to
@@ -1528,11 +1522,6 @@ function bootstrapDiag_() {
   var props = PropertiesService.getScriptProperties();
   if (props.getProperty('boot_version') === RELAY_VERSION) return;
   props.setProperty('boot_version', RELAY_VERSION);
-  var tokNote = 'token source: Script Property';                                // v7.9.6
-  try {
-    if (!props.getProperty('BOT_TOKEN') && BOT_INLINE) { props.setProperty('BOT_TOKEN', BOT_INLINE); tokNote = 'token MIGRATED inline -> Script Property BOT_TOKEN (the GitHub copy with BOT_INLINE blank is now safe to paste)'; }
-    else if (!props.getProperty('BOT_TOKEN') && !BOT_INLINE) { tokNote = 'NO TOKEN: set Script Property BOT_TOKEN'; }
-  } catch (eT) { tokNote = 'token migration threw ' + String(eT).slice(0, 80); }
   var root = fleetRoot_();
   var inbox = root ? newestByName_(root, 'telegram-inbox.jsonl') : null;
   var inboxAgeH = inbox ? (Date.now() - inbox.getLastUpdated().getTime()) / 36e5 : -1;
@@ -1540,7 +1529,7 @@ function bootstrapDiag_() {
   var gaps = todayMainGaps_();
   var sup = root ? newestByName_(root, 'supra-board-status.txt') : null;
   var supLine = sup ? sup.getBlob().getDataAsString().split('\n')[0].slice(0, 200) : 'not read yet (first supra tick runs within 5 min)';
-  sendText_('🛠 [relay] v' + RELAY_VERSION + ' live on the trigger. ' + tokNote + '. Inbound: webhook=' + (d.webhook_url ? 'SET ' + d.webhook_url.slice(0, 50) : 'none') +
+  sendText_('🛠 [relay] v' + RELAY_VERSION + ' live on the trigger. Inbound: webhook=' + (d.webhook_url ? 'SET ' + d.webhook_url.slice(0, 50) : 'none') +
             ' · pending=' + d.pending + ' · offset=' + d.tg_offset + (d.first_update_id ? ' · oldest queued id=' + d.first_update_id : '') +
             ' · inbox file age ' + (inboxAgeH < 0 ? 'n/a' : inboxAgeH.toFixed(1) + 'h') + ' · unaccounted MAIN ids today=' + gaps.length +
             (d.error ? ' · err=' + d.error : '') + '. Supra: ' + supLine +
