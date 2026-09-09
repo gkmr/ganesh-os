@@ -1,4 +1,33 @@
+# This repo is the design portfolio only — authored clean and PII-scanned.
+# (The live personal system is never copied here; it lives outside this folder.)
+
+# OS noise
 .DS_Store
+Thumbs.db
+
+# FUSE filesystem orphans (created when a mounted file is rewritten while open).
+# These got committed once by accident; never track them.
+.fuse_hidden*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Local-only, never commit
+private/
+*.local.*
+
+# Build artifact. GitHub already offers "Download ZIP", and tracking this binary
+# made it conflict on every cross-session push. Untracked on purpose.
+ganesh-os.zip
+.github-token
+
 *.b64
 telegram-relay-config.json
 superhuman-docs-config.json
