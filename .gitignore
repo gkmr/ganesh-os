@@ -2,3 +2,9 @@
 *.b64
 telegram-relay-config.json
 superhuman-docs-config.json
+
+# Never published: job pipeline detail and raw message logs (kept in the private fleet only)
+lanes/job-*.md
+lanes/ea-triage-single-tiering-writer-cloud.md
+ops/*telegram-audit*.md
+docs/canonical/
